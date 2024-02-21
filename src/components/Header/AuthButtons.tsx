@@ -4,7 +4,7 @@ import { Button, NavbarContent, NavbarItem } from '@nextui-org/react';
 import cx from 'classnames';
 import Link from 'next/link';
 
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import useAuth from '@/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -18,17 +18,13 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUserData);
   const { isAppInitialized } = useAppSelector(selectCommonData);
-  const { signOut, initUser } = useAuth(dispatch);
+  const { signOut } = useAuth(dispatch);
 
   const userClassNames = cx(
     'transition-opacity duration-300',
     isAppInitialized ? 'opacity-100' : 'opacity-0',
     className,
   );
-
-  useEffect(() => {
-    initUser();
-  }, []);
 
   return (
     <NavbarContent className={userClassNames} justify="end">

@@ -48,8 +48,13 @@ const useAuth = (dispatch: AppDispatch) => {
   const initUser = async () => {
     const { data } = await supabase.auth.getSession();
     const { session } = data;
-    session && setTokens(session);
-    await getUser();
+
+    if (session) {
+      setTokens(session);
+      await getUser();
+    } else {
+      deleteTokens();
+    }
   };
 
   const signUp = async () => {

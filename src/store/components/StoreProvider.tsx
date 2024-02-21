@@ -8,9 +8,9 @@ import { store } from '@/store';
 
 const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
   const { dispatch } = store;
-  const { initApp } = useInitApp();
+  const { initApp } = useInitApp(dispatch);
   useEffect(() => {
-    initApp(dispatch);
+    initApp();
   }, []);
 
   return <Provider store={store}>{children}</Provider>;
