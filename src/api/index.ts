@@ -1,0 +1,85 @@
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { getCookie } from 'cookies-next';
+import { toast } from 'react-toastify';
+
+// eslint-disable-next-line no-constant-condition
+const baseURL = process.env.API_URL;
+
+export const instance = axios.create({
+  baseURL: baseURL || '/api/',
+  timeout: 60000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  },
+});
+
+instance.interceptors.request.use((config: AxiosRequestConfig) => {
+  const authToken = getCookie('authToken');
+
+  if (authToken) {
+    return { ...config, headers: { ...config.headers, Authorization: `Bearer ${authToken}` } };
+  }
+  return config;
+});
+
+const defaultErrorMessage = 'Something went wrong. Try again later.';
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    toast.error(error?.response?.data?.message || defaultErrorMessage);
+
+    return Promise.reject(error);
+  },
+);
+
+interface RequestParams {
+  params?: object;
+  headers?: object;
+}
+
+interface PostRequestParams extends RequestParams {
+  data: object;
+}
+
+export const postRequest = async <T>(url: string, reqParams?: PostRequestParams): Promise<AxiosResponse<T>> => {
+  const { data = {}, headers = {}, params = {} } = reqParams ?? {};
+
+  const config = {
+    headers,
+    params,
+  };
+
+  const res = await instance.post(url, data, config);
+
+  return res;
+};
+
+export const deleteRequest = async (url: string, reqParams?: PostRequestParams) => {
+  const { headers = {}, params = {}, data } = reqParams ?? {};
+
+  const config = {
+    headers,
+    params,
+    data,
+  };
+
+  const res = await instance.delete(url, config);
+
+  return res;
+};
+
+export const getRequest = async <T>(url: string, reqParams?: RequestParams): Promise<AxiosResponse<T>> => {
+  const { params = {}, headers = {} } = reqParams ?? {};
+
+  const config = {
+    url,
+    params,
+    headers,
+  };
+
+  const res = await instance.get(url, config);
+
+  return res;
+};

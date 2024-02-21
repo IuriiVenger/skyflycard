@@ -1,26 +1,29 @@
 'use client';
 
+import { Button, NavbarContent, NavbarItem } from '@nextui-org/react';
 import cx from 'classnames';
 import Link from 'next/link';
 
 import { FC, useEffect } from 'react';
 
 import useAuth from '@/hooks/useAuth';
-import { useAppSelector } from '@/store';
-import { selectUserData } from '@/store/selectors';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { selectCommonData, selectUserData } from '@/store/selectors';
 
 type UserProps = {
-  classNames?: string;
+  className?: string;
 };
 
-const AuthButtons: FC<UserProps> = ({ classNames }) => {
-  const { user, isUserInitialized } = useAppSelector(selectUserData);
-  const { signOut, initUser } = useAuth();
+const AuthButtons: FC<UserProps> = ({ className }) => {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector(selectUserData);
+  const { isAppInitialized } = useAppSelector(selectCommonData);
+  const { signOut, initUser } = useAuth(dispatch);
 
   const userClassNames = cx(
-    'flex gap-4 transition-opacity duration-300',
-    isUserInitialized ? 'opacity-100' : 'opacity-0',
-    classNames,
+    'transition-opacity duration-300',
+    isAppInitialized ? 'opacity-100' : 'opacity-0',
+    className,
   );
 
   useEffect(() => {
@@ -28,18 +31,24 @@ const AuthButtons: FC<UserProps> = ({ classNames }) => {
   }, []);
 
   return (
-    <section className={userClassNames}>
+    <NavbarContent className={userClassNames} justify="end">
       {user ? (
-        <button type="button" onClick={signOut}>
-          Sign out
-        </button>
+        <Button className="font-medium text-black" onClick={signOut} color="danger" variant="light" href="/">
+          Logout
+        </Button>
       ) : (
         <>
-          <Link href="/auth/login">Log in</Link>
-          <Link href="/auth/signup">Sign up</Link>
+          <NavbarItem className="hidden lg:flex">
+            <Link href="/auth/signup">Sign up</Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Button as={Link} color="success" href="/auth/login" variant="flat">
+              Log in
+            </Button>
+          </NavbarItem>
         </>
       )}
-    </section>
+    </NavbarContent>
   );
 };
 

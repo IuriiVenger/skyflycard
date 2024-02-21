@@ -1,6 +1,11 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { FC, Suspense } from 'react';
+
+import { Slide, ToastContainer } from 'react-toastify';
+
+import { Providers } from './providers';
 
 import type { Metadata } from 'next';
 
@@ -20,10 +25,24 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
   <StoreProvider>
     <html lang="en">
       <body className={inter.className}>
-        <Header />
-        <main className="flex h-screen w-full justify-center">
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        </main>
+        <Providers>
+          <Header />
+
+          <main className="flex h-screen w-full justify-center">
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          </main>
+        </Providers>
+        <ToastContainer
+          position="bottom-center"
+          closeButton={false}
+          autoClose={4000}
+          transition={Slide}
+          progressStyle={{ background: 'white' }}
+          closeOnClick={false}
+          pauseOnHover={false}
+          toastClassName="py-0 px-4 bg-white border border-beerus rounded-lg shadow-xl"
+          bodyClassName="text-sm text-black p-0 font-normal"
+        />
       </body>
     </html>
   </StoreProvider>

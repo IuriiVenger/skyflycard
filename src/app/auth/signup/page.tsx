@@ -4,9 +4,11 @@ import { useEffect } from 'react';
 
 import SignUp from '@/components/Auth/SignUp';
 import useAuth from '@/hooks/useAuth';
+import { useAppDispatch } from '@/store';
 
 const LoginPage = () => {
-  const { resetAuthState, ...authHandlers } = useAuth();
+  const dispatch = useAppDispatch();
+  const { resetAuthState, ...authHandlers } = useAuth(dispatch);
 
   useEffect(() => () => resetAuthState(), []);
 

@@ -4,25 +4,21 @@ import { useRouter } from 'next/navigation';
 
 import { useState } from 'react';
 
-import { RequestStatus } from '../constants';
-import { useAppDispatch, useAppSelector } from '../store';
-import { setUser, setUserInitialized, setUserLoadingStatus } from '../store/slices/user';
+import { toast } from 'react-toastify';
 
-import { selectUserData } from '@/store/selectors';
+import { RequestStatus } from '../constants';
+import { setUser, setUserLoadingStatus } from '../store/slices/user';
+
+import { AppDispatch } from '@/store/types';
 import { deleteTokens, setTokens } from '@/utils/tokensFactory';
 
-const useAuth = () => {
+const useAuth = (dispatch: AppDispatch) => {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [password, setPassword] = useState('');
   const [isOtpRequested, setIsOtpRequested] = useState(false);
 
   const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  const { user, userLoadingStatus } = useAppSelector(selectUserData);
-
-  const isUserPending = userLoadingStatus === RequestStatus.PENDING;
 
   const supabase = createClientComponentClient();
 
@@ -50,14 +46,10 @@ const useAuth = () => {
   };
 
   const initUser = async () => {
-    try {
-      const { data } = await supabase.auth.getSession();
-      const { session } = data;
-      session && setTokens(session);
-      await getUser();
-    } finally {
-      dispatch(setUserInitialized(true));
-    }
+    const { data } = await supabase.auth.getSession();
+    const { session } = data;
+    session && setTokens(session);
+    await getUser();
   };
 
   const signUp = async () => {
@@ -72,7 +64,6 @@ const useAuth = () => {
       });
       data.session && setTokens(data.session);
       dispatch(setUser(data.user));
-      resetAuthState();
       router.push('/');
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
@@ -84,17 +75,23 @@ const useAuth = () => {
   const signIn = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      const { data } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+
+      if (error) {
+        setLoadingStatus(RequestStatus.REJECTED);
+        return toast.error(error.message);
+      }
+
       data.session && setTokens(data.session);
       dispatch(setUser(data.user));
-      resetAuthState();
       router.push('/');
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      throw e;
     }
   };
 
@@ -107,10 +104,12 @@ const useAuth = () => {
           shouldCreateUser: true,
         },
       });
-      setLoadingStatus(RequestStatus.FULLFILLED);
-      if (!error) {
-        setIsOtpRequested(true);
+      if (error) {
+        setLoadingStatus(RequestStatus.REJECTED);
+        return toast.error(error.message);
       }
+      setIsOtpRequested(true);
+      setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
       throw e;
@@ -127,12 +126,10 @@ const useAuth = () => {
       });
       if (error) {
         setLoadingStatus(RequestStatus.REJECTED);
-        throw error;
+        return toast.error(error.message);
       }
-
       data.session && setTokens(data.session);
       dispatch(setUser(data.user));
-      resetAuthState();
       setLoadingStatus(RequestStatus.FULLFILLED);
       router.push('/');
     } catch (e) {
@@ -165,11 +162,9 @@ const useAuth = () => {
     resetAuthState,
     email,
     password,
-    user,
     otp,
     setOtp,
     getOtp,
-    isUserPending,
     isOtpRequested,
   };
 };

@@ -29,6 +29,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-shadow': 'error',
     'no-shadow': 'off',
+    'import/no-extraneous-dependencies': 'off',
     'import/no-unresolved': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',

@@ -6,9 +6,11 @@ import { useEffect } from 'react';
 
 import LogIn from '@/components/Auth/LogIn';
 import useAuth from '@/hooks/useAuth';
+import { useAppDispatch } from '@/store';
 
 const LoginPage = () => {
-  const { resetAuthState, ...authHandlers } = useAuth();
+  const dispatch = useAppDispatch();
+  const { resetAuthState, ...authHandlers } = useAuth(dispatch);
 
   useEffect(() => () => resetAuthState(), []);
 
