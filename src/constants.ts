@@ -33,6 +33,11 @@ export const defaultCurrency = {
   },
 };
 
+export enum CryptoFormTabs {
+  BUY = 'buy',
+  EXCHANGE = 'exchange',
+}
+
 export enum CryptoFormFieldAction {
   BUY = 'buy',
   SELL = 'sell',

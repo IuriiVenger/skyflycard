@@ -4,20 +4,20 @@ import { Button, Card, Tab, Tabs } from '@nextui-org/react';
 
 import cx from 'classnames';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import CryptoFormField from './CryptoFormField';
 
 import { API } from '@/api/types';
-import { CryptoFormFieldAction } from '@/constants';
+import { CryptoFormFieldAction, CryptoFormTabs } from '@/constants';
 import { isCrypto } from '@/utils/currencies';
 
-type CryptoFormTabs = {
-  [key: string]: {
+type CryptoFormTabsType = {
+  [key in CryptoFormTabs]: {
     tabTitle: string;
     clickButtonHandler: () => void;
     getButtonTitle: (currency: string) => string;
-    key: string;
+    key: CryptoFormTabs;
   };
 };
 
@@ -57,8 +57,8 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   const [sellValue, setSellValue] = useState(activeFiatMinSellSumm || 0);
   const [buyValue, setBuyValue] = useState(0);
 
-  const cryptoFormTabs: CryptoFormTabs = {
-    buy: {
+  const cryptoFormTabs: CryptoFormTabsType = {
+    [CryptoFormTabs.BUY]: {
       tabTitle: 'Buy',
       clickButtonHandler: () =>
         createFiatOrder({
@@ -69,17 +69,18 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
           return_url,
         }),
       getButtonTitle: (currency: string) => `Buy ${currency} now`,
-      key: 'buy',
+      key: CryptoFormTabs.BUY,
     },
-    exchange: {
+    [CryptoFormTabs.EXCHANGE]: {
       tabTitle: 'Exchange',
       clickButtonHandler: () => console.log('Exchange'),
       getButtonTitle: (currency: string) => `Exchange ${currency} now`,
-      key: 'exchange',
+      key: CryptoFormTabs.EXCHANGE,
     },
   };
 
-  const [activeTab, setActiveTab] = useState(cryptoFormTabs.buy);
+
+  const [activeTabKey, setActiveTabKey] = useState<CryptoFormTabs>(cryptoFormTabs.buy.key);
 
   const activeFiatExchangeRate = activeFiatExchange?.rate || 0;
   const activeFiatExchangeFee = activeFiatExchange?.fee || 0;
@@ -94,9 +95,9 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   return (
     <Card className={cx('w-full max-w-xl px-10 py-8', className)}>
       <Tabs
-        selectedKey={activeTab.key}
+        selectedKey={activeTabKey}
         onSelectionChange={(key) => {
-          setActiveTab(cryptoFormTabs[key]);
+          setActiveTabKey(key as CryptoFormTabs);
         }}
         variant="solid"
         aria-label="Options"
@@ -152,9 +153,9 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
         color="success"
         size="lg"
         className="mt-2 w-full font-medium text-white"
-        onClick={activeTab.clickButtonHandler}
+        onClick={cryptoFormTabs[activeTabKey].clickButtonHandler}
       >
-        {activeTab.getButtonTitle(selectedCrypto.name)}
+        {cryptoFormTabs[activeTabKey].getButtonTitle(selectedCrypto.name)}
       </Button>
     </Card>
   );
