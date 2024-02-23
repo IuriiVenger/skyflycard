@@ -14,14 +14,15 @@ type CurrencyInfoProps = {
   onCurrencyClick?: () => void;
   className?: string;
   currencyTitleClassname?: string;
+  minValue?: number;
 };
 
 const CurrencyInfo: FC<CurrencyInfoProps> = (props) => {
-  const { currency, onCurrencyClick, hideShevron, className, currencyTitleClassname } = props;
+  const { currency, onCurrencyClick, hideShevron, className, currencyTitleClassname, minValue } = props;
   const currencyName = isCrypto(currency) ? currency.name : currency.code;
 
   return (
-    <div className={cx(className, 'flex items-center gap-2')}>
+    <div className={cx(className, 'flex shrink-0 items-center gap-2')}>
       <Image
         className="h-9 w-9 rounded-full object-cover"
         src={getCurrencyIconSrc(currency)}
@@ -37,7 +38,9 @@ const CurrencyInfo: FC<CurrencyInfoProps> = (props) => {
         >
           <span>{currencyName}</span> {!hideShevron && <FaChevronDown className="text-sm text-gray-500" />}
         </button>
-        <p className="text-xs">{currency.symbol}</p>
+        <p className="text-xs">
+          {currency.symbol} {!!minValue && `(min ${minValue})`}
+        </p>
       </div>
     </div>
   );

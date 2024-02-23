@@ -2,6 +2,8 @@ import { nextui } from '@nextui-org/react';
 
 import type { Config } from 'tailwindcss';
 
+const lightBlueGradient = 'linear-gradient(125deg, #71A9ED 0%, #436CB6 100%)';
+
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,7 +12,11 @@ const config: Config = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'light-blue-gradient': lightBlueGradient,
+      },
+    },
   },
   darkMode: 'class',
   plugins: [nextui()],

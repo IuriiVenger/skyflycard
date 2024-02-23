@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Navbar,
   NavbarBrand,
@@ -15,20 +17,13 @@ import React, { FC } from 'react';
 import AuthButtons from './AuthButtons';
 
 import headerLogo from '@/assets/svg/header_logo.svg';
+import { useAppSelector } from '@/store';
+import { selectIsUserLoggedIn } from '@/store/selectors';
 
 const Header: FC = () => {
-  const menuItems = [
-    'Profile',
-    'Dashboard',
-    'Activity',
-    'Analytics',
-    'System',
-    'Deployments',
-    'My Settings',
-    'Team Settings',
-    'Help & Feedback',
-    'Log Out',
-  ];
+  const menuItems = ['Main', 'Dashboard'];
+
+  const isUserSignedIn = useAppSelector(selectIsUserLoggedIn);
 
   return (
     <header>
@@ -49,19 +44,16 @@ const Header: FC = () => {
           </NavbarBrand>
           <NavbarItem>
             <Link color="foreground" href="/">
-              Features
+              Main
             </Link>
           </NavbarItem>
-          <NavbarItem isActive>
-            <Link href="/" aria-current="page" color="warning">
-              Customers
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="/">
-              Integrations
-            </Link>
-          </NavbarItem>
+          {isUserSignedIn && (
+            <NavbarItem>
+              <Link href="/dashboard" aria-current="page">
+                Dashboard
+              </Link>
+            </NavbarItem>
+          )}
         </NavbarContent>
 
         <AuthButtons />

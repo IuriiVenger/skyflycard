@@ -1,3 +1,4 @@
+import { Button } from '@nextui-org/react';
 import { ChangeEvent, FC } from 'react';
 
 type LogInOtpProps = {
@@ -21,24 +22,31 @@ const LogInOtp: FC<LogInOtpProps> = (props) => {
     setEmail(e.target.value);
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    isOtpRequested ? signInByOtp() : getOtp();
+  };
+
   return (
-    <div className="w-96 rounded-lg bg-gray-900 p-8 shadow-md">
+    <form onSubmit={onSubmit} className="w-96 rounded-lg border border-b-gray-400  p-8 shadow-md">
       <input
         name={isOtpRequested ? 'otp' : 'email'}
         placeholder={isOtpRequested ? 'Input one time password' : 'Input your email'}
         value={isOtpRequested ? otp : email}
-        className="mb-4 w-full rounded-md border-gray-700 bg-gray-800 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+        className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
         onChange={isOtpRequested ? handleOtpInput : handleEmailInput}
       />
 
-      <button
+      <Button
+        type="submit"
+        color="success"
         onClick={isOtpRequested ? signInByOtp : getOtp}
-        type="button"
-        className="mb-2 w-full rounded-md bg-gray-700 p-3 text-white hover:bg-blue-600 focus:outline-none"
+        className="mb-2 w-full text-white"
+        radius="sm"
       >
         {isOtpRequested ? 'Sign In by OTP' : 'Get OTP'}
-      </button>
-    </div>
+      </Button>
+    </form>
   );
 };
 

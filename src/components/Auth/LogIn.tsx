@@ -1,3 +1,4 @@
+import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
@@ -7,19 +8,25 @@ type LogInProps = {
   setEmail: (value: string) => void;
   setPassword: (value: string) => void;
   signIn: () => void;
+  signUp: () => void;
 };
 
 const LogIn: FC<LogInProps> = (props) => {
-  const { email, password, setEmail, setPassword, signIn } = props;
+  const { email, password, setEmail, setPassword, signIn, signUp } = props;
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    signIn();
+  };
 
   return (
-    <form onSubmit={signIn} className="w-96 rounded-lg bg-gray-900 p-8 shadow-md">
+    <form onSubmit={onSubmit} className="w-96 rounded-lg border border-b-gray-400  p-8 shadow-md">
       <input
         type="email"
         name="email"
         placeholder="Email"
         value={email}
-        className="mb-4 w-full rounded-md border-gray-700 bg-gray-800 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+        className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
@@ -27,20 +34,19 @@ const LogIn: FC<LogInProps> = (props) => {
         name="password"
         placeholder="Password"
         value={password}
-        className="mb-4 w-full rounded-md border-gray-700 bg-gray-800 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+        className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button
-        type="button"
-        onClick={signIn}
-        className="mb-2 w-full rounded-md bg-gray-700 p-3 text-white hover:bg-blue-600 focus:outline-none"
-      >
+      <Button type="submit" color="success" onClick={signIn} className="mb-2 w-full text-white" radius="sm">
         Log in
-      </button>
-      <Link href="/auth/login/otp" className="mb-2 w-full self-center text-white hover:underline focus:outline-none">
+      </Button>
+      {/* <Link href="/auth/login/otp" className="mb-2 w-full self-center  hover:underline focus:outline-none">
         Log in by OTP
-      </Link>
+      </Link> */}
+      <Button variant="bordered" color="primary" onClick={signUp} className="mb-2 w-full" radius="sm">
+        Sign up
+      </Button>
     </form>
   );
 };

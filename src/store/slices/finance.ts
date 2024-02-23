@@ -11,6 +11,7 @@ type FinanceState = {
   fiatExchangeRate: API.Exchange.Fiat2Crypto[];
   selectedCrypto: API.List.Crypto;
   selectedFiat: API.List.Fiat;
+  userWallets: API.Wallets.Wallet[];
   isAppInitialized: boolean;
 };
 
@@ -21,6 +22,7 @@ const initialState: FinanceState = {
   fiatExchangeRate: [],
   selectedCrypto: defaultCurrency.crypto,
   selectedFiat: defaultCurrency.fiat,
+  userWallets: [],
   isAppInitialized: false,
 };
 
@@ -49,6 +51,9 @@ const financeSlice = createSlice({
     setAppInitialized: (state, action) => {
       state.isAppInitialized = action.payload;
     },
+    setUserWallets: (state, action) => {
+      state.userWallets = action.payload;
+    },
   },
 });
 
@@ -60,6 +65,7 @@ export const {
   setSelectedFiat,
   setAppInitialized,
   setFiatExchangeRate,
+  setUserWallets,
 } = financeSlice.actions;
 
 export default financeSlice.reducer;

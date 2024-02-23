@@ -1,3 +1,4 @@
+import { Button } from '@nextui-org/react';
 import { FC } from 'react';
 
 type SignUpProps = {
@@ -11,14 +12,19 @@ type SignUpProps = {
 const SignUp: FC<SignUpProps> = (props) => {
   const { email, password, setEmail, setPassword, signUp } = props;
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    signUp();
+  };
+
   return (
-    <div className="w-96 rounded-lg bg-gray-900 p-8 shadow-md">
+    <form onSubmit={onSubmit} className="w-96 rounded-lg border border-b-gray-400  p-8 shadow-md">
       <input
         type="email"
         name="email"
         placeholder="Email"
         value={email}
-        className="mb-4 w-full rounded-md border-gray-700 bg-gray-800 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+        className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
@@ -26,17 +32,13 @@ const SignUp: FC<SignUpProps> = (props) => {
         name="password"
         placeholder="Password"
         value={password}
-        className="mb-4 w-full rounded-md border-gray-700 bg-gray-800 p-3 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+        className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button
-        onClick={signUp}
-        type="button"
-        className="mb-2 w-full rounded-md bg-blue-600 p-3 text-white hover:bg-blue-700 focus:outline-none"
-      >
-        Sign Up
-      </button>
-    </div>
+      <Button variant="bordered" color="primary" onClick={signUp} className="mb-2 w-full" radius="sm">
+        Sign up
+      </Button>
+    </form>
   );
 };
 

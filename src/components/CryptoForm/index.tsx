@@ -1,6 +1,9 @@
 'use client';
 
 import { Button, Card, Tab, Tabs } from '@nextui-org/react';
+
+import cx from 'classnames';
+
 import { FC, useState } from 'react';
 
 import CryptoFormField from './CryptoFormField';
@@ -21,20 +24,50 @@ type CryptoFormTabs = {
 type CryptoFormProps = {
   selectCrypto: (crypto: API.List.Crypto) => void;
   selectFiat: (fiat: API.List.Fiat) => void;
+  createFiatOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
   selectedCrypto: API.List.Crypto;
   selectedFiat: API.List.Fiat;
   cryptoList: API.List.Crypto[];
   fiatList: API.List.Fiat[];
   fiatExchangeRate: API.Exchange.Fiat2Crypto[];
+  activeWallet: API.Wallets.Wallet;
+  className?: string;
 };
 
 const CryptoForm: FC<CryptoFormProps> = (props) => {
-  const { selectedCrypto, selectedFiat, cryptoList, fiatList, fiatExchangeRate, selectCrypto, selectFiat } = props;
+  const {
+    selectedCrypto,
+    selectedFiat,
+    cryptoList,
+    fiatList,
+    fiatExchangeRate,
+    selectCrypto,
+    selectFiat,
+    className,
+    createFiatOrder,
+    activeWallet,
+  } = props;
+
+  const { href } = window.location;
+  const return_url = `${href}dashboard`;
+
+  const activeFiatExchange = fiatExchangeRate.find((rate) => rate.crypto_uuid === selectedCrypto.uuid);
+  const activeFiatMinSellSumm = activeFiatExchange?.amountFrom || 0;
+
+  const [sellValue, setSellValue] = useState(activeFiatMinSellSumm || 0);
+  const [buyValue, setBuyValue] = useState(0);
 
   const cryptoFormTabs: CryptoFormTabs = {
     buy: {
       tabTitle: 'Buy',
-      clickButtonHandler: () => console.log('buy'),
+      clickButtonHandler: () =>
+        createFiatOrder({
+          amount: sellValue,
+          fiat_uuid: selectedFiat?.uuid,
+          crypto_uuid: selectedCrypto?.uuid,
+          wallet_uuid: activeWallet?.uuid,
+          return_url,
+        }),
       getButtonTitle: (currency: string) => `Buy ${currency} now`,
       key: 'buy',
     },
@@ -46,18 +79,20 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
     },
   };
 
-  const [sellValue, setSellValue] = useState(0);
-  const [buyValue, setBuyValue] = useState(0);
   const [activeTab, setActiveTab] = useState(cryptoFormTabs.buy);
 
-  const activeFiatExchangeRate = fiatExchangeRate.find((rate) => rate.crypto_uuid === selectedCrypto.uuid)?.rate || 0;
-  const buyingCryptoValue = sellValue * activeFiatExchangeRate;
+  const activeFiatExchangeRate = activeFiatExchange?.rate || 0;
+  const activeFiatExchangeFee = activeFiatExchange?.fee || 0;
+  const potentialSellValue = (sellValue - activeFiatExchangeFee) * activeFiatExchangeRate;
+  const buyingCryptoValue = potentialSellValue > 0 ? potentialSellValue : 0;
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat) =>
     isCrypto(currency) ? selectCrypto(currency) : selectFiat(currency);
 
+  const checkMinSellvalue = () => sellValue <= activeFiatMinSellSumm && setSellValue(activeFiatMinSellSumm);
+
   return (
-    <Card className="w-full max-w-xl px-10 py-8">
+    <Card className={cx('w-full max-w-xl px-10 py-8', className)}>
       <Tabs
         selectedKey={activeTab.key}
         onSelectionChange={(key) => {
@@ -75,7 +110,9 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
             currency={selectedFiat}
             currencies={fiatList}
             setValue={setSellValue}
+            minValue={activeFiatMinSellSumm}
             value={sellValue}
+            onInputBlur={checkMinSellvalue}
             onChangeCurrency={selectCurrency}
           />
           <CryptoFormField
@@ -86,7 +123,12 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
             onChangeCurrency={selectCurrency}
           />
         </Tab>
-        <Tab key={cryptoFormTabs.exchange.key} title={cryptoFormTabs.exchange.tabTitle} className="flex flex-col gap-3">
+        <Tab
+          key={cryptoFormTabs.exchange.key}
+          title={cryptoFormTabs.exchange.tabTitle}
+          className="flex flex-col gap-3"
+          isDisabled
+        >
           <CryptoFormField
             action={CryptoFormFieldAction.SELL}
             currency={selectedCrypto}

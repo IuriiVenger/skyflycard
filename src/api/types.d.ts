@@ -42,4 +42,45 @@ export namespace API {
       symbol: string;
     }
   }
+
+  export namespace Wallets {
+    export interface WalletBalance {
+      uuid: string;
+      amount: number;
+      crypto: List.Crypto;
+    }
+    export interface Wallet {
+      created_at: string;
+      user_id: string;
+      uuid: string;
+      type: string;
+      balance: WalletBalance[];
+    }
+  }
+
+  export namespace Orders {
+    export namespace OnRamp {
+      export interface Item {
+        id: number;
+        created_at: string;
+        order_uuid: string;
+        wallet_uuid: string;
+        fiat_uuid: string;
+        crypto_uuid: string;
+        amount_fiat: number;
+        payment_method: string;
+        redirect_url: string;
+        status: string;
+        provider_uuid: string;
+      }
+      export interface Request {
+        amount: number;
+        fiat_uuid: string;
+        wallet_uuid: string;
+        crypto_uuid: string;
+        return_url: string;
+      }
+      export type Response = Item;
+    }
+  }
 }
