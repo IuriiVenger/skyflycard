@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
-import common from './slices/common';
+import finance from './slices/finance';
 import user from './slices/user';
 
 import { AppDispatch, RootState } from './types';
@@ -9,7 +9,7 @@ import { AppDispatch, RootState } from './types';
 export const store = configureStore({
   reducer: {
     user,
-    common,
+    finance,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import './globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { FC, Suspense } from 'react';
@@ -11,8 +11,9 @@ import type { Metadata } from 'next';
 
 import Header from '@/components/Header';
 import StoreProvider from '@/store/components/StoreProvider';
+import StoreWatchers from '@/store/components/StoreWatchers';
 
-const inter = Inter({ subsets: ['latin'] });
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -24,7 +25,7 @@ type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 const RootLayout: FC<RootLayoutProps> = ({ children }) => (
   <StoreProvider>
     <html lang="en">
-      <body className={inter.className}>
+      <body className={montserrat.className}>
         <Providers>
           <Header />
 
@@ -43,6 +44,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
           toastClassName="py-0 px-4 bg-white border border-beerus rounded-lg shadow-xl"
           bodyClassName="text-sm text-black p-0 font-normal"
         />
+        <StoreWatchers />
       </body>
     </html>
   </StoreProvider>

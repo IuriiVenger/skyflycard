@@ -6,6 +6,19 @@ export namespace API {
     }
   }
 
+  export namespace Exchange {
+    export interface Fiat2Crypto {
+      id: number;
+      created_at: string;
+      fiat_uuid: string;
+      crypto_uuid: string;
+      rate: number;
+      inverted_rate: number;
+      fee: number;
+      amountFrom: number;
+    }
+  }
+
   export namespace List {
     export interface Fiat {
       uuid: string;

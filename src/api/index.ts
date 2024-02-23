@@ -15,10 +15,10 @@ export const instance = axios.create({
 });
 
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
-  const authToken = getCookie('authToken');
+  const access_token = getCookie('access_token');
 
-  if (authToken) {
-    return { ...config, headers: { ...config.headers, Authorization: `Bearer ${authToken}` } };
+  if (access_token) {
+    return { ...config, headers: { ...config.headers, Authorization: `${access_token}` } };
   }
   return config;
 });
