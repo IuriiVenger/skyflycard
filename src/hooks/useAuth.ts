@@ -125,6 +125,7 @@ const useAuth = (dispatch: AppDispatch) => {
         email,
         options: {
           shouldCreateUser: true,
+          emailRedirectTo: `${location.origin}/auth/callback?email=${email}`,
         },
       });
       if (error) {
