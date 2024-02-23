@@ -21,7 +21,16 @@ import { useAppSelector } from '@/store';
 import { selectIsUserLoggedIn } from '@/store/selectors';
 
 const Header: FC = () => {
-  const menuItems = ['Main', 'Dashboard'];
+  const menuItems = [
+    {
+      title: 'Main',
+      href: '/',
+    },
+    {
+      title: 'Dashboard',
+      href: '/dashboard',
+    },
+  ];
 
   const isUserSignedIn = useAppSelector(selectIsUserLoggedIn);
 
@@ -61,8 +70,12 @@ const Header: FC = () => {
         <NavbarMenu>
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link className="w-full" color={index === menuItems.length - 1 ? 'danger' : 'foreground'} href="/">
-                {item}
+              <Link
+                className="w-full"
+                color={index === menuItems.length - 1 ? 'danger' : 'foreground'}
+                href={item.href}
+              >
+                {item.title}
               </Link>
             </NavbarMenuItem>
           ))}

@@ -35,7 +35,7 @@ const SignUp: FC<SignUpProps> = (props) => {
         className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button variant="bordered" color="primary" onClick={signUp} className="mb-2 w-full" radius="sm">
+      <Button variant="bordered" color="primary" type="submit" className="mb-2 w-full" radius="sm">
         Sign up
       </Button>
     </form>

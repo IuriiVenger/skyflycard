@@ -33,7 +33,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-4">
+    <div className="flex w-full flex-col items-center gap-4 p-4">
       {userWallets.length ? (
         <>
           <div className="flex w-full flex-col items-center gap-4">

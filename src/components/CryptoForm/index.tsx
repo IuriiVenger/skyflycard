@@ -4,7 +4,7 @@ import { Button, Card, Tab, Tabs } from '@nextui-org/react';
 
 import cx from 'classnames';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 
 import CryptoFormField from './CryptoFormField';
 
@@ -78,7 +78,6 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
       key: CryptoFormTabs.EXCHANGE,
     },
   };
-
 
   const [activeTabKey, setActiveTabKey] = useState<CryptoFormTabs>(cryptoFormTabs.buy.key);
 

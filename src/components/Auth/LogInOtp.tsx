@@ -37,13 +37,7 @@ const LogInOtp: FC<LogInOtpProps> = (props) => {
         onChange={isOtpRequested ? handleOtpInput : handleEmailInput}
       />
 
-      <Button
-        type="submit"
-        color="success"
-        onClick={isOtpRequested ? signInByOtp : getOtp}
-        className="mb-2 w-full text-white"
-        radius="sm"
-      >
+      <Button type="submit" color="success" className="mb-2 w-full text-white" radius="sm">
         {isOtpRequested ? 'Sign In by OTP' : 'Get OTP'}
       </Button>
     </form>

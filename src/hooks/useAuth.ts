@@ -142,7 +142,7 @@ const useAuth = (dispatch: AppDispatch) => {
   const signInByOtp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
+      const { data, error }: any = await supabase.auth.verifyOtp({
         email,
         token: otp,
         type: 'email',
@@ -151,9 +151,20 @@ const useAuth = (dispatch: AppDispatch) => {
         setLoadingStatus(RequestStatus.REJECTED);
         return toast.error(error.message);
       }
-      await loadUserData();
-      data.session && setTokens(data.session);
+      if (data.session) {
+        setTokens(data.session);
+      }
+
+      if (data.access_token) {
+        const tokens = {
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+        };
+        setTokens(tokens);
+      }
+
       dispatch(setUser(data.user));
+      await loadUserData();
       setLoadingStatus(RequestStatus.FULLFILLED);
       router.push('/');
     } catch (e) {
