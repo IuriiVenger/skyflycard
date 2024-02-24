@@ -119,25 +119,17 @@ const useAuth = (dispatch: AppDispatch) => {
   };
 
   const getOtp = async () => {
-    setLoadingStatus(RequestStatus.PENDING);
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: `${location.origin}/auth/callback?email=${email}`,
-        },
-      });
-      if (error) {
-        setLoadingStatus(RequestStatus.REJECTED);
-        return toast.error(error.message);
-      }
-      setIsOtpRequested(true);
-      setLoadingStatus(RequestStatus.FULLFILLED);
-    } catch (e) {
-      setLoadingStatus(RequestStatus.REJECTED);
-      throw e;
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: `${location.origin}/auth/callback?email=${email}`,
+      },
+    });
+    if (error) {
+      return toast.error(error.message);
     }
+    setIsOtpRequested(true);
   };
 
   const signInByOtp = async () => {

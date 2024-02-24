@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
     try {
       await supabase.auth.exchangeCodeForSession(code);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error exchanging code for session', error);
     }
   }
