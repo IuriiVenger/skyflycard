@@ -78,7 +78,9 @@ export namespace API {
         fiat_uuid: string;
         wallet_uuid: string;
         crypto_uuid: string;
-        return_url: string;
+        return_url_success: string;
+        return_url_fail: string;
+        return_url_pending: string;
       }
       export type Response = Item;
     }
