@@ -48,8 +48,8 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
     activeWallet,
   } = props;
 
-  const { href } = window.location;
-  const return_url = `${href}dashboard`;
+  const { origin } = window.location;
+  const return_url = `${origin}dashboard`;
 
   const activeFiatExchange = fiatExchangeRate.find((rate) => rate.crypto_uuid === selectedCrypto.uuid);
   const activeFiatMinSellSumm = activeFiatExchange?.amountFrom || 0;
