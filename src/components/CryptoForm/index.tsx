@@ -49,7 +49,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   } = props;
 
   const { origin } = window.location;
-  const return_url = `${origin}dashboard`;
+  const return_url = `${origin}/dashboard`;
 
   const activeFiatExchange = fiatExchangeRate.find((rate) => rate.crypto_uuid === selectedCrypto.uuid);
   const activeFiatMinSellSumm = activeFiatExchange?.amountFrom || 0;
