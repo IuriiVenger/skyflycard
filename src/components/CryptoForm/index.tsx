@@ -49,7 +49,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   } = props;
 
   const { href } = window.location;
-  const return_url = `https://vpwallet.vercel.app/`;
+  const return_url = `${href}dashboard`;
 
   const activeFiatExchange = fiatExchangeRate.find((rate) => rate.crypto_uuid === selectedCrypto.uuid);
   const activeFiatMinSellSumm = activeFiatExchange?.amountFrom || 0;
