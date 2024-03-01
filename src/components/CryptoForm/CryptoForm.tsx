@@ -10,7 +10,8 @@ import CryptoFormField from './CryptoFormField';
 
 import { API } from '@/api/types';
 import { CryptoFormFieldAction, CryptoFormTabs } from '@/constants';
-import { isCrypto } from '@/utils/currencies';
+import { UseExchangeData } from '@/hooks/useExchange';
+import { isCrypto, isFiat } from '@/utils/financial';
 
 type CryptoFormTabsType = {
   [key in CryptoFormTabs]: {
@@ -24,14 +25,14 @@ type CryptoFormTabsType = {
 type CryptoFormProps = {
   selectCrypto: (crypto: API.List.Crypto) => void;
   selectFiat: (fiat: API.List.Fiat) => void;
-  createFiatOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
+  createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
   selectedCrypto: API.List.Crypto;
   selectedFiat: API.List.Fiat;
   cryptoList: API.List.Crypto[];
   fiatList: API.List.Fiat[];
-  fiatExchangeRate: API.Exchange.Fiat2Crypto[];
   activeWallet: API.Wallets.Wallet;
   className?: string;
+  exchangeData: UseExchangeData;
 };
 
 const CryptoForm: FC<CryptoFormProps> = (props) => {
@@ -40,28 +41,25 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
     selectedFiat,
     cryptoList,
     fiatList,
-    fiatExchangeRate,
     selectCrypto,
     selectFiat,
     className,
-    createFiatOrder,
+    createFiat2CryptoOrder,
     activeWallet,
+    exchangeData,
   } = props;
+
+  const { sellValue, setSellValue, buyValue, setBuyValue, fiat2CryptoValue, minSellValue, checkMinSellValue } =
+    exchangeData;
 
   const { origin } = window.location;
   const return_url = `${origin}/dashboard`;
-
-  const activeFiatExchange = fiatExchangeRate.find((rate) => rate.crypto_uuid === selectedCrypto.uuid);
-  const activeFiatMinSellSumm = activeFiatExchange?.amountFrom || 0;
-
-  const [sellValue, setSellValue] = useState(activeFiatMinSellSumm || 0);
-  const [buyValue, setBuyValue] = useState(0);
 
   const cryptoFormTabs: CryptoFormTabsType = {
     [CryptoFormTabs.BUY]: {
       tabTitle: 'Buy',
       clickButtonHandler: () =>
-        createFiatOrder({
+        createFiat2CryptoOrder({
           amount: sellValue,
           fiat_uuid: selectedFiat?.uuid,
           crypto_uuid: selectedCrypto?.uuid,
@@ -75,6 +73,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
     },
     [CryptoFormTabs.EXCHANGE]: {
       tabTitle: 'Exchange',
+      // eslint-disable-next-line no-console
       clickButtonHandler: () => console.log('Exchange'),
       getButtonTitle: (currency: string) => `Exchange ${currency} now`,
       key: CryptoFormTabs.EXCHANGE,
@@ -83,15 +82,14 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
 
   const [activeTabKey, setActiveTabKey] = useState<CryptoFormTabs>(cryptoFormTabs.buy.key);
 
-  const activeFiatExchangeRate = activeFiatExchange?.rate || 0;
-  const activeFiatExchangeFee = activeFiatExchange?.fee || 0;
-  const potentialSellValue = (sellValue - activeFiatExchangeFee) * activeFiatExchangeRate;
-  const buyingCryptoValue = potentialSellValue > 0 ? potentialSellValue : 0;
-
-  const selectCurrency = (currency: API.List.Crypto | API.List.Fiat) =>
-    isCrypto(currency) ? selectCrypto(currency) : selectFiat(currency);
-
-  const checkMinSellvalue = () => sellValue <= activeFiatMinSellSumm && setSellValue(activeFiatMinSellSumm);
+  const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
+    if (isFiat(currency)) {
+      selectFiat(currency);
+    }
+    if (isCrypto(currency)) {
+      selectCrypto(currency);
+    }
+  };
 
   return (
     <Card className={cx('w-full max-w-xl px-10 py-8', className)}>
@@ -112,16 +110,16 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
             currency={selectedFiat}
             currencies={fiatList}
             setValue={setSellValue}
-            minValue={activeFiatMinSellSumm}
+            minValue={minSellValue}
             value={sellValue}
-            onInputBlur={checkMinSellvalue}
+            onInputBlur={checkMinSellValue}
             onChangeCurrency={selectCurrency}
           />
           <CryptoFormField
             action={CryptoFormFieldAction.BUY}
             currency={selectedCrypto}
             currencies={cryptoList}
-            value={buyingCryptoValue}
+            value={fiat2CryptoValue}
             onChangeCurrency={selectCurrency}
           />
         </Tab>

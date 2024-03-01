@@ -2,12 +2,16 @@ import { API } from './types';
 
 import { getRequest, postRequest } from '.';
 
+import { WalletTypeValues } from '@/constants';
+
 export const wallets = {
-  create: () => postRequest('/wallets'),
+  create: (type: WalletTypeValues) => postRequest('/wallets', { data: { type } }).then(({ data }) => data),
   getAll: () => getRequest<API.Wallets.Wallet[]>('/wallets').then(({ data }) => data),
-  getByUuid: (uuid: string) => getRequest<API.Wallets.Wallet>(`/wallets/${uuid}`).then(({ data }) => data),
-  getAddress: (chain: string, wallet_uuid: string) =>
-    getRequest(`/wallets/address/${chain}`, { params: { wallet_uuid } }).then(({ data }) => data),
-  createAddress: (chain: string, wallet_uuid: string) =>
-    postRequest('/wallets/address', { data: { chain, wallet_uuid } }).then(({ data }) => data),
+  getByUuid: (uuid: string) => getRequest<API.Wallets.ExtendWallet>(`/wallets/${uuid}`).then(({ data }) => data),
+  getAddress: (chain: number, wallet_uuid: string) =>
+    getRequest<API.Wallets.WalletChain.Response>(`/wallets/address/${chain}`, { params: { wallet_uuid } }).then(
+      ({ data }) => data,
+    ),
+  createAddress: (data: API.Wallets.WalletChain.Request) =>
+    postRequest<API.Wallets.WalletChain.Response>('/wallets/address', { data }).then((responce) => responce.data),
 };

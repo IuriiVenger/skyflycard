@@ -6,10 +6,10 @@ import { FaChevronDown } from 'react-icons/fa6';
 
 import { API } from '@/api/types';
 
-import { getCurrencyIconSrc, isCrypto } from '@/utils/currencies';
+import { getCurrencyIconSrc, isFiat } from '@/utils/financial';
 
 type CurrencyInfoProps = {
-  currency: API.List.Crypto | API.List.Fiat;
+  currency: API.List.Crypto | API.List.Fiat | API.List.Chains;
   hideShevron?: boolean;
   onCurrencyClick?: () => void;
   className?: string;
@@ -19,7 +19,7 @@ type CurrencyInfoProps = {
 
 const CurrencyInfo: FC<CurrencyInfoProps> = (props) => {
   const { currency, onCurrencyClick, hideShevron, className, currencyTitleClassname, minValue } = props;
-  const currencyName = isCrypto(currency) ? currency.name : currency.code;
+  const currencyName = isFiat(currency) ? currency.code : currency.name;
 
   return (
     <div className={cx(className, 'flex shrink-0 items-center gap-2')}>

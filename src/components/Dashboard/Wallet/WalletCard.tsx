@@ -4,11 +4,11 @@ import { FC } from 'react';
 import { API } from '@/api/types';
 import { prettyId, roundToDecimals } from '@/utils/converters';
 
-type WalletProps = {
+type WalletCardProps = {
   wallet: API.Wallets.Wallet;
 };
 
-const Wallet: FC<WalletProps> = ({ wallet }) => (
+const WalletCard: FC<WalletCardProps> = ({ wallet }) => (
   <Card className="min-h-60 max-w-sm  bg-light-blue-gradient p-4 text-white" fullWidth radius="sm">
     <CardHeader>Wallet {prettyId(wallet.uuid)}</CardHeader>
     <CardBody>
@@ -25,4 +25,4 @@ const Wallet: FC<WalletProps> = ({ wallet }) => (
   </Card>
 );
 
-export default Wallet;
+export default WalletCard;

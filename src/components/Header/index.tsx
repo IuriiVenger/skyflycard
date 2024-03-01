@@ -35,53 +35,47 @@ const Header: FC = () => {
   const isUserSignedIn = useAppSelector(selectIsUserLoggedIn);
 
   return (
-    <header>
-      <Navbar className=" w-screen" disableAnimation isBordered maxWidth="full">
-        <NavbarContent className="sm:hidden" justify="start">
-          <NavbarMenuToggle />
-        </NavbarContent>
+    <Navbar className="w-full" isBordered maxWidth="2xl">
+      <NavbarContent className="sm:hidden" justify="start">
+        <NavbarMenuToggle />
+      </NavbarContent>
 
-        <NavbarContent className="pr-3 sm:hidden" justify="center">
-          <NavbarBrand>
-            <Image src={headerLogo} alt="Logo" />
-          </NavbarBrand>
-        </NavbarContent>
+      <NavbarContent className="pr-3 sm:hidden" justify="center">
+        <NavbarBrand>
+          <Image src={headerLogo} alt="Logo" />
+        </NavbarBrand>
+      </NavbarContent>
 
-        <NavbarContent className="hidden gap-4 sm:flex" justify="center">
-          <NavbarBrand>
-            <Image src={headerLogo} alt="Logo" />
-          </NavbarBrand>
+      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
+        <NavbarBrand>
+          <Image src={headerLogo} alt="Logo" />
+        </NavbarBrand>
+        <NavbarItem>
+          <Link color="foreground" href="/">
+            Main
+          </Link>
+        </NavbarItem>
+        {isUserSignedIn && (
           <NavbarItem>
-            <Link color="foreground" href="/">
-              Main
+            <Link href="/dashboard" aria-current="page">
+              Dashboard
             </Link>
           </NavbarItem>
-          {isUserSignedIn && (
-            <NavbarItem>
-              <Link href="/dashboard" aria-current="page">
-                Dashboard
-              </Link>
-            </NavbarItem>
-          )}
-        </NavbarContent>
+        )}
+      </NavbarContent>
 
-        <AuthButtons />
+      <AuthButtons />
 
-        <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                className="w-full"
-                color={index === menuItems.length - 1 ? 'danger' : 'foreground'}
-                href={item.href}
-              >
-                {item.title}
-              </Link>
-            </NavbarMenuItem>
-          ))}
-        </NavbarMenu>
-      </Navbar>
-    </header>
+      <NavbarMenu>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link className="w-full" color={index === menuItems.length - 1 ? 'danger' : 'foreground'} href={item.href}>
+              {item.title}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
+    </Navbar>
   );
 };
 

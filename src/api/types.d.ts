@@ -17,6 +17,17 @@ export namespace API {
       fee: number;
       amountFrom: number;
     }
+
+    export interface Crypto2Crypto {
+      id: number;
+      created_at: string;
+      from_crypto_uuid: string;
+      to_crypto_uuid: string;
+      rate: number;
+      inverted_rate: number;
+      fee: number;
+      amountFrom: number;
+    }
   }
 
   export namespace List {
@@ -24,6 +35,7 @@ export namespace API {
       uuid: string;
       symbol: string;
       code: string;
+      enabled: boolean;
     }
     export interface Crypto {
       uuid: string;
@@ -49,12 +61,50 @@ export namespace API {
       amount: number;
       crypto: List.Crypto;
     }
+
     export interface Wallet {
       created_at: string;
       user_id: string;
       uuid: string;
       type: string;
+      base_fiat: string;
       balance: WalletBalance[];
+    }
+
+    export namespace WalletChain {
+      export interface Request {
+        wallet_uuid: string;
+        chain: number;
+        label: string;
+      }
+      export interface Response {
+        uuid: string;
+        created_ad: string;
+        address: string;
+        wallet_uuid: string;
+        chain: number;
+      }
+    }
+
+    export interface ExtendWallet extends Wallet {
+      total_amount: number;
+    }
+
+    export namespace Address {
+      export interface Item {
+        id: number;
+        created_at: string;
+        wallet_uuid: string;
+        chain: string;
+        address: string;
+      }
+      export interface Request {
+        chain: string;
+        wallet_uuid: string;
+        type: string;
+        label: string;
+      }
+      export type Response = Item;
     }
   }
 
@@ -83,6 +133,70 @@ export namespace API {
         return_url_pending: string;
       }
       export type Response = Item;
+    }
+
+    export namespace OffRamp {
+      export interface Item {
+        id: number;
+        created_at: string;
+        order_uuid: string;
+        wallet_uuid: string;
+        fiat_uuid: string;
+        crypto_uuid: string;
+        amount_fiat: number;
+        payment_method: string;
+        card_number: string;
+        status: string;
+        provider_uuid: string;
+      }
+      export interface Request {
+        amount: number;
+        wallet_uuid: string;
+        crypto_uuid: string;
+        fiat_uuid: string;
+        card_number: string;
+      }
+      export type Response = Item;
+    }
+
+    export namespace Crypto {
+      export namespace Withdrawal {
+        export interface Item {
+          id: number;
+          created_at: string;
+          order_uuid: string;
+          wallet_uuid: string;
+          crypto_uuid: string;
+          amount: number;
+          status: string;
+          network: string;
+          to: string;
+          txid: string;
+        }
+        export interface Request {
+          amount: number;
+          wallet_uuid: string;
+          crypto_uuid: string;
+          to: string;
+        }
+        export type Response = Item;
+      }
+    }
+  }
+
+  export namespace Transactions {
+    export interface Transaction {
+      id: number;
+      created_at: string;
+      type: string;
+      status: string;
+      amount: number;
+      from: string;
+      to: string;
+      wallet_id: string;
+      crypto_id: string;
+      txid: string;
+      info: string;
     }
   }
 }

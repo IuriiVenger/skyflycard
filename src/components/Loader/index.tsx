@@ -7,7 +7,7 @@ type LoaderProps = {
 };
 
 const Loader: FC<LoaderProps> = ({ className }) => (
-  <Spinner className={cx(className, 'items-centerh-full flex w-full justify-center')} />
+  <Spinner className={cx(className, 'items-centerh-full flex w-full justify-center')} color="success" />
 );
 
 export default Loader;

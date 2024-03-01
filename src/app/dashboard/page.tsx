@@ -1,63 +1,131 @@
 'use client';
 
-import { Button } from '@nextui-org/react';
+import { useEffect, useState } from 'react';
 
 import { API } from '@/api/types';
 import { wallets } from '@/api/wallets';
-import CryptoForm from '@/components/CryptoForm';
+import Dashboard from '@/components/Dashboard';
 import Loader from '@/components/Loader';
-import Wallet from '@/components/Wallet';
+import { walletType, defaultUpdateInterval, WalletTypeValues } from '@/constants';
 import useOrder from '@/hooks/useOrder';
+import useWallet from '@/hooks/useWallet';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectFinanceData } from '@/store/selectors';
-import { setSelectedCrypto, setSelectedFiat, setUserWallets } from '@/store/slices/finance';
+import {
+  loadMoreTransactions,
+  loadSelectedWallet,
+  loadTransactions,
+  setSelectedChain,
+  setSelectedCrypto,
+  setSelectedFiat,
+  setUserWallets,
+} from '@/store/slices/finance';
 
 const DashboardPage = () => {
-  const { selectedCrypto, selectedFiat, fiats, crypto, fiatExchangeRate, isAppInitialized, userWallets } =
-    useAppSelector(selectFinanceData);
-  const { createOrder } = useOrder();
+  const {
+    selectedChain,
+    selectedCrypto,
+    selectedWallet,
+    selectedFiat,
+    chains,
+    fiats,
+    crypto,
+    isAppInitialized,
+    userWallets,
+    fiatExchangeRate,
+    selectedWalletTransactions,
+  } = useAppSelector(selectFinanceData);
+  const { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder } = useOrder();
+  const { getWalletAddress, createWalletAddress } = useWallet();
 
   const dispatch = useAppDispatch();
 
-  const setCrypto = (currency: API.List.Crypto) => dispatch(setSelectedCrypto(currency));
-  const setFiat = (currency: API.List.Fiat) => dispatch(setSelectedFiat(currency));
+  const selectChain = (chain: API.List.Chains) => dispatch(setSelectedChain(chain));
+  const selectCrypto = (currency: API.List.Crypto) => dispatch(setSelectedCrypto(currency));
+  const selectFiat = (currency: API.List.Fiat) => dispatch(setSelectedFiat(currency));
 
-  const createWallet = async () => {
-    await wallets.create();
+  const [lastActiveWallet, setLastActiveWallet] = useState<API.Wallets.ExtendWallet | null>(null);
+
+  const walletTypes = Object.values(walletType);
+
+  const loadMoreTransactionsHandler = () =>
+    selectedWallet &&
+    dispatch(
+      loadMoreTransactions({
+        wallet_uuid: selectedWallet.uuid,
+        limit: selectedWalletTransactions.meta.limit,
+        offset: selectedWalletTransactions.meta.offset,
+      }),
+    );
+
+  const createWallet = async (wallet_type: WalletTypeValues) => {
+    await wallets.create(wallet_type);
+
     const newUserWallets = await wallets.getAll();
+    const lastWallet = newUserWallets[newUserWallets.length - 1];
     dispatch(setUserWallets(newUserWallets));
+    dispatch(loadSelectedWallet(lastWallet.uuid));
   };
+
+  const selectWallet = async (uuid: string) => {
+    await dispatch(loadSelectedWallet(uuid));
+  };
+
+  useEffect(() => {
+    if (selectedWallet) {
+      if (selectedWallet.uuid !== lastActiveWallet?.uuid) {
+        setLastActiveWallet(selectedWallet);
+        dispatch(loadTransactions({ wallet_uuid: selectedWallet.uuid }));
+      }
+
+      if (selectedWallet.total_amount !== lastActiveWallet?.total_amount) {
+        setLastActiveWallet(selectedWallet);
+        dispatch(
+          loadTransactions({
+            wallet_uuid: selectedWallet.uuid,
+            limit: selectedWalletTransactions.data.length,
+            offset: 0,
+          }),
+        );
+      }
+    }
+
+    const intervalLoadSelectedWallet = setInterval(() => {
+      selectedWallet && dispatch(loadSelectedWallet(selectedWallet.uuid));
+    }, defaultUpdateInterval);
+
+    return () => clearInterval(intervalLoadSelectedWallet);
+  }, [selectedWallet]);
 
   if (!isAppInitialized) {
     return <Loader />;
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-4 p-4">
-      {userWallets.length ? (
-        <>
-          <div className="flex w-full flex-col items-center gap-4">
-            {userWallets.map((wallet) => (
-              <Wallet key={wallet.uuid} wallet={wallet} />
-            ))}
-          </div>
-          <CryptoForm
-            activeWallet={userWallets[0]}
-            createFiatOrder={createOrder}
-            className="max-w-sm"
-            selectCrypto={setCrypto}
-            selectFiat={setFiat}
-            selectedCrypto={selectedCrypto}
-            selectedFiat={selectedFiat}
-            cryptoList={crypto}
-            fiatList={fiats}
-            fiatExchangeRate={fiatExchangeRate}
-          />
-        </>
-      ) : (
-        <Button onClick={createWallet}>Create Wallet</Button>
-      )}
-    </div>
+    <Dashboard
+      wallets={userWallets}
+      getWalletAddress={getWalletAddress}
+      createWalletAddress={createWalletAddress}
+      selectChain={selectChain}
+      selectedChain={selectedChain}
+      selectedWallet={selectedWallet}
+      selectWallet={selectWallet}
+      chainList={chains}
+      cryptoList={crypto}
+      fiatList={fiats}
+      selectedCrypto={selectedCrypto}
+      selectedFiat={selectedFiat}
+      selectCrypto={selectCrypto}
+      selectFiat={selectFiat}
+      exchangeRate={fiatExchangeRate}
+      createFiat2CryptoOrder={createOnRampOrder}
+      createCrypto2FiatOrder={createOffRampOrder}
+      createCrypto2CryptoOrder={createCrypto2CryptoOrder}
+      transactions={selectedWalletTransactions}
+      loadMoreTransactions={loadMoreTransactionsHandler}
+      createWallet={createWallet}
+      walletTypes={walletTypes}
+    />
   );
 };
 

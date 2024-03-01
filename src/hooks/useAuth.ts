@@ -1,16 +1,13 @@
 /* eslint-disable no-restricted-globals */
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-
 import { useState } from 'react';
-
 import { toast } from 'react-toastify';
 
-import { RequestStatus } from '../constants';
-import { setUser, setUserLoadingStatus } from '../store/slices/user';
-
 import { wallets } from '@/api/wallets';
-import { setUserWallets } from '@/store/slices/finance';
+import { RequestStatus } from '@/constants';
+import { setSelectedWallet, setUserWallets } from '@/store/slices/finance';
+import { setUser, setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { deleteTokens, setTokens } from '@/utils/tokensFactory';
 
@@ -28,14 +25,28 @@ const useAuth = (dispatch: AppDispatch) => {
     dispatch(setUserLoadingStatus(status));
   };
 
-  const loadUserData = async () => {
-    const [userWallets] = await Promise.all([wallets.getAll()]);
+  const loadWallets = async () => {
+    const userWallets = await wallets.getAll();
     dispatch(setUserWallets(userWallets));
+    if (userWallets.length) {
+      const activeWalletUuid = userWallets[0].uuid;
+      const activeWallet = await wallets.getByUuid(activeWalletUuid);
+      dispatch(setSelectedWallet(activeWallet));
+    }
+  };
+
+  const unloadWallets = () => {
+    dispatch(setUserWallets([]));
+    dispatch(setSelectedWallet(null));
+  };
+
+  const loadUserData = async () => {
+    await loadWallets();
   };
 
   const clearUserData = async () => {
     dispatch(setUser(null));
-    dispatch(setUserWallets([]));
+    unloadWallets();
   };
 
   const resetAuthState = () => {

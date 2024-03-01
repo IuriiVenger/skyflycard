@@ -2,11 +2,9 @@ import { Card } from '@nextui-org/react';
 
 import { FC, useState } from 'react';
 
-import CurrencyInfo from './CurrencyInfo';
-
-import CurrencyListModal from './CurrencyListModal';
-
 import { API } from '@/api/types';
+import CurrencyInfo from '@/components/Currency/CurrencyInfo';
+import CurrencyListModal from '@/components/modals/CurrencyListModal';
 import { CryptoFormFieldAction } from '@/constants';
 import { roundToDecimals } from '@/utils/converters';
 
@@ -14,7 +12,7 @@ type CryptoFormFieldProps = {
   action: CryptoFormFieldAction;
   currency: API.List.Crypto | API.List.Fiat;
   currencies: API.List.Crypto[] | API.List.Fiat[];
-  onChangeCurrency: (currency: API.List.Crypto | API.List.Fiat) => void;
+  onChangeCurrency: (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => void;
   value: number;
   setValue?: (value: number) => void;
   onInputBlur?: () => void;

@@ -3,16 +3,8 @@ import useAuth from './useAuth';
 import { exchange } from '@/api/exchange';
 
 import { list } from '@/api/list';
-import { wallets } from '@/api/wallets';
 import { defaultCurrency } from '@/constants';
-import {
-  setAppInitialized,
-  setChains,
-  setCrypto,
-  setFiatExchangeRate,
-  setFiats,
-  setUserWallets,
-} from '@/store/slices/finance';
+import { setAppInitialized, setChains, setCrypto, setFiatExchangeRate, setFiats } from '@/store/slices/finance';
 import { AppDispatch } from '@/store/types';
 
 const useInitApp = (dispatch: AppDispatch) => {

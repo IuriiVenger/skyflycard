@@ -1,5 +1,6 @@
-import { Montserrat } from 'next/font/google';
-import './globals.css';
+import { Open_Sans } from 'next/font/google';
+import '@/assets/styles/globals.css';
+import '@/assets/styles/main.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import { FC, Suspense } from 'react';
 
@@ -13,7 +14,7 @@ import Header from '@/components/Header';
 import StoreProvider from '@/store/components/StoreProvider';
 import StoreWatchers from '@/store/components/StoreWatchers';
 
-const montserrat = Montserrat({ subsets: ['latin'] });
+const font = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -25,11 +26,10 @@ type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 const RootLayout: FC<RootLayoutProps> = ({ children }) => (
   <StoreProvider>
     <html lang="en">
-      <body className={montserrat.className}>
+      <body className={font.className}>
         <Providers>
           <Header />
-
-          <main className="flex h-screen w-full justify-center">
+          <main className="m-auto flex w-full max-w-screen-2xl justify-center px-10 py-8">
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           </main>
         </Providers>

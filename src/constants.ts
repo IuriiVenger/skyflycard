@@ -1,3 +1,5 @@
+import { WalletType } from './types';
+
 export enum RequestStatus {
   NONE = 'none',
   PENDING = 'pending',
@@ -17,10 +19,17 @@ export enum ResponseStatus {
 }
 
 export const defaultCurrency = {
+  chain: {
+    id: 1,
+    created_at: '2024-02-18T18:14:45.036914+00:00',
+    name: 'Tron',
+    symbol: 'TRON',
+  },
   fiat: {
     uuid: 'bcbbc8a7-e02e-45f6-8a9a-90a7c9bab7c9',
     symbol: '€',
     code: 'EUR',
+    enabled: true,
   },
   crypto: {
     uuid: '9126d383-cd78-444f-9482-b5c33b4e552a',
@@ -43,7 +52,36 @@ export enum CryptoFormFieldAction {
   SELL = 'sell',
 }
 
-export enum CurrencyType {
+export enum PaymentMethod {
   CRYPTO = 'crypto',
   FIAT = 'fiat',
 }
+
+export enum DashboardTabs {
+  DEPOSIT = 'deposit',
+  WITHDRAW = 'withdraw',
+  EXCHANGE = 'exchange',
+  TRANSACTIONS = 'transactions',
+}
+
+export enum WalletTypeValues {
+  PERSONAL = 'personal',
+  P2P = 'p2p',
+  ESCROW = 'escrow',
+  MERCHANT = 'merchant',
+  EXCHANGE = 'exchange',
+  STAKING = 'staking',
+  VAULT = 'vault',
+}
+
+export const walletType: WalletType = {
+  personal: { value: WalletTypeValues.PERSONAL, label: 'Personal' },
+  p2p: { value: 'p2p', label: 'P2P' },
+  escrow: { value: WalletTypeValues.ESCROW, label: 'Escrow' },
+  merchant: { value: WalletTypeValues.MERCHANT, label: 'Merchant' },
+  exchange: { value: WalletTypeValues.EXCHANGE, label: 'Exchange' },
+  staking: { value: WalletTypeValues.STAKING, label: 'Staking' },
+  vault: { value: WalletTypeValues.VAULT, label: 'Vault' },
+};
+
+export const defaultUpdateInterval = 10000;
