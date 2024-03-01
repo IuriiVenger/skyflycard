@@ -8,6 +8,7 @@ import eth from 'cryptocurrency-icons/svg/icon/eth.svg';
 import matic from 'cryptocurrency-icons/svg/icon/matic.svg';
 import sol from 'cryptocurrency-icons/svg/icon/sol.svg';
 import tron from 'cryptocurrency-icons/svg/icon/trx.svg';
+import trx from 'cryptocurrency-icons/svg/icon/trx.svg';
 import usdc from 'cryptocurrency-icons/svg/icon/usdc.svg';
 import usdt from 'cryptocurrency-icons/svg/icon/usdt.svg';
 import xrp from 'cryptocurrency-icons/svg/icon/xrp.svg';
@@ -29,6 +30,7 @@ export const cryptoIcons: CryptoIcons = {
   matic,
   sol,
   tron,
+  trx,
   usdt,
   xrp,
   usdc,

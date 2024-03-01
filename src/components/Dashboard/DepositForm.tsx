@@ -138,7 +138,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
       {activePaymentMethod === PaymentMethod.FIAT && (
         <>
           <SelectCurrency label="Deposit by" onClick={openFiatModal} currency={selectedFiat} />
-          <SelectCurrency label="Deposit to" onClick={openCryptoModal} currency={selectedCrypto} />
+          <SelectCurrency label="Deposit to" onClick={openCryptoModal} currency={selectedCrypto} chains={chainList} />
           <ExchangeInput buyingCurrency={selectedCrypto} sellingCurrency={selectedFiat} exchangeData={exchangeData} />
           <Button size="lg" color="success" className="mt-6 text-white" radius="sm" onClick={clickButtonHandler}>
             Buy
@@ -169,6 +169,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
         activeCurrency={selectedCrypto}
         currencies={cryptoList}
         onSelect={selectCurrency}
+        chains={chainList}
       />
       <CurrencyListModal
         isOpen={isChainModalOpen}

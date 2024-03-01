@@ -13,13 +13,14 @@ import { isChain } from '@/utils/financial';
 type CurrencyListModalProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+  chains?: API.List.Chains[];
   onSelect: (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => void;
   currencies: API.List.Crypto[] | API.List.Fiat[] | API.List.Chains[];
   activeCurrency: API.List.Crypto | API.List.Fiat | API.List.Chains;
 };
 
 const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
-  const { isOpen, onOpenChange, onSelect, currencies, activeCurrency } = props;
+  const { isOpen, onOpenChange, onSelect, currencies, activeCurrency, chains } = props;
 
   const handleCurrencyClick = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
     onSelect(currency);
@@ -49,6 +50,7 @@ const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
                     className=""
                     currencyTitleClassname="font-medium text-lg"
                     currency={currency}
+                    chains={chains}
                     hideShevron
                   />
                   {getCurrencyId(currency) === getCurrencyId(activeCurrency) && (

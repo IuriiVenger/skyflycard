@@ -17,10 +17,11 @@ type CryptoFormFieldProps = {
   setValue?: (value: number) => void;
   onInputBlur?: () => void;
   minValue?: number;
+  chains?: API.List.Chains[];
 };
 
 const CryptoFormField: FC<CryptoFormFieldProps> = (props) => {
-  const { action, currencies, value, currency, onChangeCurrency, setValue, onInputBlur, minValue } = props;
+  const { action, currencies, value, currency, onChangeCurrency, setValue, onInputBlur, minValue, chains } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toogleIsModalOpen = () => setIsModalOpen((prev) => !prev);
 
@@ -37,7 +38,7 @@ const CryptoFormField: FC<CryptoFormFieldProps> = (props) => {
       <p className="mb-2 text-xs">{title[action]}</p>
 
       <div className="flex items-start justify-between">
-        <CurrencyInfo currency={currency} onCurrencyClick={toogleIsModalOpen} minValue={minValue} />
+        <CurrencyInfo chains={chains} currency={currency} onCurrencyClick={toogleIsModalOpen} minValue={minValue} />
         <input
           className="w-full text-end text-xl font-semibold  tracking-wide focus-visible:outline-none disabled:bg-inherit"
           onBlur={onInputBlur}
@@ -52,6 +53,7 @@ const CryptoFormField: FC<CryptoFormFieldProps> = (props) => {
         activeCurrency={currency}
         currencies={currencies}
         onSelect={onChangeCurrency}
+        chains={chains}
       />
     </Card>
   );

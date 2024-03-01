@@ -28,6 +28,7 @@ type CryptoFormProps = {
   createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
   selectedCrypto: API.List.Crypto;
   selectedFiat: API.List.Fiat;
+  chainList: API.List.Chains[];
   cryptoList: API.List.Crypto[];
   fiatList: API.List.Fiat[];
   activeWallet: API.Wallets.Wallet;
@@ -41,6 +42,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
     selectedFiat,
     cryptoList,
     fiatList,
+    chainList,
     selectCrypto,
     selectFiat,
     className,
@@ -121,6 +123,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
             currencies={cryptoList}
             value={fiat2CryptoValue}
             onChangeCurrency={selectCurrency}
+            chains={chainList}
           />
         </Tab>
         <Tab
@@ -136,6 +139,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
             setValue={setSellValue}
             value={sellValue}
             onChangeCurrency={selectCurrency}
+            chains={chainList}
           />
           <CryptoFormField
             action={CryptoFormFieldAction.BUY}
@@ -144,6 +148,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
             setValue={setBuyValue}
             value={buyValue}
             onChangeCurrency={selectCurrency}
+            chains={chainList}
           />
         </Tab>
       </Tabs>

@@ -24,6 +24,7 @@ type WithdrawFormProps = {
   selectCrypto: (crypto: API.List.Crypto) => void;
   fiatList: API.List.Fiat[];
   cryptoList: API.List.Crypto[];
+  chainList: API.List.Chains[];
   exchangeRate: API.Exchange.Fiat2Crypto[];
   selectedWallet: API.Wallets.Wallet | null;
   createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
@@ -43,6 +44,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
     exchangeRate,
     createCrypto2FiatOrder,
     createCrypto2CryptoOrder,
+    chainList,
   } = props;
 
   const [isFiatModalOpen, setIsFiatModalOpen] = useState(false);
@@ -113,6 +115,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
         onClick={openCryptoModal}
         currency={selectedCrypto}
         balance={selectedCryptoWalletBalance}
+        chains={chainList}
       />
       {isFiatPayment && <SelectCurrency label="Withdraw to" onClick={openFiatModal} currency={selectedFiat} />}
 
@@ -168,6 +171,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
         activeCurrency={selectedCrypto}
         currencies={cryptoList}
         onSelect={selectCurrency}
+        chains={chainList}
       />
     </div>
   );

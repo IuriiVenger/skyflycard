@@ -9,7 +9,7 @@ import { selectFinanceData } from '@/store/selectors';
 import { setSelectedCrypto, setSelectedFiat } from '@/store/slices/finance';
 
 const MainPageCryptoForm = () => {
-  const { selectedCrypto, selectedFiat, fiats, crypto, fiatExchangeRate, isAppInitialized, userWallets } =
+  const { selectedCrypto, selectedFiat, fiats, crypto, fiatExchangeRate, isAppInitialized, userWallets, chains } =
     useAppSelector(selectFinanceData);
   const { createOnRampOrder } = useOrder();
 
@@ -25,6 +25,7 @@ const MainPageCryptoForm = () => {
         createFiat2CryptoOrder={createOnRampOrder}
         selectedCrypto={selectedCrypto}
         selectedFiat={selectedFiat}
+        chainList={chains}
         fiatList={fiats}
         cryptoList={crypto}
         selectCrypto={setCrypto}

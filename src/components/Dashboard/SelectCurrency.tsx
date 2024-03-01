@@ -12,10 +12,11 @@ type SelectCurrencyProps = {
   className?: string;
   currency: API.List.Fiat | API.List.Crypto | API.List.Chains;
   balance?: number;
+  chains?: API.List.Chains[];
 };
 
 const SelectCurrency: FC<SelectCurrencyProps> = (props) => {
-  const { label, className, onClick, currency, balance } = props;
+  const { label, className, onClick, currency, balance, chains } = props;
   return (
     <div className={className}>
       <h3 className="mb-4 text-xl font-bold">{label}</h3>
@@ -26,7 +27,7 @@ const SelectCurrency: FC<SelectCurrencyProps> = (props) => {
           onClick && 'cursor-pointer',
         )}
       >
-        <CurrencyInfo hideShevron currency={currency} />
+        <CurrencyInfo hideShevron currency={currency} chains={chains} />
         <div className="flex items-center gap-2">
           <HiOutlineSelector className="text-xl" />
         </div>

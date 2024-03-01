@@ -46,7 +46,7 @@ const Dashboard: FC<DashboardProps> = (props) => {
   const [queryTab, setQueryTab] = useQueryState('tab');
   const initialTab = (queryTab as DashboardTabs) || DashboardTabs.DEPOSIT;
 
-  const { wallets, selectWallet, selectedWallet, cryptoList, createWallet, walletTypes } = props;
+  const { wallets, selectWallet, selectedWallet, cryptoList, createWallet, walletTypes, chainList } = props;
   const currentWalletBalance = roundToDecimals(selectedWallet?.total_amount || 0);
   const [activeTab, setActiveTab] = useState<DashboardTabs>(initialTab);
 
@@ -96,7 +96,7 @@ const Dashboard: FC<DashboardProps> = (props) => {
           activeWallet={selectedWallet}
           walletTypes={walletTypes}
         />
-        <WalletBalanceList wallet={selectedWallet} cryptoList={cryptoList} />
+        <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
       </aside>
 
       <MainInformation
