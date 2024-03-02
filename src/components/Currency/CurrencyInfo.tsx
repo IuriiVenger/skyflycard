@@ -1,4 +1,3 @@
-
 import { Badge, Chip } from '@nextui-org/react';
 import cx from 'classnames';
 import Image from 'next/image';

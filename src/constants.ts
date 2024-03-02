@@ -21,7 +21,7 @@ export enum ResponseStatus {
 export const defaultCurrency = {
   chain: {
     id: 1,
-    created_at: '2024-02-18T18:14:45.036914+00:00',
+    enabled: true,
     name: 'Tron',
     symbol: 'TRON',
   },

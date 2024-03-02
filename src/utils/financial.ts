@@ -43,7 +43,7 @@ export const isCrypto = (currency: API.List.Crypto | API.List.Fiat | API.List.Ch
   (currency as API.List.Crypto).contract !== undefined && (currency as API.List.Crypto).chain !== undefined;
 
 export const isChain = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains): currency is API.List.Chains =>
-  (currency as API.List.Chains).id !== undefined && (currency as API.List.Chains).created_at !== undefined;
+  (currency as API.List.Chains).id !== undefined && (currency as API.List.Chains).enabled !== undefined;
 
 export const getCurrencyIconSrc = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains): string =>
   isFiat(currency)

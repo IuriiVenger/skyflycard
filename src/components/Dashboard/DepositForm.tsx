@@ -80,6 +80,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
     if (isChain(currency)) {
+      console.log('isChain');
       selectChain(currency);
     }
     if (isFiat(currency)) {

@@ -49,7 +49,7 @@ export namespace API {
 
     export interface Chains {
       id: number;
-      created_at: string;
+      enabled: boolean;
       name: string;
       symbol: string;
     }
