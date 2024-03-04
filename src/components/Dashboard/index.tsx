@@ -10,8 +10,8 @@ import Transactions from './TransactionsTable';
 import WithdrawForm from './WithdrawForm';
 
 import { API } from '@/api/types';
-import WalletBalanceList from '@/components/Dashboard/Wallet/WalletBalanceList';
-import WalletList from '@/components/Dashboard/Wallet/WalletList';
+import WalletBalanceList from '@/components/Wallet/WalletBalanceList';
+import WalletList from '@/components/Wallet/WalletList';
 import { DashboardTabs, WalletTypeValues } from '@/constants';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { ValueWithLabel } from '@/types';

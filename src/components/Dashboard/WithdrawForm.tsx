@@ -6,8 +6,9 @@ import { FaCreditCard } from 'react-icons/fa6';
 
 import { TbCurrency } from 'react-icons/tb';
 
+import SelectCurrency from '../Currency/SelectCurrency';
+
 import ExchangeInput from './ExchangeInput';
-import SelectCurrency from './SelectCurrency';
 import SelectPaymentMethod from './SelectPaymentMethod';
 
 import { API } from '@/api/types';

@@ -2,11 +2,11 @@ import { Button } from '@nextui-org/react';
 import cx from 'classnames';
 import { FC, useEffect, useState } from 'react';
 
+import SelectCurrency from '../Currency/SelectCurrency';
 import CurrencyListModal from '../modals/CurrencyListModal';
 
 import ChainInfo from './ChainInfo';
 import ExchangeInput from './ExchangeInput';
-import SelectCurrency from './SelectCurrency';
 
 import SelectPaymentMethod from './SelectPaymentMethod';
 
