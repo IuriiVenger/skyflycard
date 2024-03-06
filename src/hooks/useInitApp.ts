@@ -4,7 +4,14 @@ import { exchange } from '@/api/exchange';
 
 import { list } from '@/api/list';
 import { defaultCurrency } from '@/constants';
-import { setAppInitialized, setChains, setCrypto, setFiatExchangeRate, setFiats } from '@/store/slices/finance';
+import {
+  setAppInitialized,
+  setChains,
+  setCrypto,
+  setFiatExchangeRate,
+  setFiats,
+  setSelectedCrypto,
+} from '@/store/slices/finance';
 import { AppDispatch } from '@/store/types';
 
 const useInitApp = (dispatch: AppDispatch) => {
@@ -22,6 +29,14 @@ const useInitApp = (dispatch: AppDispatch) => {
     dispatch(setCrypto(crypto));
     dispatch(setChains(chains));
     dispatch(setFiatExchangeRate(fiatExchangeRate));
+
+    const fiatExchangeRateCryptoUuid = fiatExchangeRate.map((item) => item.crypto_uuid);
+    const availableCrypto = crypto.filter((item) => fiatExchangeRateCryptoUuid.includes(item.uuid));
+
+    if (!availableCrypto.find((crypto_item) => crypto_item.uuid === defaultCurrency.crypto.uuid)) {
+      dispatch(setSelectedCrypto(availableCrypto[0]));
+    }
+
     dispatch(setAppInitialized(true));
   };
 

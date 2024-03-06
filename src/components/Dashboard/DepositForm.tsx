@@ -25,7 +25,7 @@ type DepositFormProps = {
   selectedCrypto: API.List.Crypto;
   selectCrypto: (crypto: API.List.Crypto) => void;
   fiatList: API.List.Fiat[];
-  cryptoList: API.List.Crypto[];
+  availableToExchangeCrypto: API.List.Crypto[];
   chainList: API.List.Chains[];
   externalCalcData: UseExternalCalcData;
   selectedWallet: API.Wallets.Wallet | null;
@@ -45,12 +45,12 @@ const DepositForm: FC<DepositFormProps> = (props) => {
     selectedCrypto,
     selectedFiat,
     fiatList,
-    cryptoList,
     chainList,
     createFiat2CryptoOrder,
     getWalletAddress,
     createWalletAddress,
     externalCalcData,
+    availableToExchangeCrypto,
   } = props;
 
   const { setAmount, amount, onrampCalcData, isOnrampCalcPending } = externalCalcData;
@@ -176,7 +176,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
         isOpen={isCryptoModalOpen}
         onOpenChange={setIsCryptoModalOpen}
         activeCurrency={selectedCrypto}
-        currencies={cryptoList}
+        currencies={availableToExchangeCrypto}
         onSelect={selectCurrency}
         chains={chainList}
       />

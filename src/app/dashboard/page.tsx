@@ -11,7 +11,7 @@ import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
 import useWallet from '@/hooks/useWallet';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectFinanceData } from '@/store/selectors';
+import { selectActiveFiatAvailableCrypto, selectFinanceData } from '@/store/selectors';
 import {
   loadMoreTransactions,
   loadSelectedWallet,
@@ -39,6 +39,7 @@ const DashboardPage = () => {
   const { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder } = useOrder();
   const { getWalletAddress, createWalletAddress } = useWallet();
 
+  const availableToExchangeCrypto = useAppSelector(selectActiveFiatAvailableCrypto);
   const dispatch = useAppDispatch();
   const externalCalcData = useExternalCalc();
 
@@ -118,6 +119,7 @@ const DashboardPage = () => {
       selectWallet={selectWallet}
       chainList={chains}
       cryptoList={crypto}
+      availableToExchangeCrypto={availableToExchangeCrypto}
       fiatList={fiats}
       selectedCrypto={selectedCrypto}
       selectedFiat={selectedFiat}

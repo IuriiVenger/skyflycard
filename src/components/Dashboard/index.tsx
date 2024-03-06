@@ -25,6 +25,7 @@ type DashboardProps = {
   createWalletAddress: (data: API.Wallets.WalletChain.Request) => Promise<API.Wallets.WalletChain.Response>;
   chainList: API.List.Chains[];
   cryptoList: API.List.Crypto[];
+  availableToExchangeCrypto: API.List.Crypto[];
   fiatList: API.List.Fiat[];
   externalCalcData: UseExternalCalcData;
   selectChain: (chain: API.List.Chains) => void;
