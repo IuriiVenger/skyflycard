@@ -1,5 +1,5 @@
 import { Card, CardBody, CardFooter, Input } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 
 import { API } from '@/api/types';
@@ -31,7 +31,7 @@ const ExchangeInput: FC<ExchangeFormProps> = (props) => {
 
   return (
     <section>
-      <Card className={cx(className, 'p-3')}>
+      <Card className={cn(className, 'p-3')}>
         <CardBody className="flex flex-col gap-2">
           <Input
             type="number"

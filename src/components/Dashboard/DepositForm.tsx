@@ -1,18 +1,19 @@
 import { Button } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 
 import SelectCurrency from '../Currency/SelectCurrency';
 import CurrencyListModal from '../modals/CurrencyListModal';
 
 import ChainInfo from './ChainInfo';
-import ExchangeInput from './ExchangeInput';
 
+import ExternalExhangeInput from './ExternalExchangeInput';
 import SelectPaymentMethod from './SelectPaymentMethod';
 
 import { API } from '@/api/types';
 import { PaymentMethod, ResponseStatus } from '@/constants';
 import useExchange from '@/hooks/useExchange';
+import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isChain, isCrypto, isFiat } from '@/utils/financial';
 
 type DepositFormProps = {
@@ -26,7 +27,7 @@ type DepositFormProps = {
   fiatList: API.List.Fiat[];
   cryptoList: API.List.Crypto[];
   chainList: API.List.Chains[];
-  exchangeRate: API.Exchange.Fiat2Crypto[];
+  externalCalcData: UseExternalCalcData;
   selectedWallet: API.Wallets.Wallet | null;
   getWalletAddress: (chain: number, wallet_uuid: string) => Promise<API.Wallets.WalletChain.Response>;
   createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
@@ -46,19 +47,20 @@ const DepositForm: FC<DepositFormProps> = (props) => {
     fiatList,
     cryptoList,
     chainList,
-    exchangeRate,
     createFiat2CryptoOrder,
     getWalletAddress,
     createWalletAddress,
+    externalCalcData,
   } = props;
+
+  const { setAmount, amount, onrampCalcData, isOnrampCalcPending } = externalCalcData;
+
   const [isFiatModalOpen, setIsFiatModalOpen] = useState(false);
   const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
   const [isChainModalOpen, setIsChainModalOpen] = useState(false);
   const [activePaymentMethod, setActivePaymentMethod] = useState<PaymentMethod>(PaymentMethod.FIAT);
   const [activeWalletAddress, setActiveWalletAddress] = useState<API.Wallets.WalletChain.Response | null>(null);
   const [isWalletAdressLoading, setIsWalletAdressLoading] = useState(false);
-  const exchangeData = useExchange(exchangeRate, selectedCrypto);
-  const { sellValue } = exchangeData;
 
   const openCryptoModal = () => setIsCryptoModalOpen(true);
   const openFiatModal = () => setIsFiatModalOpen(true);
@@ -69,7 +71,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   const clickButtonHandler = () =>
     selectedWallet &&
     createFiat2CryptoOrder({
-      amount: sellValue,
+      amount,
       fiat_uuid: selectedFiat?.uuid,
       crypto_uuid: selectedCrypto?.uuid,
       wallet_uuid: selectedWallet?.uuid,
@@ -80,7 +82,6 @@ const DepositForm: FC<DepositFormProps> = (props) => {
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
     if (isChain(currency)) {
-      console.log('isChain');
       selectChain(currency);
     }
     if (isFiat(currency)) {
@@ -129,7 +130,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   }, [activePaymentMethod, selectedWallet?.uuid, selectedChain]);
 
   return (
-    <div className={cx('flex flex-col gap-8 md:mt-6', className)}>
+    <div className={cn('flex flex-col gap-8 md:mt-6', className)}>
       <SelectPaymentMethod
         label="Choose payment method"
         className="w-full"
@@ -140,7 +141,14 @@ const DepositForm: FC<DepositFormProps> = (props) => {
         <>
           <SelectCurrency label="Deposit by" onClick={openFiatModal} currency={selectedFiat} />
           <SelectCurrency label="Deposit to" onClick={openCryptoModal} currency={selectedCrypto} chains={chainList} />
-          <ExchangeInput buyingCurrency={selectedCrypto} sellingCurrency={selectedFiat} exchangeData={exchangeData} />
+          <ExternalExhangeInput
+            buyingCurrency={selectedCrypto}
+            sellingCurrency={selectedFiat}
+            calcData={onrampCalcData}
+            sellValue={amount}
+            setSellValue={setAmount}
+            isCalculating={isOnrampCalcPending}
+          />
           <Button size="lg" color="success" className="mt-6 text-white" radius="sm" onClick={clickButtonHandler}>
             Buy
           </Button>

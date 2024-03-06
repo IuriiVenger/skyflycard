@@ -1,5 +1,5 @@
 import { Button, Input } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 
 import { FaCreditCard } from 'react-icons/fa6';
@@ -8,13 +8,14 @@ import { TbCurrency } from 'react-icons/tb';
 
 import SelectCurrency from '../Currency/SelectCurrency';
 
-import ExchangeInput from './ExchangeInput';
+import ExternalExhangeInput from './ExternalExchangeInput';
+import ExternalWithdrawInput from './ExternalWithdrawIpnut';
 import SelectPaymentMethod from './SelectPaymentMethod';
 
 import { API } from '@/api/types';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
 import { PaymentMethod } from '@/constants';
-import useExchange from '@/hooks/useExchange';
+import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isCrypto, isFiat } from '@/utils/financial';
 
 type WithdrawFormProps = {
@@ -26,10 +27,10 @@ type WithdrawFormProps = {
   fiatList: API.List.Fiat[];
   cryptoList: API.List.Crypto[];
   chainList: API.List.Chains[];
-  exchangeRate: API.Exchange.Fiat2Crypto[];
   selectedWallet: API.Wallets.Wallet | null;
   createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
   createCrypto2CryptoOrder: (requestData: API.Orders.Crypto.Withdrawal.Request) => Promise<void | null>;
+  externalCalcData: UseExternalCalcData;
 };
 
 const WithdrawForm: FC<WithdrawFormProps> = (props) => {
@@ -42,20 +43,19 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
     selectedFiat,
     fiatList,
     cryptoList,
-    exchangeRate,
     createCrypto2FiatOrder,
     createCrypto2CryptoOrder,
     chainList,
+    externalCalcData,
   } = props;
+
+  const { setAmount, amount, offrampCalcData, withdrawCalcData, isOfframpCalcPending, isWithdrawCalcPending } =
+    externalCalcData;
 
   const [isFiatModalOpen, setIsFiatModalOpen] = useState(false);
   const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
   const [activePaymentMethod, setActivePaymentMethod] = useState<PaymentMethod>(PaymentMethod.FIAT);
   const [withdrawTarget, setWithdrawTarget] = useState('');
-  const [withdrawCryptoValue, setWithdrawCryptoValue] = useState('');
-
-  const exchangeData = useExchange(exchangeRate, selectedCrypto);
-  const { sellValue } = exchangeData;
 
   const isFiatPayment = activePaymentMethod === PaymentMethod.FIAT;
 
@@ -73,7 +73,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
 
     if (isFiatPayment) {
       return createCrypto2FiatOrder({
-        amount: sellValue,
+        amount,
         fiat_uuid: selectedFiat?.uuid,
         crypto_uuid: selectedCrypto?.uuid,
         wallet_uuid: selectedWallet?.uuid,
@@ -82,7 +82,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
     }
 
     return createCrypto2CryptoOrder({
-      amount: Number(withdrawCryptoValue),
+      amount,
       crypto_uuid: selectedCrypto.uuid,
       wallet_uuid: selectedWallet.uuid,
       to: withdrawTarget,
@@ -103,7 +103,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
   }, [activePaymentMethod]);
 
   return (
-    <div className={cx('flex flex-col gap-8 md:mt-6', className)}>
+    <div className={cn('flex flex-col gap-8 md:mt-6', className)}>
       <SelectPaymentMethod
         isWithdraw
         label="Choose withdraw method"
@@ -132,26 +132,23 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
       />
 
       {isFiatPayment ? (
-        <ExchangeInput
+        <ExternalExhangeInput
           buyingCurrency={selectedFiat}
           sellingCurrency={selectedCrypto}
-          exchangeData={exchangeData}
+          calcData={offrampCalcData}
+          sellValue={amount}
+          setSellValue={setAmount}
+          isCalculating={isOfframpCalcPending}
           isWithdraw
         />
       ) : (
-        <Input
-          className="-mt-4"
-          type="number"
-          placeholder="Enter amount"
-          size="lg"
-          labelPlacement="outside"
-          endContent={
-            <div className="pointer-events-none flex items-center">
-              <span className="text-small text-default-400">{selectedCrypto.icon}</span>
-            </div>
-          }
-          value={withdrawCryptoValue}
-          onChange={(e) => setWithdrawCryptoValue(e.target.value)}
+        <ExternalWithdrawInput
+          amount={amount}
+          netAmount={withdrawCalcData && withdrawCalcData.net_amount}
+          commission={withdrawCalcData && withdrawCalcData.commission}
+          setAmount={setAmount}
+          selectedCrypto={selectedCrypto}
+          isCalculating={isWithdrawCalcPending}
         />
       )}
 

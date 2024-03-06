@@ -9,7 +9,7 @@ import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { getDate } from '@/utils/converters';
 
 type TransactionsProps = {
-  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[]>;
+  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
   loadMoreTransactions: () => void;
 };
 
@@ -18,13 +18,13 @@ const Transactions: FC<TransactionsProps> = (props) => {
   const { data, status, meta } = transactions;
 
   const isTransactionsLoading = status === RequestStatus.PENDING;
-  const isFirstTransactionsLoading = isTransactionsLoading && !data.length;
+  const isFirstTransactionsLoading = isTransactionsLoading && !data?.length;
   const isLoadMoreAvailible = !meta.isLastPage;
 
   return (
     <section className="flex flex-col md:mt-6">
       <h3 className="mb-4 text-xl font-bold">Transactions</h3>
-      {!isFirstTransactionsLoading ? (
+      {!isFirstTransactionsLoading && data ? (
         <>
           <Table removeWrapper aria-label="Wallet transactions" className="overflow-scroll">
             <TableHeader>

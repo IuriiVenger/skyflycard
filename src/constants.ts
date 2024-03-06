@@ -85,3 +85,20 @@ export const walletType: WalletType = {
 };
 
 export const defaultUpdateInterval = 10000;
+
+export const defaultPaginationParams = {
+  limit: 20,
+  offset: 0,
+  isLastPage: false,
+};
+
+export const emptyStoreDataWithStatus = {
+  status: RequestStatus.NONE,
+  data: null,
+};
+
+export enum CalcType {
+  ONRAMP = 'onramp',
+  OFFRAMP = 'offramp',
+  WITHDRAWAL = 'withdrawal',
+}

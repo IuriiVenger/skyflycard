@@ -1,6 +1,6 @@
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 
-import cx from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 
 import { FaCheckCircle } from 'react-icons/fa';
@@ -39,7 +39,7 @@ const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
             <ModalBody className="gap-0 px-0">
               {currencies.map((currency, index) => (
                 <div
-                  className={cx(
+                  className={cn(
                     'flex cursor-pointer items-center justify-between border-b  px-4 py-2 transition-background ',
                     getCurrencyId(currency) === getCurrencyId(activeCurrency) ? 'bg-gray-100' : 'hover:bg-emerald-50',
                   )}

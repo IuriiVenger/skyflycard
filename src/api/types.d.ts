@@ -110,6 +110,28 @@ export namespace API {
 
   export namespace Orders {
     export namespace OnRamp {
+      export namespace Calc {
+        export interface Item {
+          provider_uuid: string;
+          crypto_uuid: string;
+          fiat_uuid: string;
+          rate: number;
+          inverted_rate: number;
+          commission: number;
+          amount_fiat: number;
+          amount_crypto: number;
+          kyc_required: boolean;
+          ttl: string;
+        }
+        export interface Request {
+          amount: number;
+          crypto_uuid: string;
+          fiat_uuid: string;
+          wallet_uuid: string;
+          is_subtract: boolean;
+        }
+        export type Response = Item[];
+      }
       export interface Item {
         id: number;
         created_at: string;
@@ -136,6 +158,30 @@ export namespace API {
     }
 
     export namespace OffRamp {
+      export namespace Calc {
+        export interface Item {
+          provider_uuid: string;
+          crypto_uuid: string;
+          fiat_uuid: string;
+          rate: number;
+          inverted_rate: number;
+          commission: number;
+          amount_fiat: number;
+          amount_crypto: number;
+          kyc_required: boolean;
+          ttl: string;
+        }
+
+        export interface Request {
+          amount: number;
+          crypto_uuid: string;
+          fiat_uuid: string;
+          wallet_uuid: string;
+          is_subtract: boolean;
+        }
+
+        export type Response = Item[];
+      }
       export interface Item {
         id: number;
         created_at: string;
@@ -161,6 +207,26 @@ export namespace API {
 
     export namespace Crypto {
       export namespace Withdrawal {
+        export namespace Calc {
+          export interface Item {
+            commission: number;
+            net_amount: number;
+            total_amount: number;
+            ttl: string;
+          }
+          export interface Request {
+            address: string;
+            amount: number;
+            crypto_uuid: string;
+            wallet_uuid: string;
+            is_subtract: boolean;
+          }
+
+          export interface Response {
+            [key: string]: Item;
+          }
+        }
+
         export interface Item {
           id: number;
           created_at: string;

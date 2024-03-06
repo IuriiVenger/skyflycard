@@ -1,5 +1,5 @@
 import { Badge, Chip } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import Image from 'next/image';
 import { FC } from 'react';
 
@@ -29,7 +29,7 @@ const CurrencyInfo: FC<CurrencyInfoProps> = (props) => {
   const chainIcon = cryptoCurrencyChain && getCurrencyIconSrc(cryptoCurrencyChain);
 
   return (
-    <div className={cx(className, 'flex shrink-0 items-center gap-2')}>
+    <div className={cn(className, 'flex shrink-0 items-center gap-2')}>
       <Badge
         className="border-none bg-none p-0"
         content={chainIcon && <Image height={16} width={16} alt="" src={chainIcon} />}
@@ -44,7 +44,7 @@ const CurrencyInfo: FC<CurrencyInfoProps> = (props) => {
       </Badge>
       <div className="text-left">
         <button
-          className={cx(currencyTitleClassname, 'flex items-center gap-1 text-xl font-bold')}
+          className={cn(currencyTitleClassname, 'flex items-center gap-1 text-xl font-bold')}
           type="button"
           onClick={onCurrencyClick}
         >

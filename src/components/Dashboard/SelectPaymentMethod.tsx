@@ -1,5 +1,5 @@
 import { RadioGroup, RadioProps, VisuallyHidden, useRadio } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 
 import { PaymentMethod } from '@/constants';
@@ -35,7 +35,7 @@ export const CustomRadio = (props: RadioProps) => {
   return (
     <Component
       {...getBaseProps()}
-      className={cx(
+      className={cn(
         'group inline-flex flex-row-reverse items-center justify-between hover:bg-content2 hover:opacity-100',
         'cursor-pointer gap-4 rounded-lg border-2 border-default p-4 opacity-50',
         'data-[selected=true]:border-gray-400 data-[selected=true]:opacity-100',

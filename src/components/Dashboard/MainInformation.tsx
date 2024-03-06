@@ -1,5 +1,5 @@
 import { Button, Card } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 import { IconType } from 'react-icons';
 
@@ -24,7 +24,7 @@ type MainInformationProps = {
 const MainInformation: FC<MainInformationProps> = (props) => {
   const { className, actionButtons, balance, activeTab } = props;
   return (
-    <Card className={cx('flex w-full flex-shrink-0 flex-col gap-4 bg-gray-100 px-8 py-6', className)}>
+    <Card className={cn('flex w-full flex-shrink-0 flex-col gap-4 bg-gray-100 px-8 py-6', className)}>
       <h1 className="self-center text-3xl font-bold lg:self-start">Dashboard</h1>
       <div className="self-center sm:mt-6 lg:self-start">
         <p>Available balance</p>
@@ -34,7 +34,7 @@ const MainInformation: FC<MainInformationProps> = (props) => {
         {actionButtons.map((button, index) => (
           <Button
             key={index}
-            className={cx(
+            className={cn(
               'bg-white',
               button.disabled ? '!cursor-not-allowed opacity-50 hover:!opacity-50' : ' hover:!bg-gray-200',
               activeTab === button.id && 'bg-gray-200',

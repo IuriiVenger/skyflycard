@@ -13,6 +13,7 @@ import { API } from '@/api/types';
 import WalletBalanceList from '@/components/Wallet/WalletBalanceList';
 import WalletList from '@/components/Wallet/WalletList';
 import { DashboardTabs, WalletTypeValues } from '@/constants';
+import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { ValueWithLabel } from '@/types';
 import { roundToDecimals } from '@/utils/converters';
@@ -25,6 +26,7 @@ type DashboardProps = {
   chainList: API.List.Chains[];
   cryptoList: API.List.Crypto[];
   fiatList: API.List.Fiat[];
+  externalCalcData: UseExternalCalcData;
   selectChain: (chain: API.List.Chains) => void;
   selectFiat: (fiat: API.List.Fiat) => void;
   selectCrypto: (crypto: API.List.Crypto) => void;
@@ -38,7 +40,7 @@ type DashboardProps = {
   createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
   createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
   createCrypto2CryptoOrder: (requestData: API.Orders.Crypto.Withdrawal.Request) => Promise<void | null>;
-  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[]>;
+  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
   loadMoreTransactions: () => void;
 };
 

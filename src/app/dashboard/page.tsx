@@ -6,7 +6,8 @@ import { API } from '@/api/types';
 import { wallets } from '@/api/wallets';
 import Dashboard from '@/components/Dashboard';
 import Loader from '@/components/Loader';
-import { walletType, defaultUpdateInterval, WalletTypeValues } from '@/constants';
+import { walletType, defaultUpdateInterval, WalletTypeValues, defaultPaginationParams } from '@/constants';
+import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
 import useWallet from '@/hooks/useWallet';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -39,6 +40,7 @@ const DashboardPage = () => {
   const { getWalletAddress, createWalletAddress } = useWallet();
 
   const dispatch = useAppDispatch();
+  const externalCalcData = useExternalCalc();
 
   const selectChain = (chain: API.List.Chains) => dispatch(setSelectedChain(chain));
   const selectCrypto = (currency: API.List.Crypto) => dispatch(setSelectedCrypto(currency));
@@ -71,7 +73,7 @@ const DashboardPage = () => {
     await dispatch(loadSelectedWallet(uuid));
   };
 
-  useEffect(() => {
+  const updateTransactionsOnWalletChange = async () => {
     if (selectedWallet) {
       if (selectedWallet.uuid !== lastActiveWallet?.uuid) {
         setLastActiveWallet(selectedWallet);
@@ -83,12 +85,16 @@ const DashboardPage = () => {
         dispatch(
           loadTransactions({
             wallet_uuid: selectedWallet.uuid,
-            limit: selectedWalletTransactions.data.length,
+            limit: selectedWalletTransactions.data?.length || defaultPaginationParams.limit,
             offset: 0,
           }),
         );
       }
     }
+  };
+
+  useEffect(() => {
+    updateTransactionsOnWalletChange();
 
     const intervalLoadSelectedWallet = setInterval(() => {
       selectedWallet && dispatch(loadSelectedWallet(selectedWallet.uuid));
@@ -125,6 +131,7 @@ const DashboardPage = () => {
       loadMoreTransactions={loadMoreTransactionsHandler}
       createWallet={createWallet}
       walletTypes={walletTypes}
+      externalCalcData={externalCalcData}
     />
   );
 };

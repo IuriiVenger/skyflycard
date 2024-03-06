@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, NavbarContent, NavbarItem } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import Link from 'next/link';
 
 import { FC } from 'react';
@@ -20,7 +20,7 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
   const { isAppInitialized } = useAppSelector(selectFinanceData);
   const { signOut } = useAuth(dispatch);
 
-  const userClassNames = cx(
+  const userClassNames = cn(
     'transition-opacity duration-300',
     isAppInitialized ? 'opacity-100' : 'opacity-0',
     className,

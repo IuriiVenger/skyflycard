@@ -1,5 +1,5 @@
 import { Button } from '@nextui-org/react';
-import cx from 'classnames';
+import cn from 'classnames';
 import { FC, useState } from 'react';
 
 import { CiCirclePlus } from 'react-icons/ci';
@@ -26,11 +26,11 @@ const WalletList: FC<WalletMenuProps> = ({ wallets, onSelect, activeWallet, clas
   const openCreateWalletModal = () => setIsCreateWalletModalOpen(true);
 
   return (
-    <section className={cx('flex flex-col gap-1', className)}>
+    <section className={cn('flex flex-col gap-1', className)}>
       <h3 className="mb-4 text-xl font-bold">Wallets</h3>
       {wallets.map((wallet) => (
         <div
-          className={cx(
+          className={cn(
             'flex cursor-pointer items-center gap-4 rounded-lg px-4 py-2 transition-background',
             wallet.uuid === activeWallet?.uuid ? 'bg-gray-200' : 'hover:bg-gray-100',
           )}

@@ -2,7 +2,7 @@
 
 import { Button, Card, Tab, Tabs } from '@nextui-org/react';
 
-import cx from 'classnames';
+import cn from 'classnames';
 
 import { FC, useState } from 'react';
 
@@ -94,7 +94,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   };
 
   return (
-    <Card className={cx('w-full max-w-xl px-10 py-8', className)}>
+    <Card className={cn('w-full max-w-xl px-10 py-8', className)}>
       <Tabs
         selectedKey={activeTabKey}
         onSelectionChange={(key) => {
