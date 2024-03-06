@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 import useAuth from '@/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectFinanceData, selectUserData } from '@/store/selectors';
+import { selectFinanceData, selectUser } from '@/store/selectors';
 
 type UserProps = {
   className?: string;
@@ -16,7 +16,7 @@ type UserProps = {
 
 const AuthButtons: FC<UserProps> = ({ className }) => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(selectUserData);
+  const { user } = useAppSelector(selectUser);
   const { isAppInitialized } = useAppSelector(selectFinanceData);
   const { signOut } = useAuth(dispatch);
 

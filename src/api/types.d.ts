@@ -4,6 +4,20 @@ export namespace API {
       access_token: string;
       refresh_token: string;
     }
+    export interface UserData {
+      id: number;
+      created_at: string;
+      user_id: string;
+      kyc_status: false;
+      kyc_date: string;
+      turnover_limit: number;
+      default_fiat: string;
+      total_turnover: {
+        onramp: number;
+        offramp: number;
+        total: number;
+      };
+    }
   }
 
   export namespace Exchange {

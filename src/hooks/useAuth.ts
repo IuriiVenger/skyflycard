@@ -4,10 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { auth } from '@/api/auth';
 import { wallets } from '@/api/wallets';
 import { RequestStatus } from '@/constants';
 import { setSelectedWallet, setUserWallets } from '@/store/slices/finance';
-import { setUser, setUserLoadingStatus } from '@/store/slices/user';
+import { setUser, setUserData, setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { deleteTokens, setTokens } from '@/utils/tokensFactory';
 
@@ -41,11 +42,24 @@ const useAuth = (dispatch: AppDispatch) => {
   };
 
   const loadUserData = async () => {
-    await loadWallets();
+    try {
+      dispatch(setUserLoadingStatus(RequestStatus.PENDING));
+      const { data } = await auth.user_data();
+      dispatch(setUserData(data));
+      dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
+    } catch (e) {
+      dispatch(setUserLoadingStatus(RequestStatus.REJECTED));
+      throw e;
+    }
   };
 
-  const clearUserData = async () => {
+  const loadUserContent = async () => {
+    await Promise.all([loadUserData(), loadWallets()]);
+  };
+
+  const clearUserContent = async () => {
     dispatch(setUser(null));
+    dispatch(setUserData(null));
     unloadWallets();
   };
 
@@ -75,7 +89,7 @@ const useAuth = (dispatch: AppDispatch) => {
     if (session) {
       setTokens(session);
       await getUser();
-      await loadUserData();
+      await loadUserContent();
     } else {
       deleteTokens();
     }
@@ -96,7 +110,7 @@ const useAuth = (dispatch: AppDispatch) => {
         return toast.error(error.message);
       }
       data.session && setTokens(data.session);
-      await loadUserData();
+      await loadUserContent();
       dispatch(setUser(data.user));
       router.push('/');
       setLoadingStatus(RequestStatus.FULLFILLED);
@@ -119,7 +133,7 @@ const useAuth = (dispatch: AppDispatch) => {
         return toast.error(error.message);
       }
       data.session && setTokens(data.session);
-      await loadUserData();
+      await loadUserContent();
       dispatch(setUser(data.user));
       router.push('/');
       setLoadingStatus(RequestStatus.FULLFILLED);
@@ -168,7 +182,7 @@ const useAuth = (dispatch: AppDispatch) => {
       }
 
       dispatch(setUser(data.user));
-      await loadUserData();
+      await loadUserContent();
       setLoadingStatus(RequestStatus.FULLFILLED);
       router.push('/');
     } catch (e) {
@@ -181,7 +195,7 @@ const useAuth = (dispatch: AppDispatch) => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
       await supabase.auth.signOut();
-      clearUserData();
+      clearUserContent();
       deleteTokens();
       router.push('/');
     } finally {
