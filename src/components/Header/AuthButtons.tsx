@@ -34,11 +34,11 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
         </Button>
       ) : (
         <>
-          <NavbarItem className="hidden lg:flex">
+          {/* <NavbarItem className="hidden lg:flex">
             <Link href="/auth/signup">Sign up</Link>
-          </NavbarItem>
+          </NavbarItem> */}
           <NavbarItem>
-            <Button as={Link} color="success" href="/auth/login" variant="flat">
+            <Button as={Link} color="success" href="/auth/login/otp" variant="flat">
               Log in
             </Button>
           </NavbarItem>

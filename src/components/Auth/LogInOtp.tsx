@@ -28,17 +28,17 @@ const LogInOtp: FC<LogInOtpProps> = (props) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-96 rounded-lg border border-b-gray-400  p-8 shadow-md">
+    <form onSubmit={onSubmit} className="mt-40 h-fit w-96 rounded-lg border  border-b-gray-400 p-8 shadow-md">
       <input
         name={isOtpRequested ? 'otp' : 'email'}
-        placeholder={isOtpRequested ? 'Input one time password' : 'Input your email'}
+        placeholder={isOtpRequested ? 'Check mail and input one time password' : 'Input your email'}
         value={isOtpRequested ? otp : email}
         className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
         onChange={isOtpRequested ? handleOtpInput : handleEmailInput}
       />
 
       <Button type="submit" color="success" className="mb-2 w-full text-white" radius="sm">
-        {isOtpRequested ? 'Sign In by OTP' : 'Get OTP'}
+        {isOtpRequested ? 'Sign In by OTP' : 'Get password'}
       </Button>
     </form>
   );
