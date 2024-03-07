@@ -25,9 +25,10 @@ const Start: FC<StartProps> = ({ nextStep, isPending, isError }: StartProps) => 
     <div className="mt-4 flex  flex-col items-center justify-center">
       <FaRegAddressCard className="mb-10 h-16 w-16 " />
       <h3 className="mb-5 text-center text-2xl font-medium">Proof of identity</h3>
-      <p className="mb-12 w-8/12 text-center text-lg font-normal ">
-        Get ready to take a photo of yourself and your ID card. After verification you will be able to buy investment
-        tokens
+      <p className="mb-12 w-9/12 text-center text-lg font-normal ">
+        Due to legal requirements, we need to verify your identity in order to make purchases over €1,000.
+        <br />
+        Get ready to take a photo of yourself and your ID card.
       </p>
       <Button
         isDisabled={isError}
