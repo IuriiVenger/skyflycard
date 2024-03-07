@@ -112,7 +112,7 @@ const useAuth = (dispatch: AppDispatch) => {
       data.session && setTokens(data.session);
       await loadUserContent();
       dispatch(setUser(data.user));
-      router.push('/');
+      router.push('/dashboard');
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
@@ -135,7 +135,7 @@ const useAuth = (dispatch: AppDispatch) => {
       data.session && setTokens(data.session);
       await loadUserContent();
       dispatch(setUser(data.user));
-      router.push('/');
+      router.push('/dashboard');
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
@@ -184,7 +184,7 @@ const useAuth = (dispatch: AppDispatch) => {
       dispatch(setUser(data.user));
       await loadUserContent();
       setLoadingStatus(RequestStatus.FULLFILLED);
-      router.push('/');
+      router.push('/dashboard');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
       throw e;

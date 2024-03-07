@@ -5,9 +5,9 @@ import { FC } from 'react';
 
 import { FaCheckCircle } from 'react-icons/fa';
 
-import CurrencyInfo from '../Currency/CurrencyInfo';
-
 import { API } from '@/api/types';
+import CurrencyInfo from '@/components/Currency/CurrencyInfo';
+import { framerMotionAnimations } from '@/constants';
 import { isChain } from '@/utils/financial';
 
 type CurrencyListModalProps = {
@@ -31,7 +31,13 @@ const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
     isChain(currency) ? currency.id : currency.uuid;
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} disableAnimation>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      motionProps={{
+        variants: framerMotionAnimations.downEnterExit,
+      }}
+    >
       <ModalContent>
         {() => (
           <>

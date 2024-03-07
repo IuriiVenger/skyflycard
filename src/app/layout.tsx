@@ -25,7 +25,7 @@ type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 
 const RootLayout: FC<RootLayoutProps> = ({ children }) => (
   <StoreProvider>
-    <html lang="en">
+    <html lang="en" className="light">
       <body className={font.className}>
         <Providers>
           <Header />

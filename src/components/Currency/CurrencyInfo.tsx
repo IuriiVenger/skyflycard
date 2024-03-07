@@ -3,7 +3,7 @@ import cn from 'classnames';
 import Image from 'next/image';
 import { FC } from 'react';
 
-import { FaChevronDown } from 'react-icons/fa6';
+import { HiOutlineSelector } from 'react-icons/hi';
 
 import { API } from '@/api/types';
 
@@ -48,7 +48,7 @@ const CurrencyInfo: FC<CurrencyInfoProps> = (props) => {
           type="button"
           onClick={onCurrencyClick}
         >
-          <span>{currencyName}</span> {!hideShevron && <FaChevronDown className="text-sm text-gray-500" />}
+          <span>{currencyName}</span> {!hideShevron && <HiOutlineSelector className="text-sm text-gray-500" />}
           {cryptoCurrencyChain && (
             <Chip size="sm" radius="sm" className="h-5 text-[10px]">
               {cryptoCurrencyChain.name}

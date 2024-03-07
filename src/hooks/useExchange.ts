@@ -13,6 +13,7 @@ export type UseExchangeData = {
   crypto2FiatValue: number;
   checkMinSellValue: () => void;
   minSellValue: number;
+  exchangeRate: API.Exchange.F2C[];
 };
 
 type UseExchange = (arg1: API.Exchange.F2C[], arg2: API.List.Crypto | API.List.Fiat) => UseExchangeData;
@@ -45,6 +46,7 @@ const useExchange: UseExchange = (exchangeRate, buyingCurrency) => {
     crypto2FiatValue,
     checkMinSellValue,
     minSellValue,
+    exchangeRate,
   };
 };
 

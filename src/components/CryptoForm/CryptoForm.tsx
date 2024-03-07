@@ -12,7 +12,7 @@ import CryptoFormField from './CryptoFormField';
 import { API } from '@/api/types';
 import { CryptoFormFieldAction, CryptoFormTabs } from '@/constants';
 import { UseExchangeData } from '@/hooks/useExchange';
-import { isCrypto, isFiat } from '@/utils/financial';
+import { getActiveFiatAvailableCrypto, isCrypto, isFiat } from '@/utils/financial';
 
 type CryptoFormTabsType = {
   [key in CryptoFormTabs]: {
@@ -52,11 +52,21 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
     exchangeData,
   } = props;
 
-  const { sellValue, setSellValue, buyValue, setBuyValue, fiat2CryptoValue, minSellValue, checkMinSellValue } =
-    exchangeData;
+  const {
+    sellValue,
+    setSellValue,
+    buyValue,
+    setBuyValue,
+    fiat2CryptoValue,
+    minSellValue,
+    checkMinSellValue,
+    exchangeRate,
+  } = exchangeData;
 
   const { origin } = window.location;
   const return_url = `${origin}/dashboard`;
+
+  const availableCrypto = getActiveFiatAvailableCrypto(exchangeRate, cryptoList);
 
   const cryptoFormTabs: CryptoFormTabsType = {
     [CryptoFormTabs.BUY]: {
@@ -121,7 +131,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
           <CryptoFormField
             action={CryptoFormFieldAction.BUY}
             currency={selectedCrypto}
-            currencies={cryptoList}
+            currencies={availableCrypto}
             value={fiat2CryptoValue}
             onChangeCurrency={selectCurrency}
             chains={chainList}
@@ -133,24 +143,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
           className="flex flex-col gap-3"
           isDisabled
         >
-          <CryptoFormField
-            action={CryptoFormFieldAction.SELL}
-            currency={selectedCrypto}
-            currencies={cryptoList}
-            setValue={setSellValue}
-            value={sellValue}
-            onChangeCurrency={selectCurrency}
-            chains={chainList}
-          />
-          <CryptoFormField
-            action={CryptoFormFieldAction.BUY}
-            currency={cryptoList[1]}
-            currencies={cryptoList}
-            setValue={setBuyValue}
-            value={buyValue}
-            onChangeCurrency={selectCurrency}
-            chains={chainList}
-          />
+          <p>Exchange</p>
         </Tab>
       </Tabs>
       <Link href="/dashboard">
