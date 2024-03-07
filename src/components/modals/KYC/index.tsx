@@ -19,8 +19,13 @@ type KYCModalProps = {
   getSumsubToken: (userId: string) => Promise<AxiosResponse<API.KYC.Sumsub.GenerateToken.Response>>;
 };
 
+enum KYCSteps {
+  START,
+  KYC,
+}
+
 const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, onOpenChange, user_id, getSumsubToken }) => {
-  const [step, setStep] = useState<Number>(1);
+  const [step, setStep] = useState(KYCSteps.START);
   const [accessToken, setAccessToken] = useState<string>('');
   const [isPending, setIsPending] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -48,7 +53,7 @@ const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, onOpenChange, user_id, g
   }, [isOpen, user_id]);
 
   const closeHandler = () => {
-    onClose();
+    step === KYCSteps.KYC && onClose();
   };
 
   if (!user_id) {
@@ -66,8 +71,10 @@ const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, onOpenChange, user_id, g
     >
       <ModalContent>
         <ModalBody className="p-5">
-          {step === 1 && <Start nextStep={() => setStep(2)} isPending={isPending} isError={isError} />}
-          {step === 2 && <Kyc accessToken={accessToken} />}
+          {step === KYCSteps.START && (
+            <Start nextStep={() => setStep(KYCSteps.KYC)} isPending={isPending} isError={isError} />
+          )}
+          {step === KYCSteps.KYC && <Kyc accessToken={accessToken} />}
         </ModalBody>
       </ModalContent>
     </Modal>

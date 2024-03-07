@@ -5,17 +5,26 @@ import { toast } from 'react-toastify';
 
 import { orders } from '@/api/orders';
 import { API } from '@/api/types';
-import { DashboardTabs } from '@/constants';
+import { DashboardTabs, ModalNames } from '@/constants';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectFinanceData, selectIsUserLoggedIn } from '@/store/selectors';
+import { selectFinanceData, selectIsUserLoggedIn, selectUser } from '@/store/selectors';
 import { loadSelectedWallet } from '@/store/slices/finance';
+import { setModalVisible } from '@/store/slices/ui';
 
 const useOrder = () => {
-  const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
-  const { crypto } = useAppSelector(selectFinanceData);
-  const isUserLoggedInRef = useRef<boolean>(isUserLoggedIn);
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
+  const { userData } = useAppSelector(selectUser);
+  const { crypto } = useAppSelector(selectFinanceData);
+
+  const availableLimit = userData && userData.turnover_limit - userData.total_turnover.total;
+
+  const isUserLoggedInRef = useRef(isUserLoggedIn);
+  const availableLimitRef = useRef(availableLimit);
+
+  const openKYCModal = () => dispatch(setModalVisible(ModalNames.KYC));
 
   const getCryptoSymbolByUuid = (uuid: string) => {
     const selectedCrypto = crypto.find((c) => c.uuid === uuid);
@@ -23,10 +32,30 @@ const useOrder = () => {
   };
 
   isUserLoggedInRef.current = isUserLoggedIn;
+  availableLimitRef.current = availableLimit;
+
+  const checkOrderPossibility = (amount: number) => {
+    if (!isUserLoggedInRef.current) {
+      router.push('/auth/login');
+      return false;
+    }
+
+    if (availableLimitRef.current && availableLimitRef.current < amount) {
+      openKYCModal();
+      return false;
+    }
+
+    return true;
+  };
 
   const createOnRampOrder = useCallback(async (orderData: API.Orders.OnRamp.Request) => {
     if (!isUserLoggedInRef.current) {
       router.push('/auth/login');
+      return null;
+    }
+
+    if (availableLimitRef.current && availableLimitRef.current < orderData.amount) {
+      openKYCModal();
       return null;
     }
 
@@ -36,8 +65,9 @@ const useOrder = () => {
   }, []);
 
   const createOffRampOrder = useCallback(async (orderData: API.Orders.OffRamp.Request) => {
-    if (!isUserLoggedInRef.current) {
-      router.push('/auth/login');
+    const isOrderPossible = checkOrderPossibility(orderData.amount);
+
+    if (!isOrderPossible) {
       return null;
     }
 
