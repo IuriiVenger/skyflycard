@@ -1,3 +1,5 @@
+import { KYCStatuses } from '@/constants';
+
 export namespace API {
   export namespace Auth {
     export interface Tokens {
@@ -8,7 +10,7 @@ export namespace API {
       id: number;
       created_at: string;
       user_id: string;
-      kyc_status: false;
+      kyc_status: KYCStatuses;
       kyc_date: string;
       turnover_limit: number;
       default_fiat: string;

@@ -18,10 +18,10 @@ const Kyc: FC<KycProps> = ({ accessToken }: KycProps) => {
   return (
     <div className="flex min-h-96 items-center justify-center">
       <SumsubWebSdk
-        className="kyc-container"
         accessToken={accessToken}
         expirationHandler={() => Promise.resolve(accessToken)}
         config={{
+          theme: 'light',
           i18n: {
             document: {
               subTitles: {
@@ -30,7 +30,7 @@ const Kyc: FC<KycProps> = ({ accessToken }: KycProps) => {
             },
           },
         }}
-        options={{ addViewportTag: false, adaptIframeHeight: true }}
+        options={{ addViewportTag: false, adaptIframeHeight: true, theme: 'light' }}
         onMessage={messageHandler}
         onError={errorHandler}
       />

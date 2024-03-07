@@ -14,12 +14,12 @@ import Image from 'next/image.js';
 import Link from 'next/link';
 import React, { FC, useState } from 'react';
 
-import KYCButton from '../ui/KYCButton';
+import KYCButton from '../KYC/KYCButton';
 
 import AuthButtons from './AuthButtons';
 
 import headerLogo from '@/assets/svg/header_logo.svg';
-import { ModalNames } from '@/constants';
+import { ModalNames, requestKYCStatuses } from '@/constants';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectIsUserLoggedIn, selectUser } from '@/store/selectors';
 import { setModalVisible } from '@/store/slices/ui';
@@ -94,7 +94,10 @@ const Header: FC = () => {
             </Link>
           </NavbarMenuItem>
         ))}
-        {!userData?.kyc_status && <KYCButton className="mt-4" onClick={showKYCModal} />}
+
+        {userData && requestKYCStatuses.includes(userData.kyc_status) && (
+          <KYCButton className="mt-4" onClick={showKYCModal} status={userData?.kyc_status} />
+        )}
       </NavbarMenu>
     </Navbar>
   );

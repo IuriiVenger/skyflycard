@@ -7,7 +7,7 @@ import { FaCheckCircle } from 'react-icons/fa';
 
 import { API } from '@/api/types';
 import CurrencyInfo from '@/components/Currency/CurrencyInfo';
-import { framerMotionAnimations } from '@/constants';
+import { framerMotionAnimations } from '@/config/animations';
 import { isChain } from '@/utils/financial';
 
 type CurrencyListModalProps = {

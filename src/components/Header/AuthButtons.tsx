@@ -6,9 +6,9 @@ import Link from 'next/link';
 
 import { FC } from 'react';
 
-import KYCButton from '../ui/KYCButton';
+import KYCButton from '../KYC/KYCButton';
 
-import { ModalNames } from '@/constants';
+import { ModalNames, requestKYCStatuses } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectFinanceData, selectUser } from '@/store/selectors';
@@ -20,7 +20,7 @@ type UserProps = {
 
 const AuthButtons: FC<UserProps> = ({ className }) => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector(selectUser);
+  const { user, userData } = useAppSelector(selectUser);
   const { isAppInitialized } = useAppSelector(selectFinanceData);
   const { signOut } = useAuth(dispatch);
 
@@ -36,9 +36,11 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
     <NavbarContent className={userClassNames} justify="end">
       {user ? (
         <>
-          <NavbarItem className="hidden sm:flex">
-            <KYCButton onClick={openKycModal} />
-          </NavbarItem>
+          {userData && requestKYCStatuses.includes(userData.kyc_status) && (
+            <NavbarItem className="hidden sm:flex">
+              <KYCButton onClick={openKycModal} status={userData.kyc_status} />
+            </NavbarItem>
+          )}
           <Button className="font-medium text-black" onClick={signOut} color="danger" variant="light" href="/">
             Logout
           </Button>

@@ -107,41 +107,16 @@ export enum ModalNames {
   KYC = 'kyc',
 }
 
-export const framerMotionAnimations = {
-  upEnterExit: {
-    enter: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        ease: 'easeOut',
-      },
-    },
-    exit: {
-      y: -20,
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        ease: 'easeIn',
-      },
-    },
-  },
-  downEnterExit: {
-    enter: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        ease: 'easeOut',
-      },
-    },
-    exit: {
-      y: 20,
-      opacity: 0,
-      transition: {
-        duration: 0.2,
-        ease: 'easeIn',
-      },
-    },
-  },
-};
+export enum KYCStatuses {
+  APPROVED = 'APROVED',
+  DECLINED = 'DECLINED',
+  PENDING = 'PENDING',
+  HOLD = 'HOLD',
+  DOUBLE = 'DOUBLE',
+  SOFT_REJECT = 'SOFT_REJECT',
+  REJECT = 'REJECT',
+  UNVERIFIED = 'UNVERIFIED',
+}
+
+export const retryKYCStatuses = [KYCStatuses.DOUBLE, KYCStatuses.HOLD, KYCStatuses.SOFT_REJECT];
+export const requestKYCStatuses = [...retryKYCStatuses, KYCStatuses.UNVERIFIED];

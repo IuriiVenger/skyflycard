@@ -18,7 +18,7 @@ const privateRoute = (Component: FC) => {
       }
     }, [isAppInitialized]);
 
-    if (!isAppInitialized) {
+    if (!isUserLoggedIn) {
       return <Loader />;
     }
 

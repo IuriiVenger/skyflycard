@@ -9,7 +9,7 @@ import Kyc from './steps/Kyc';
 import Start from './steps/Start';
 
 import { API } from '@/api/types';
-import { framerMotionAnimations } from '@/constants';
+import { framerMotionAnimations } from '@/config/animations';
 
 type KYCModalProps = {
   onClose: Function;
