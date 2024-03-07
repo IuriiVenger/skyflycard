@@ -25,7 +25,7 @@ type FinanceState = {
   chains: API.List.Chains[];
   crypto: API.List.Crypto[];
   fiats: API.List.Fiat[];
-  fiatExchangeRate: API.Exchange.Fiat2Crypto[];
+  fiatExchangeRate: API.Exchange.F2C[];
   onrampCalc: StoreDataWithStatus<StoreOnrampCalcData[] | null>;
   offrampCalc: StoreDataWithStatus<StoreOfframpCalcData[] | null>;
   withdrawCalc: StoreDataWithStatus<API.Orders.Crypto.Withdrawal.Calc.Response | null>;

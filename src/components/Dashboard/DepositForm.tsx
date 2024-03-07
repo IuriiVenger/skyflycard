@@ -12,7 +12,6 @@ import SelectPaymentMethod from './SelectPaymentMethod';
 
 import { API } from '@/api/types';
 import { PaymentMethod, ResponseStatus } from '@/constants';
-import useExchange from '@/hooks/useExchange';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isChain, isCrypto, isFiat } from '@/utils/financial';
 

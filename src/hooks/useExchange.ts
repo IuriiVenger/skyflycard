@@ -8,7 +8,6 @@ export type UseExchangeData = {
   buyValue: number;
   setBuyValue: (value: number) => void;
   activeExchangeRate: number;
-  activeExchangeFee: number;
   potentialFiat2CryptoValue: number;
   fiat2CryptoValue: number;
   crypto2FiatValue: number;
@@ -16,22 +15,21 @@ export type UseExchangeData = {
   minSellValue: number;
 };
 
-type UseExchange = (arg1: API.Exchange.Fiat2Crypto[], arg2: API.List.Crypto | API.List.Fiat) => UseExchangeData;
+type UseExchange = (arg1: API.Exchange.F2C[], arg2: API.List.Crypto | API.List.Fiat) => UseExchangeData;
 
 const useExchange: UseExchange = (exchangeRate, buyingCurrency) => {
   const activeExchange = exchangeRate.find((rate) => rate.crypto_uuid === buyingCurrency.uuid);
-  const minSellValue = activeExchange?.amountFrom || 0;
+  const minSellValue = activeExchange?.min_amount || 0;
 
   const [sellValue, setSellValue] = useState(minSellValue || 0);
   const [buyValue, setBuyValue] = useState(0);
 
   const activeExchangeRate = activeExchange?.rate || 0;
-  const activeExchangeFee = activeExchange?.fee || 0;
 
-  const potentialFiat2CryptoValue = (sellValue - activeExchangeFee) * activeExchangeRate;
+  const potentialFiat2CryptoValue = sellValue * activeExchangeRate;
   const fiat2CryptoValue = potentialFiat2CryptoValue > 0 ? potentialFiat2CryptoValue : 0;
 
-  const potentialCrypto2FiatValue = sellValue / activeExchangeRate - activeExchangeFee;
+  const potentialCrypto2FiatValue = sellValue / activeExchangeRate;
   const crypto2FiatValue = potentialCrypto2FiatValue > 0 ? potentialCrypto2FiatValue : 0;
 
   const checkMinSellValue = () => sellValue <= minSellValue && setSellValue(minSellValue);
@@ -42,7 +40,6 @@ const useExchange: UseExchange = (exchangeRate, buyingCurrency) => {
     buyValue,
     setBuyValue,
     activeExchangeRate,
-    activeExchangeFee,
     potentialFiat2CryptoValue,
     fiat2CryptoValue,
     crypto2FiatValue,

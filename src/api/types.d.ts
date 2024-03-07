@@ -21,26 +21,31 @@ export namespace API {
   }
 
   export namespace Exchange {
-    export interface Fiat2Crypto {
-      id: number;
-      created_at: string;
-      fiat_uuid: string;
+    export interface F2C {
       crypto_uuid: string;
+      crypto_symbol: string;
+      fiat_uuid: string;
+      fiat_code: string;
       rate: number;
-      inverted_rate: number;
-      fee: number;
-      amountFrom: number;
+      min_amount: number;
     }
 
-    export interface Crypto2Crypto {
-      id: number;
-      created_at: string;
-      from_crypto_uuid: string;
-      to_crypto_uuid: string;
+    export interface C2F {
+      crypto_uuid: string;
+      crypto_symbol: string;
+      fiat_uuid: string;
+      fiat_code: string;
       rate: number;
-      inverted_rate: number;
-      fee: number;
-      amountFrom: number;
+      min_amount: number;
+    }
+
+    export interface C2C {
+      from_uuid: string;
+      from_symbol: string;
+      to_uuid: string;
+      to_symbol: string;
+      rate: number;
+      min_amount: string;
     }
   }
 

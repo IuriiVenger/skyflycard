@@ -2,8 +2,9 @@
 
 import { Button, Card, Tab, Tabs } from '@nextui-org/react';
 
-import cn from 'classnames';
+import cx from 'classnames';
 
+import Link from 'next/link';
 import { FC, useState } from 'react';
 
 import CryptoFormField from './CryptoFormField';
@@ -94,7 +95,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   };
 
   return (
-    <Card className={cn('w-full max-w-xl px-10 py-8', className)}>
+    <Card className={cx('w-full max-w-xl px-10 py-8', className)}>
       <Tabs
         selectedKey={activeTabKey}
         onSelectionChange={(key) => {
@@ -152,15 +153,11 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
           />
         </Tab>
       </Tabs>
-      <Button
-        radius="sm"
-        color="success"
-        size="lg"
-        className="mt-2 w-full font-medium text-white"
-        onClick={cryptoFormTabs[activeTabKey].clickButtonHandler}
-      >
-        {cryptoFormTabs[activeTabKey].getButtonTitle(selectedCrypto.name)}
-      </Button>
+      <Link href="/dashboard">
+        <Button radius="sm" color="success" size="lg" className="mt-2 w-full font-medium text-white">
+          {cryptoFormTabs[activeTabKey].getButtonTitle(selectedCrypto.name)}
+        </Button>
+      </Link>
     </Card>
   );
 };

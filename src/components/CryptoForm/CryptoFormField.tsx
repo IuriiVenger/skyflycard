@@ -45,6 +45,7 @@ const CryptoFormField: FC<CryptoFormFieldProps> = (props) => {
           value={inputValue}
           disabled={!setValue}
           onChange={handleInput}
+          type="number"
         />
       </div>
       <CurrencyListModal

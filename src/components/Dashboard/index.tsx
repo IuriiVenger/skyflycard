@@ -36,7 +36,7 @@ type DashboardProps = {
   selectedFiat: API.List.Fiat;
   selectedCrypto: API.List.Crypto;
   selectedWallet: API.Wallets.ExtendWallet | null;
-  exchangeRate: API.Exchange.Fiat2Crypto[];
+  exchangeRate: API.Exchange.F2C[];
   createWallet: (wallet_type: WalletTypeValues) => Promise<void>;
   createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
   createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
