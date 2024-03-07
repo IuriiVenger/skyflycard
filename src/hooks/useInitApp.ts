@@ -17,27 +17,29 @@ import { AppDispatch } from '@/store/types';
 const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
   const initApp = async () => {
-    const [fiats, crypto, chains, fiatExchangeRate] = await Promise.all([
-      list.fiats.getAll(),
-      list.crypto.getAll(),
-      list.chains.getAll(),
-      exchange.fiat2crypto.getByUuid(defaultCurrency.fiat.uuid),
-      initUser(),
-    ]);
+    try {
+      const [fiats, crypto, chains, fiatExchangeRate] = await Promise.all([
+        list.fiats.getAll(),
+        list.crypto.getAll(),
+        list.chains.getAll(),
+        exchange.fiat2crypto.getByUuid(defaultCurrency.fiat.uuid),
+        initUser(),
+      ]);
 
-    dispatch(setFiats(fiats));
-    dispatch(setCrypto(crypto));
-    dispatch(setChains(chains));
-    dispatch(setFiatExchangeRate(fiatExchangeRate));
+      dispatch(setFiats(fiats));
+      dispatch(setCrypto(crypto));
+      dispatch(setChains(chains));
+      dispatch(setFiatExchangeRate(fiatExchangeRate));
 
-    const fiatExchangeRateCryptoUuid = fiatExchangeRate.map((item) => item.crypto_uuid);
-    const availableCrypto = crypto.filter((item) => fiatExchangeRateCryptoUuid.includes(item.uuid));
+      const fiatExchangeRateCryptoUuid = fiatExchangeRate.map((item) => item.crypto_uuid);
+      const availableCrypto = crypto.filter((item) => fiatExchangeRateCryptoUuid.includes(item.uuid));
 
-    if (!availableCrypto.find((crypto_item) => crypto_item.uuid === defaultCurrency.crypto.uuid)) {
-      dispatch(setSelectedCrypto(availableCrypto[0]));
+      if (!availableCrypto.find((crypto_item) => crypto_item.uuid === defaultCurrency.crypto.uuid)) {
+        dispatch(setSelectedCrypto(availableCrypto[0]));
+      }
+    } finally {
+      dispatch(setAppInitialized(true));
     }
-
-    dispatch(setAppInitialized(true));
   };
 
   return { initApp };

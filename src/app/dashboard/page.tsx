@@ -6,6 +6,7 @@ import { API } from '@/api/types';
 import { wallets } from '@/api/wallets';
 import Dashboard from '@/components/Dashboard';
 import Loader from '@/components/Loader';
+import privateRoute from '@/components/privateRoute';
 import { walletType, defaultUpdateInterval, WalletTypeValues, defaultPaginationParams } from '@/constants';
 import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
@@ -138,4 +139,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default privateRoute(DashboardPage);
