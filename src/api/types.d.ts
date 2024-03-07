@@ -49,6 +49,19 @@ export namespace API {
     }
   }
 
+  export namespace KYC {
+    export namespace Sumsub {
+      export namespace GenerateToken {
+        export interface Request {
+          userId: string;
+        }
+        export interface Response extends Request {
+          token: string;
+        }
+      }
+    }
+  }
+
   export namespace List {
     export interface Fiat {
       uuid: string;

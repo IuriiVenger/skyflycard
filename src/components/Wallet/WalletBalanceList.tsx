@@ -13,19 +13,22 @@ const WalletBalanceList: FC<WalletBalanceListProps> = (props) => {
   const { wallet, cryptoList, chains } = props;
   const cryptoListWithBalance = cryptoList.map((crypto) => {
     const balance = wallet?.balance.find((walletBalance) => walletBalance.crypto.uuid === crypto.uuid);
-    return { ...crypto, balance: balance?.amount || 0 };
+    return { ...crypto, balance: balance?.amount || null };
   });
+
+  const filteredCryptoList = cryptoListWithBalance.filter((crypto) => crypto.balance !== null);
 
   return (
     <section className="flex flex-col">
       <h3 className="mb-4 text-xl font-bold">Wallet crypto balance</h3>
       <div className="flex flex-col gap-2">
-        {cryptoListWithBalance.map((crypto) => (
-          <section key={crypto.uuid} className="flex items-center justify-between">
+        {filteredCryptoList.map((crypto) => (
+          <section key={crypto.uuid} className="flex items-center justify-between gap-4">
             <CurrencyInfo hideShevron key={crypto.uuid} currency={crypto} chains={chains} />
             <p className="font-medium text-gray-500">{crypto.balance}</p>
           </section>
         ))}
+        {!filteredCryptoList.length && <p className="text-gray-500">Your balance is empty</p>}
       </div>
     </section>
   );

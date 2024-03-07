@@ -218,6 +218,7 @@ const useAuth = (dispatch: AppDispatch) => {
     setOtp,
     getOtp,
     isOtpRequested,
+    loadUserData,
   };
 };
 

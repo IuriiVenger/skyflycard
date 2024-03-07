@@ -12,30 +12,45 @@ import {
 
 import Image from 'next/image.js';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
+
+import KYCButton from '../ui/KYCButton';
 
 import AuthButtons from './AuthButtons';
 
 import headerLogo from '@/assets/svg/header_logo.svg';
-import { useAppSelector } from '@/store';
-import { selectIsUserLoggedIn } from '@/store/selectors';
+import { ModalNames } from '@/constants';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { selectIsUserLoggedIn, selectUser } from '@/store/selectors';
+import { setModalVisible } from '@/store/slices/ui';
+
+const menuItems = [
+  {
+    title: 'Main',
+    href: '/',
+  },
+  {
+    title: 'Dashboard',
+    href: '/dashboard',
+  },
+];
 
 const Header: FC = () => {
-  const menuItems = [
-    {
-      title: 'Main',
-      href: '/',
-    },
-    {
-      title: 'Dashboard',
-      href: '/dashboard',
-    },
-  ];
-
+  const dispatch = useAppDispatch();
   const isUserSignedIn = useAppSelector(selectIsUserLoggedIn);
+  const { userData } = useAppSelector(selectUser);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
+  const showKYCModal = () => {
+    dispatch(setModalVisible(ModalNames.KYC));
+    closeMenu();
+  };
 
   return (
-    <Navbar className="w-full" isBordered maxWidth="2xl">
+    <Navbar isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} className="w-full" isBordered maxWidth="2xl">
       <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>
@@ -69,11 +84,17 @@ const Header: FC = () => {
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link className="w-full" color={index === menuItems.length - 1 ? 'danger' : 'foreground'} href={item.href}>
+            <Link
+              className="w-full"
+              color={index === menuItems.length - 1 ? 'danger' : 'foreground'}
+              href={item.href}
+              onClick={closeMenu}
+            >
               {item.title}
             </Link>
           </NavbarMenuItem>
         ))}
+        {!userData?.kyc_status && <KYCButton className="mt-4" onClick={showKYCModal} />}
       </NavbarMenu>
     </Navbar>
   );
