@@ -7,12 +7,12 @@ import { wallets } from '@/api/wallets';
 import Dashboard from '@/components/Dashboard';
 import Loader from '@/components/Loader';
 import privateRoute from '@/components/privateRoute';
-import { walletType, defaultUpdateInterval, WalletTypeValues, defaultPaginationParams } from '@/constants';
+import { walletType, defaultUpdateInterval, WalletTypeValues, defaultPaginationParams, ModalNames } from '@/constants';
 import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
 import useWallet from '@/hooks/useWallet';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectActiveFiatAvailableCrypto, selectFinanceData } from '@/store/selectors';
+import { selectActiveFiatAvailableCrypto, selectFinanceData, selectUser } from '@/store/selectors';
 import {
   loadMoreTransactions,
   loadSelectedWallet,
@@ -22,6 +22,7 @@ import {
   setSelectedFiat,
   setUserWallets,
 } from '@/store/slices/finance';
+import { setModalVisible } from '@/store/slices/ui';
 
 const DashboardPage = () => {
   const {
@@ -37,6 +38,7 @@ const DashboardPage = () => {
     fiatExchangeRate,
     selectedWalletTransactions,
   } = useAppSelector(selectFinanceData);
+  const { userData } = useAppSelector(selectUser);
   const { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder } = useOrder();
   const { getWalletAddress, createWalletAddress } = useWallet();
 
@@ -47,6 +49,7 @@ const DashboardPage = () => {
   const selectChain = (chain: API.List.Chains) => dispatch(setSelectedChain(chain));
   const selectCrypto = (currency: API.List.Crypto) => dispatch(setSelectedCrypto(currency));
   const selectFiat = (currency: API.List.Fiat) => dispatch(setSelectedFiat(currency));
+  const openKYCModal = () => dispatch(setModalVisible(ModalNames.KYC));
 
   const [lastActiveWallet, setLastActiveWallet] = useState<API.Wallets.ExtendWallet | null>(null);
 
@@ -135,6 +138,8 @@ const DashboardPage = () => {
       createWallet={createWallet}
       walletTypes={walletTypes}
       externalCalcData={externalCalcData}
+      verificationStatus={userData?.kyc_status}
+      openKYC={openKYCModal}
     />
   );
 };

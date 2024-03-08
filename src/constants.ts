@@ -108,7 +108,7 @@ export enum ModalNames {
 }
 
 export enum KYCStatuses {
-  APPROVED = 'APROVED',
+  APPROVED = 'APPROVED',
   DECLINED = 'DECLINED',
   PENDING = 'PENDING',
   HOLD = 'HOLD',
