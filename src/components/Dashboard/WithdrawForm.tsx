@@ -13,9 +13,11 @@ import ExternalWithdrawInput from './ExternalWithdrawIpnut';
 import SelectPaymentMethod from './SelectPaymentMethod';
 
 import { API } from '@/api/types';
+import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
 import { PaymentMethod } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
+import { separateNumbers } from '@/utils/converters';
 import { isCrypto, isFiat } from '@/utils/financial';
 
 type WithdrawFormProps = {
@@ -54,8 +56,11 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
 
   const [isFiatModalOpen, setIsFiatModalOpen] = useState(false);
   const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+
   const [activePaymentMethod, setActivePaymentMethod] = useState<PaymentMethod>(PaymentMethod.FIAT);
   const [withdrawTarget, setWithdrawTarget] = useState('');
+  const [withrawConfirmationText, setWithdrawConfirmationText] = useState<string | null>(null);
 
   const isFiatPayment = activePaymentMethod === PaymentMethod.FIAT;
 
@@ -63,8 +68,18 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
   const selectedCryptoWalletBalance =
     selectedWalletBalance?.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount || 0;
 
+  const isDataFilled = !!selectedCrypto && !!selectedFiat && !!selectedWallet && !!withdrawTarget && !!amount;
+
   const openCryptoModal = () => setIsCryptoModalOpen(true);
   const openFiatModal = () => setIsFiatModalOpen(true);
+  const openWithdrawModal = () => {
+    const confirmationText = isFiatPayment
+      ? `Are you sure you want to withdraw ${amount} ${selectedCrypto.symbol} to card ${separateNumbers(+withdrawTarget, ' ', 4)}?`
+      : `Are you sure you want to send ${amount} ${selectedCrypto.symbol} to address ${withdrawTarget}?`;
+
+    setWithdrawConfirmationText(confirmationText);
+    setIsWithdrawModalOpen(true);
+  };
 
   const handleWithdrawTargetInput = (e: React.ChangeEvent<HTMLInputElement>) => setWithdrawTarget(e.target.value);
 
@@ -154,7 +169,14 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
         />
       )}
 
-      <Button size="lg" color="success" className="mt-6 text-white" radius="sm" onClick={clickButtonHandler}>
+      <Button
+        isDisabled={!isDataFilled}
+        size="lg"
+        color="success"
+        className="mt-6 text-white"
+        radius="sm"
+        onClick={openWithdrawModal}
+      >
         Withdraw
       </Button>
 
@@ -172,6 +194,13 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
         currencies={cryptoList}
         onSelect={selectCurrency}
         chains={chainList}
+      />
+      <ConfirmModal
+        isOpen={isWithdrawModalOpen}
+        onOpenChange={setIsWithdrawModalOpen}
+        onConfirm={clickButtonHandler}
+        title="Withdraw confirmation"
+        confirmText={withrawConfirmationText}
       />
     </div>
   );

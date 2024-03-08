@@ -10,15 +10,14 @@ export const prettyId = (id: string | number) => {
   return `${idStr.substring(0, 4)}****${idStr.substring(idStr.length - 6)}`;
 };
 
-export const separateNumbers = (num: number, separator: string = ','): string => {
+export const separateNumbers = (num: number, separator: string = ',', group_size = 3): string => {
   const isNegative = num < 0;
   const reverseStr = (str: string): string => str.split('').reverse().join('');
   const [integerPart, decimalPart] = Math.abs(num).toString().split('.');
-  const splitedIntegerPart = reverseStr(integerPart)
-    .match(/.{1,3}/g)
-    ?.join(separator);
+  const regExp = new RegExp(`.{1,${group_size}}`, 'g');
+  const splitedIntegerPart = reverseStr(integerPart).match(regExp)?.join(separator);
   const formattedIntegerPart = splitedIntegerPart || integerPart;
-  const formattedNumber = `${isNegative ? '-' : ''}${reverseStr(formattedIntegerPart)}.${decimalPart || '00'}`;
+  const formattedNumber = `${isNegative ? '-' : ''}${reverseStr(formattedIntegerPart)}${decimalPart ? `.${decimalPart}` : ''}`;
   return formattedNumber;
 };
 
