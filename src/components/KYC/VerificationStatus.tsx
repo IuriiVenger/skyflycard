@@ -1,70 +1,81 @@
+import cn from 'classnames';
 import { FC } from 'react';
-import { BsClock } from 'react-icons/bs';
-import { FaClock } from 'react-icons/fa6';
-import { MdDone, MdMoreTime } from 'react-icons/md';
-import { PiProhibitBold } from 'react-icons/pi';
-import { TbCopyOff } from 'react-icons/tb';
+import { GoHistory, GoIssueDraft, GoNoEntry, GoUnverified, GoVerified } from 'react-icons/go';
+import { MdMoreTime } from 'react-icons/md';
 
-import { KYCStatuses } from '@/constants';
+import { KYCStatuses, requestKYCStatuses } from '@/constants';
 
 type VerificationStatusProps = {
   verifyStatus: KYCStatuses;
+  openKYC: () => void;
 };
 
-const VerificationStatus: FC<VerificationStatusProps> = ({ verifyStatus }) => {
-  const verificationStatusInfo = {
-    [KYCStatuses.PENDING]: {
-      title: 'Verification Pending',
-      subtitle: 'Verification is pending approval.',
-      icon: BsClock,
-    },
-    [KYCStatuses.APPROVED]: {
-      title: 'Verification Approved',
-      subtitle: 'Verification has been successfully approved.',
-      icon: MdDone,
-    },
-    [KYCStatuses.DECLINED]: {
-      title: 'Verification Declined',
-      subtitle: 'Verification has been declined. Please review and resubmit if necessary.',
-      icon: PiProhibitBold,
-    },
-    [KYCStatuses.REJECT]: {
-      title: 'Verification Rejected',
-      subtitle: 'Verification has been rejected. Please review and resubmit if necessary.',
-      icon: PiProhibitBold,
-    },
-    [KYCStatuses.DOUBLE]: {
-      title: 'Duplicate Verification',
-      subtitle: 'A duplicate verification request has been detected.',
-      icon: TbCopyOff,
-    },
-    [KYCStatuses.HOLD]: {
-      title: 'Verification On Hold',
-      subtitle: 'Verification is currently on hold. Further action may be required.',
-      icon: MdMoreTime,
-    },
-    [KYCStatuses.SOFT_REJECT]: {
-      title: 'Soft Rejection',
-      subtitle: 'Verification has been soft rejected. Please review and resubmit if necessary.',
-      icon: MdMoreTime,
-    },
-    [KYCStatuses.UNVERIFIED]: {
-      title: 'Unverified',
-      subtitle: 'Verification is unverified. Please review and resubmit if necessary.',
-      icon: MdMoreTime,
-    },
+const verificationStatusInfo = {
+  [KYCStatuses.PENDING]: {
+    title: 'Verification in progress',
+    subtitle: 'Verification is pending approval.',
+    icon: GoHistory,
+  },
+  [KYCStatuses.APPROVED]: {
+    title: 'Verified',
+    subtitle: 'You have full access to the platform.',
+    icon: GoVerified,
+  },
+  [KYCStatuses.DECLINED]: {
+    title: 'Verification failed',
+    subtitle: 'Verification has been declined.',
+    icon: GoNoEntry,
+  },
+  [KYCStatuses.REJECT]: {
+    title: 'Verification Rejected',
+    subtitle: 'Verification has been rejected.',
+    icon: GoNoEntry,
+  },
+  [KYCStatuses.DOUBLE]: {
+    title: 'Verification issue',
+    subtitle: 'A user with these documents has already been verified in another account.',
+    icon: GoIssueDraft,
+  },
+  [KYCStatuses.HOLD]: {
+    title: 'Verification On Hold',
+    subtitle: 'Verification is currently on hold. Further action may be required.',
+    icon: MdMoreTime,
+  },
+  [KYCStatuses.SOFT_REJECT]: {
+    title: 'Verification failed',
+    subtitle: 'Please fill out the KYC form again.',
+    icon: GoUnverified,
+  },
+  [KYCStatuses.UNVERIFIED]: {
+    title: 'Please verify your identity',
+    subtitle: 'After verification you will have full access to the platform',
+    icon: GoUnverified,
+  },
+};
+
+const VerificationStatus: FC<VerificationStatusProps> = ({ verifyStatus, openKYC }) => {
+  const Icon = verificationStatusInfo[verifyStatus]?.icon;
+  const isKYCRequired = requestKYCStatuses.includes(verifyStatus);
+
+  const clickHandler = () => {
+    if (isKYCRequired) {
+      openKYC();
+    }
   };
 
+  const CustomTag = isKYCRequired ? 'button' : 'div';
+
   return (
-    <div className="custom_verification-status flex w-full items-center justify-between">
+    <CustomTag
+      className={cn('flex w-fit items-center justify-between gap-4', isKYCRequired && 'hover:opacity-70')}
+      onClick={clickHandler}
+    >
       <div>
-        <div className="flex h-5 items-center justify-between">{verificationStatusInfo[verifyStatus]?.title}</div>
-        <div className="custom_verification-status_subtitle w-40 text-left">
-          {verificationStatusInfo[verifyStatus]?.subtitle}
-        </div>
+        <p className="flex text-sm font-bold xs:text-base">{verificationStatusInfo[verifyStatus]?.title}</p>
+        <p className="mt-1 max-w-40 text-left text-[8px] ">{verificationStatusInfo[verifyStatus]?.subtitle}</p>
       </div>
-      <FaClock className="h-6 w-6" />
-    </div>
+      {Icon && <Icon className="h-6 w-6 xs:h-8 xs:w-8" />}
+    </CustomTag>
   );
 };
 

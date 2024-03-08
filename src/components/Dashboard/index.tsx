@@ -12,7 +12,7 @@ import WithdrawForm from './WithdrawForm';
 import { API } from '@/api/types';
 import WalletBalanceList from '@/components/Wallet/WalletBalanceList';
 import WalletList from '@/components/Wallet/WalletList';
-import { DashboardTabs, WalletTypeValues } from '@/constants';
+import { DashboardTabs, KYCStatuses, WalletTypeValues } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { ValueWithLabel } from '@/types';
@@ -43,13 +43,25 @@ type DashboardProps = {
   createCrypto2CryptoOrder: (requestData: API.Orders.Crypto.Withdrawal.Request) => Promise<void | null>;
   transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
   loadMoreTransactions: () => void;
+  verificationStatus?: KYCStatuses;
+  openKYC: () => void;
 };
 
 const Dashboard: FC<DashboardProps> = (props) => {
   const [queryTab, setQueryTab] = useQueryState('tab');
   const initialTab = (queryTab as DashboardTabs) || DashboardTabs.DEPOSIT;
 
-  const { wallets, selectWallet, selectedWallet, cryptoList, createWallet, walletTypes, chainList } = props;
+  const {
+    wallets,
+    selectWallet,
+    selectedWallet,
+    cryptoList,
+    createWallet,
+    walletTypes,
+    chainList,
+    verificationStatus,
+    openKYC,
+  } = props;
   const currentWalletBalance = roundToDecimals(selectedWallet?.total_amount || 0);
   const [activeTab, setActiveTab] = useState<DashboardTabs>(initialTab);
 
@@ -107,6 +119,8 @@ const Dashboard: FC<DashboardProps> = (props) => {
         balance={currentWalletBalance}
         actionButtons={actionButtons}
         activeTab={activeTab}
+        verificationStatus={verificationStatus}
+        openKYC={openKYC}
       />
       <div className="order-3 mt-4 md:col-start-2 md:col-end-4">
         {activeTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}

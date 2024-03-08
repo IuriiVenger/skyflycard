@@ -2,6 +2,8 @@ import { nextui } from '@nextui-org/react';
 
 import type { Config } from 'tailwindcss';
 
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 const lightBlueGradient = 'linear-gradient(125deg, #71A9ED 0%, #436CB6 100%)';
 
 const config: Config = {
@@ -12,6 +14,12 @@ const config: Config = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    screens: {
+      xs: '480px',
+      'sm-height': { raw: '(min-height: 640px)' },
+      'md-height': { raw: '(min-height: 768px)' },
+      ...defaultTheme.screens,
+    },
     extend: {
       backgroundImage: {
         'light-blue-gradient': lightBlueGradient,
