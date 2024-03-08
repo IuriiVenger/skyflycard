@@ -68,7 +68,12 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
   const selectedCryptoWalletBalance =
     selectedWalletBalance?.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount || 0;
 
-  const isDataFilled = !!selectedCrypto && !!selectedFiat && !!selectedWallet && !!withdrawTarget && !!amount;
+  const selectedCryptoAvavilibleToWithdraw =
+    selectedWallet && selectedWallet.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
+  const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
+
+  const isWIthdrawAvailible =
+    !!selectedCrypto && !!selectedFiat && !!selectedWallet && !!withdrawTarget && !!amount && isAmountEnough;
 
   const openCryptoModal = () => setIsCryptoModalOpen(true);
   const openFiatModal = () => setIsFiatModalOpen(true);
@@ -170,14 +175,14 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
       )}
 
       <Button
-        isDisabled={!isDataFilled}
+        isDisabled={!isWIthdrawAvailible}
         size="lg"
         color="success"
         className="mt-6 text-white"
         radius="sm"
         onClick={openWithdrawModal}
       >
-        Withdraw
+        {isAmountEnough ? 'Withdraw' : 'Not enough funds'}
       </Button>
 
       <CurrencyListModal
