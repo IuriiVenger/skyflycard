@@ -77,7 +77,7 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   };
 
   return (
-    <Card className={cx('w-full max-w-xl px-10 py-8', className)}>
+    <Card className={cx('w-full max-w-xl p-4 py-6 xs:px-10 xs:py-8', className)}>
       <Tabs
         selectedKey={activeTabKey}
         onSelectionChange={(key) => {

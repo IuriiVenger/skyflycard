@@ -26,7 +26,7 @@ const CryptoSwap: React.FC<CryptoSwapProps> = (props) => (
       className="absolute inset-0 h-full w-full object-cover "
     />
     <div className="relative flex flex-grow flex-col gap-14">
-      <h1 className="self-center whitespace-nowrap text-center text-4xl font-bold leading-[54px] tracking-tighter text-white">
+      <h1 className="self-center  text-center text-4xl font-bold leading-[54px] tracking-tighter text-white">
         Swap crypto instantly
       </h1>
       <CryptoForm {...props} />

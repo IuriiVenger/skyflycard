@@ -1,6 +1,6 @@
 const Contacts = () => (
   <div className="flex w-full justify-center bg-tenant-main">
-    <div className="flex max-w-screen-xl items-center gap-5  px-16 pt-16 max-md:flex-col max-md:gap-0 max-md:p-5">
+    <div className="flex max-w-screen-xl items-center gap-5  px-16 py-16 max-md:flex-col max-md:gap-0 max-md:p-5">
       <div className="flex w-2/5 flex-col max-md:ml-0 max-md:w-full">
         <div className="flex flex-col text-lg leading-7 text-white max-md:mt-10">
           <div className="text-4xl font-bold leading-[54px] tracking-tighter">Contacts</div>

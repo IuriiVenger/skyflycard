@@ -63,11 +63,13 @@ const Header: FC = () => {
 
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
         <NavbarBrand>
-          <Image src={headerLogo} alt="Logo" />
+          <Link href="/">
+            <Image src={headerLogo} alt="Logo" />
+          </Link>
         </NavbarBrand>
         <NavbarItem>
           <Link color="foreground" href="/">
-            Main
+            Main page
           </Link>
         </NavbarItem>
         {isUserSignedIn && (

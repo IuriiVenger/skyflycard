@@ -20,18 +20,21 @@ type CryptoFormFieldProps = {
   chains?: API.List.Chains[];
 };
 
+const title = {
+  [CryptoFormFieldAction.BUY]: 'You are buying',
+  [CryptoFormFieldAction.SELL]: 'You are selling',
+};
+
 const CryptoFormField: FC<CryptoFormFieldProps> = (props) => {
   const { action, currencies, value, currency, onChangeCurrency, setValue, onInputBlur, minValue, chains } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toogleIsModalOpen = () => setIsModalOpen((prev) => !prev);
+  const isCalculateField = !setValue;
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => setValue && setValue(Number(e.target.value));
-  const inputValue = roundToDecimals(value, 4);
+  const inputValue = roundToDecimals(value, 2);
 
-  const title = {
-    [CryptoFormFieldAction.BUY]: 'You are buying',
-    [CryptoFormFieldAction.SELL]: 'You are selling',
-  };
+  const calculatedValue = value ? `~${inputValue}` : value;
 
   return (
     <Card className="flex w-full p-4" radius="sm">
@@ -40,12 +43,12 @@ const CryptoFormField: FC<CryptoFormFieldProps> = (props) => {
       <div className="flex items-start justify-between">
         <CurrencyInfo chains={chains} currency={currency} onCurrencyClick={toogleIsModalOpen} minValue={minValue} />
         <input
-          className="w-full text-end text-xl font-semibold  tracking-wide focus-visible:outline-none disabled:bg-inherit"
+          className="w-full text-end text-xl font-semibold tracking-wide focus-visible:outline-none disabled:bg-inherit"
           onBlur={onInputBlur}
-          value={inputValue}
-          disabled={!setValue}
+          value={isCalculateField ? calculatedValue : value}
+          disabled={isCalculateField}
           onChange={handleInput}
-          type="number"
+          type={isCalculateField ? 'text' : 'number'}
         />
       </div>
       <CurrencyListModal
