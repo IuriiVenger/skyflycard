@@ -20,9 +20,13 @@ const config: Config = {
       'md-height': { raw: '(min-height: 768px)' },
       ...defaultTheme.screens,
     },
+
     extend: {
       backgroundImage: {
         'light-blue-gradient': lightBlueGradient,
+      },
+      colors: {
+        'tenant-main': '#367C55',
       },
     },
   },

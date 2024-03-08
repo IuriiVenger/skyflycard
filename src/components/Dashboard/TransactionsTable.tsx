@@ -32,6 +32,7 @@ const Transactions: FC<TransactionsProps> = (props) => {
               <TableColumn>Type</TableColumn>
               <TableColumn>Amount</TableColumn>
               <TableColumn>Status</TableColumn>
+              <TableColumn>Transaction ID</TableColumn>
             </TableHeader>
             <TableBody emptyContent="No transactions to display.">
               {data.map((transaction) => (
@@ -40,6 +41,7 @@ const Transactions: FC<TransactionsProps> = (props) => {
                   <TableCell>{transaction.type}</TableCell>
                   <TableCell>{transaction.amount}</TableCell>
                   <TableCell>{transaction.status}</TableCell>
+                  <TableCell>{transaction.id}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -21,4 +21,7 @@ export const orders = {
         getRequest<API.Orders.Crypto.Withdrawal.Calc.Response>('/orders/crypto/withdrawal/calc', { params }),
     },
   },
+  status: {
+    getByUuid: (uuid: string) => getRequest<API.Orders.Status.Response>(`/orders/status/${uuid}`),
+  },
 };

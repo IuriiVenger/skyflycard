@@ -120,3 +120,18 @@ export enum KYCStatuses {
 
 export const retryKYCStatuses = [KYCStatuses.DOUBLE, KYCStatuses.HOLD, KYCStatuses.SOFT_REJECT];
 export const requestKYCStatuses = [...retryKYCStatuses, KYCStatuses.UNVERIFIED];
+
+export enum OrderStatuses {
+  NEW = 'NEW',
+  PENDING = 'PENDING',
+  CANCELED = 'CANCELED',
+  COMPLETE = 'COMPLETE',
+  ERROR = 'ERROR',
+  FAILED = 'FAILED',
+}
+
+export enum OrderTypes {
+  ONRAMP = 'onramp',
+  OFFRAMP = 'offramp',
+  CRYPTO_WITHDRAWAL = 'crypto_withdrawal',
+}

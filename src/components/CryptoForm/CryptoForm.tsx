@@ -17,7 +17,6 @@ import { getActiveFiatAvailableCrypto, isCrypto, isFiat } from '@/utils/financia
 type CryptoFormTabsType = {
   [key in CryptoFormTabs]: {
     tabTitle: string;
-    clickButtonHandler: () => void;
     getButtonTitle: (currency: string) => string;
     key: CryptoFormTabs;
   };
@@ -26,13 +25,11 @@ type CryptoFormTabsType = {
 type CryptoFormProps = {
   selectCrypto: (crypto: API.List.Crypto) => void;
   selectFiat: (fiat: API.List.Fiat) => void;
-  createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
   selectedCrypto: API.List.Crypto;
   selectedFiat: API.List.Fiat;
   chainList: API.List.Chains[];
   cryptoList: API.List.Crypto[];
   fiatList: API.List.Fiat[];
-  activeWallet: API.Wallets.Wallet;
   className?: string;
   exchangeData: UseExchangeData;
 };
@@ -47,47 +44,22 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
     selectCrypto,
     selectFiat,
     className,
-    createFiat2CryptoOrder,
-    activeWallet,
     exchangeData,
   } = props;
 
-  const {
-    sellValue,
-    setSellValue,
-    buyValue,
-    setBuyValue,
-    fiat2CryptoValue,
-    minSellValue,
-    checkMinSellValue,
-    exchangeRate,
-  } = exchangeData;
-
-  const { origin } = window.location;
-  const return_url = `${origin}/dashboard`;
+  const { sellValue, setSellValue, fiat2CryptoValue, minSellValue, checkMinSellValue, exchangeRate } = exchangeData;
 
   const availableCrypto = getActiveFiatAvailableCrypto(exchangeRate, cryptoList);
 
   const cryptoFormTabs: CryptoFormTabsType = {
     [CryptoFormTabs.BUY]: {
       tabTitle: 'Buy',
-      clickButtonHandler: () =>
-        createFiat2CryptoOrder({
-          amount: sellValue,
-          fiat_uuid: selectedFiat?.uuid,
-          crypto_uuid: selectedCrypto?.uuid,
-          wallet_uuid: activeWallet?.uuid,
-          return_url_fail: return_url,
-          return_url_pending: return_url,
-          return_url_success: return_url,
-        }),
       getButtonTitle: (currency: string) => `Buy ${currency} now`,
       key: CryptoFormTabs.BUY,
     },
     [CryptoFormTabs.EXCHANGE]: {
       tabTitle: 'Exchange',
       // eslint-disable-next-line no-console
-      clickButtonHandler: () => console.log('Exchange'),
       getButtonTitle: (currency: string) => `Exchange ${currency} now`,
       key: CryptoFormTabs.EXCHANGE,
     },
