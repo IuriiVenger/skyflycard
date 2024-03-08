@@ -187,6 +187,7 @@ export namespace API {
         return_url_success: string;
         return_url_fail: string;
         return_url_pending: string;
+        is_subtract: boolean;
       }
       export type Response = Item;
     }
@@ -235,6 +236,7 @@ export namespace API {
         crypto_uuid: string;
         fiat_uuid: string;
         card_number: string;
+        is_subtract: boolean;
       }
       export type Response = Item;
     }
@@ -278,6 +280,7 @@ export namespace API {
           wallet_uuid: string;
           crypto_uuid: string;
           to: string;
+          is_subtract: boolean;
         }
         export type Response = Item;
       }

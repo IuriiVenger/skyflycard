@@ -78,6 +78,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
         crypto_uuid: selectedCrypto?.uuid,
         wallet_uuid: selectedWallet?.uuid,
         card_number: withdrawTarget,
+        is_subtract: true,
       });
     }
 
@@ -86,6 +87,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
       crypto_uuid: selectedCrypto.uuid,
       wallet_uuid: selectedWallet.uuid,
       to: withdrawTarget,
+      is_subtract: true,
     });
   };
 
