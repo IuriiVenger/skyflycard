@@ -15,14 +15,15 @@ type OrderStatusPageContentProps = {
 const OrderStatusPageContent: FC<OrderStatusPageContentProps> = ({ uuid, order }) => {
   const [currentOrder, setCurrentOrder] = useState(order);
 
+  const haveToGetOrderInfo = currentOrder.status === OrderStatuses.PENDING || currentOrder.status === OrderStatuses.NEW;
+
   useEffect(() => {
-    const intervalGetOrderInfo =
-      currentOrder.status === OrderStatuses.PENDING
-        ? setInterval(async () => {
-            const { data } = await orders.status.getByUuid(uuid);
-            setCurrentOrder(data);
-          }, defaultUpdateInterval)
-        : undefined;
+    const intervalGetOrderInfo = haveToGetOrderInfo
+      ? setInterval(async () => {
+          const { data } = await orders.status.getByUuid(uuid);
+          setCurrentOrder(data);
+        }, defaultUpdateInterval)
+      : undefined;
 
     return () => clearInterval(intervalGetOrderInfo);
   }, [currentOrder]);

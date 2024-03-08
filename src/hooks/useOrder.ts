@@ -1,14 +1,11 @@
 import { useRouter } from 'next/navigation';
 import { useCallback, useRef } from 'react';
 
-import { toast } from 'react-toastify';
-
 import { orders } from '@/api/orders';
 import { API } from '@/api/types';
-import { DashboardTabs, ModalNames } from '@/constants';
+import { ModalNames } from '@/constants';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectFinanceData, selectIsUserLoggedIn, selectUser } from '@/store/selectors';
-import { loadSelectedWallet } from '@/store/slices/finance';
+import { selectIsUserLoggedIn, selectUser } from '@/store/selectors';
 import { setModalVisible } from '@/store/slices/ui';
 
 const useOrder = () => {
@@ -17,7 +14,6 @@ const useOrder = () => {
 
   const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
   const { userData } = useAppSelector(selectUser);
-  const { crypto } = useAppSelector(selectFinanceData);
 
   const availableLimit = userData && userData.turnover_limit && userData.turnover_limit - userData.total_turnover.total;
 
@@ -25,11 +21,6 @@ const useOrder = () => {
   const availableLimitRef = useRef(availableLimit);
 
   const openKYCModal = () => dispatch(setModalVisible(ModalNames.KYC));
-
-  const getCryptoSymbolByUuid = (uuid: string) => {
-    const selectedCrypto = crypto.find((c) => c.uuid === uuid);
-    return selectedCrypto?.symbol || '';
-  };
 
   isUserLoggedInRef.current = isUserLoggedIn;
   availableLimitRef.current = availableLimit;
@@ -72,9 +63,7 @@ const useOrder = () => {
     }
 
     const { data } = await orders.offramp.create(orderData);
-    toast.success(`Order to withdraw ${data.amount_fiat} to card №${data.card_number} successfully created.`);
-    router.push(`/dashboard?tab=${DashboardTabs.TRANSACTIONS}`);
-    await Promise.all([dispatch(loadSelectedWallet(orderData.wallet_uuid))]);
+    router.push(`/order/${data.order_uuid}`);
   }, []);
 
   const createCrypto2CryptoOrder = useCallback(async (orderData: API.Orders.Crypto.Withdrawal.Request) => {
@@ -84,9 +73,7 @@ const useOrder = () => {
     }
 
     const { data } = await orders.crypto.withdrawal.create(orderData);
-    toast.success(`Order to withdraw ${data.amount} ${getCryptoSymbolByUuid(data.crypto_uuid)} successfully created.`);
-    router.push(`/dashboard?tab=${DashboardTabs.TRANSACTIONS}`);
-    await Promise.all([dispatch(loadSelectedWallet(orderData.wallet_uuid))]);
+    router.push(`/order/${data.order_uuid}`);
   }, []);
 
   return { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder };
