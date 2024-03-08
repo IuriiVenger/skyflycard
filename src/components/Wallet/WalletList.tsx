@@ -32,7 +32,7 @@ const WalletList: FC<WalletMenuProps> = ({ wallets, onSelect, activeWallet, clas
         <div
           className={cn(
             'flex cursor-pointer items-center gap-4 rounded-lg px-4 py-2 transition-background',
-            wallet.uuid === activeWallet?.uuid ? 'bg-gray-200' : 'hover:bg-gray-100',
+            wallet.uuid === activeWallet?.uuid ? 'bg-tenant-main text-white' : 'hover:bg-gray-100',
           )}
           key={wallet.uuid}
           onClick={() => onSelect(wallet.uuid)}

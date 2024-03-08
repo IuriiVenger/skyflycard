@@ -46,7 +46,7 @@ const MainInformation: FC<MainInformationProps> = (props) => {
             className={cn(
               'bg-white',
               button.disabled ? '!cursor-not-allowed opacity-50 hover:!opacity-50' : ' hover:!bg-gray-200',
-              activeTab === button.id && 'bg-gray-200',
+              activeTab === button.id && 'bg-tenant-main text-white hover:!bg-tenant-main hover:!text-white',
             )}
             size="lg"
             onClick={button.onClick}

@@ -71,7 +71,7 @@ const VerificationStatus: FC<VerificationStatusProps> = ({ verifyStatus, openKYC
       onClick={clickHandler}
     >
       <div>
-        <p className="flex text-sm font-bold xs:text-base">{verificationStatusInfo[verifyStatus]?.title}</p>
+        <p className="flex text-sm font-bold xs:text-xl">{verificationStatusInfo[verifyStatus]?.title}</p>
         <p className="mt-1 max-w-40 text-left text-[8px] ">{verificationStatusInfo[verifyStatus]?.subtitle}</p>
       </div>
       {Icon && <Icon className="h-6 w-6 xs:h-8 xs:w-8" />}

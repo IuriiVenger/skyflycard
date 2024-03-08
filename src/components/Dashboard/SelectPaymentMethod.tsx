@@ -82,6 +82,7 @@ const SelectPaymentMethod: FC<SelectPaymentMethodProps> = (props) => {
             description={paymentMethod.description}
             onChange={() => onSelect(paymentMethod.method)}
             checked={activePaymentMethod === paymentMethod.method}
+            color="success"
           >
             {paymentMethod.title}
           </CustomRadio>

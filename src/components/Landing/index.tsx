@@ -24,12 +24,13 @@ type LandingProps = {
   fiatList: API.List.Fiat[];
   className?: string;
   exchangeData: UseExchangeData;
+  isUserLoggedIn: boolean;
 };
 
 const Landing: FC<LandingProps> = (props) => (
   <div className="flex">
     <div className="relative left-0 flex w-screen flex-col items-center">
-      <WalletOverview />
+      <WalletOverview {...props} />
       <CryptoSwap {...props} />
       <ContactSupport />
       <CryptoTradingInfo />

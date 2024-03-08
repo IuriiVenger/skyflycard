@@ -68,13 +68,13 @@ const Header: FC = () => {
           </Link>
         </NavbarBrand>
         <NavbarItem>
-          <Link color="foreground" href="/">
+          <Link className="hover:underline" color="foreground" href="/">
             Main page
           </Link>
         </NavbarItem>
         {isUserSignedIn && (
           <NavbarItem>
-            <Link href="/dashboard" aria-current="page">
+            <Link className="hover:underline" href="/dashboard" aria-current="page">
               Dashboard
             </Link>
           </NavbarItem>

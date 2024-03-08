@@ -4,7 +4,11 @@ import { FC } from 'react';
 
 import wpwallet from '@/assets/img/vpwallet.webp';
 
-const WalletOverview: FC = () => (
+type WalletOverviewProps = {
+  isUserLoggedIn: boolean;
+};
+
+const WalletOverview: FC<WalletOverviewProps> = ({ isUserLoggedIn }) => (
   <section className="flex w-full max-w-screen-xl items-center justify-center gap-5 p-4 max-md:flex-col max-md:gap-0">
     <div className="flex w-6/12 flex-col max-md:ml-0 max-md:w-full">
       <div className="flex flex-col max-md:max-w-full">
@@ -17,11 +21,11 @@ const WalletOverview: FC = () => (
 
         <Button
           as={Link}
-          href="/dashboard"
+          href={isUserLoggedIn ? '/dashboard' : '/auth/login'}
           color="success"
           className="mt-8 justify-center self-start whitespace-nowrap rounded px-6 py-3 text-center text-sm font-semibold leading-6 text-white max-md:px-5"
         >
-          Create account
+          {isUserLoggedIn ? 'Open dashboard' : 'Create account'}
         </Button>
       </div>
     </div>
