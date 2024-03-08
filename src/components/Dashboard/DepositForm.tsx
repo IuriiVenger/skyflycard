@@ -65,7 +65,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   const openFiatModal = () => setIsFiatModalOpen(true);
   const openChainModal = () => setIsChainModalOpen(true);
 
-  const return_url = `${window.location.origin}/dashboard`;
+  const return_url = `${window.location.origin}/order/`;
 
   const clickButtonHandler = () =>
     selectedWallet &&

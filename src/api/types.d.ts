@@ -1,4 +1,4 @@
-import { KYCStatuses } from '@/constants';
+import { KYCStatuses, OrderStatuses, OrderTypes } from '@/constants';
 
 export namespace API {
   export namespace Auth {
@@ -12,7 +12,7 @@ export namespace API {
       user_id: string;
       kyc_status: KYCStatuses;
       kyc_date: string;
-      turnover_limit: number;
+      turnover_limit?: number;
       default_fiat: string;
       total_turnover: {
         onramp: number;
@@ -280,6 +280,21 @@ export namespace API {
           to: string;
         }
         export type Response = Item;
+      }
+    }
+
+    export namespace Status {
+      export interface Response {
+        id: number;
+        created_at: string;
+        order_uuid: string;
+        wallet_uuid: string;
+        crypto_uuid: string;
+        status: OrderStatuses;
+        amount: number;
+        comission: number;
+        net_amount: number;
+        type: OrderTypes;
       }
     }
   }

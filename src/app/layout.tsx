@@ -29,7 +29,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
       <body className={font.className}>
         <Providers>
           <Header />
-          <main className="m-auto flex w-full max-w-screen-2xl justify-center px-10 py-8">
+          <main className="flex w-full max-w-screen-2xl flex-grow justify-center px-10 py-8">
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           </main>
         </Providers>

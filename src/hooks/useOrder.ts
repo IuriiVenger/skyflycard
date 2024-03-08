@@ -19,7 +19,7 @@ const useOrder = () => {
   const { userData } = useAppSelector(selectUser);
   const { crypto } = useAppSelector(selectFinanceData);
 
-  const availableLimit = userData && userData.turnover_limit - userData.total_turnover.total;
+  const availableLimit = userData && userData.turnover_limit && userData.turnover_limit - userData.total_turnover.total;
 
   const isUserLoggedInRef = useRef(isUserLoggedIn);
   const availableLimitRef = useRef(availableLimit);

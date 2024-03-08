@@ -24,6 +24,9 @@ const config: Config = {
       backgroundImage: {
         'light-blue-gradient': lightBlueGradient,
       },
+      colors: {
+        'tenant-main': '#367C55',
+      },
     },
   },
   darkMode: 'class',
