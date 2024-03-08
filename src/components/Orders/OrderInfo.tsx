@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -77,6 +79,7 @@ const orderTypeTitle = {
 
 const OrderInfo: FC<OrderInfoProps> = ({ order }) => {
   const orderStatusInfo = orderStatusesInfo[order.status];
+
   return (
     <section className="mt-20 flex flex-col items-center gap-4">
       <orderStatusInfo.icon className={`h-24 w-24 ${orderStatusInfo.iconColorClassname}`} />

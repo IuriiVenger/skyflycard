@@ -25,5 +25,5 @@ export const separateNumbers = (num: number, separator: string = ','): string =>
 export const getDate = (date: string) => {
   const dateObj = new Date(date);
 
-  return dateObj.toLocaleString();
+  return dateObj.toLocaleString('en-US');
 };
