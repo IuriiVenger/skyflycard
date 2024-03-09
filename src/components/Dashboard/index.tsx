@@ -70,34 +70,43 @@ const Dashboard: FC<DashboardProps> = (props) => {
       id: DashboardTabs.DEPOSIT,
       title: 'Deposit',
       icon: BsArrowDownLeft,
-      onClick: () => setActiveTab(DashboardTabs.DEPOSIT),
+      onClick: () => {
+        setQueryTab(DashboardTabs.DEPOSIT);
+        setActiveTab(DashboardTabs.DEPOSIT);
+      },
     },
     {
       id: DashboardTabs.WITHDRAW,
       title: 'Withdraw',
       icon: BsArrowUpRight,
-      onClick: () => setActiveTab(DashboardTabs.WITHDRAW),
+      onClick: () => {
+        setQueryTab(DashboardTabs.WITHDRAW);
+        setActiveTab(DashboardTabs.WITHDRAW);
+      },
     },
     {
       id: DashboardTabs.TRANSACTIONS,
       title: 'Transactions',
       icon: IoIosList,
-      onClick: () => setActiveTab(DashboardTabs.TRANSACTIONS),
+      onClick: () => {
+        setQueryTab(DashboardTabs.TRANSACTIONS);
+        setActiveTab(DashboardTabs.TRANSACTIONS);
+      },
     },
     {
       id: DashboardTabs.EXCHANGE,
       title: 'Exchange',
       icon: BsArrowLeftRight,
-      onClick: () => setActiveTab(DashboardTabs.EXCHANGE),
+      onClick: () => {
+        setQueryTab(DashboardTabs.EXCHANGE);
+        setActiveTab(DashboardTabs.EXCHANGE);
+      },
       disabled: true,
     },
   ];
 
   useEffect(() => {
-    setQueryTab(activeTab);
-  }, [activeTab]);
-
-  useEffect(() => {
+    console.log('queryTab', queryTab);
     queryTab && setActiveTab(queryTab as DashboardTabs);
   }, [queryTab]);
 
