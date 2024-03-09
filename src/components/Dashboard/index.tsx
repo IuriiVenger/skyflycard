@@ -106,7 +106,6 @@ const Dashboard: FC<DashboardProps> = (props) => {
   ];
 
   useEffect(() => {
-    console.log('queryTab', queryTab);
     queryTab && setActiveTab(queryTab as DashboardTabs);
   }, [queryTab]);
 
