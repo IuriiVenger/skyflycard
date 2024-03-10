@@ -130,7 +130,7 @@ const Dashboard: FC<DashboardProps> = (props) => {
         verificationStatus={verificationStatus}
         openKYC={openKYC}
       />
-      <div className="order-3 mt-4 md:col-start-2 md:col-end-4">
+      <div className="order-3 mt-4 overflow-scroll md:col-start-2 md:col-end-4">
         {activeTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
         {activeTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
         {activeTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}

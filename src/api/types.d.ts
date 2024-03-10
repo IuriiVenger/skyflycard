@@ -315,6 +315,7 @@ export namespace API {
       crypto_id: string;
       txid: string;
       info: string;
+      crypto: List.Crypto;
     }
   }
 }

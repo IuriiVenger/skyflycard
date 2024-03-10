@@ -39,7 +39,9 @@ const Transactions: FC<TransactionsProps> = (props) => {
                 <TableRow key={transaction.id}>
                   <TableCell>{getDate(transaction.created_at)}</TableCell>
                   <TableCell>{transaction.type}</TableCell>
-                  <TableCell>{transaction.amount}</TableCell>
+                  <TableCell>
+                    {transaction.amount} {transaction.crypto?.symbol}
+                  </TableCell>
                   <TableCell>{transaction.status}</TableCell>
                   <TableCell>{transaction.id}</TableCell>
                 </TableRow>
