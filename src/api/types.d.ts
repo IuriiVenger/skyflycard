@@ -272,14 +272,14 @@ export namespace API {
           amount: number;
           status: string;
           network: string;
-          to: string;
+          to_address: string;
           txid: string;
         }
         export interface Request {
           amount: number;
           wallet_uuid: string;
           crypto_uuid: string;
-          to: string;
+          to_address: string;
           is_subtract: boolean;
         }
         export type Response = Item;

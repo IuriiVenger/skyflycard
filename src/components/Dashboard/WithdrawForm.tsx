@@ -17,7 +17,6 @@ import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
 import { PaymentMethod } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
-import { separateNumbers } from '@/utils/converters';
 import { isCrypto, isFiat } from '@/utils/financial';
 
 type WithdrawFormProps = {
@@ -77,16 +76,23 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
 
   const openCryptoModal = () => setIsCryptoModalOpen(true);
   const openFiatModal = () => setIsFiatModalOpen(true);
+  const withdrawTargetWithoutSpaces = withdrawTarget.replace(/\s/g, '');
   const openWithdrawModal = () => {
     const confirmationText = isFiatPayment
-      ? `Are you sure you want to withdraw ${amount} ${selectedCrypto.symbol} to card ${separateNumbers(+withdrawTarget, ' ', 4)}?`
+      ? `Are you sure you want to withdraw ${amount} ${selectedCrypto.symbol} to card ${withdrawTarget}?`
       : `Are you sure you want to send ${amount} ${selectedCrypto.symbol} to address ${withdrawTarget}?`;
 
     setWithdrawConfirmationText(confirmationText);
     setIsWithdrawModalOpen(true);
   };
 
-  const handleWithdrawTargetInput = (e: React.ChangeEvent<HTMLInputElement>) => setWithdrawTarget(e.target.value);
+  const handleWithdrawTargetInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isFiatPayment) return setWithdrawTarget(e.target.value);
+
+    let value = e.target.value.replace(/\D/g, '').substring(0, 16);
+    value = value.replace(/(\d{4})/g, '$1 ').trim();
+    setWithdrawTarget(value);
+  };
 
   const clickButtonHandler = () => {
     if (!selectedWallet) return;
@@ -97,7 +103,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
         fiat_uuid: selectedFiat?.uuid,
         crypto_uuid: selectedCrypto?.uuid,
         wallet_uuid: selectedWallet?.uuid,
-        card_number: withdrawTarget,
+        card_number: withdrawTargetWithoutSpaces,
         is_subtract: true,
       });
     }
@@ -106,7 +112,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
       amount,
       crypto_uuid: selectedCrypto.uuid,
       wallet_uuid: selectedWallet.uuid,
-      to: withdrawTarget,
+      to_address: withdrawTarget,
       is_subtract: true,
     });
   };
@@ -121,7 +127,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
   };
 
   useEffect(() => {
-    // logic to get the active crypto chain
+    setWithdrawTarget('');
   }, [activePaymentMethod]);
 
   return (
@@ -151,6 +157,8 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
         startContent={isFiatPayment ? <FaCreditCard /> : <TbCurrency />}
         onChange={handleWithdrawTargetInput}
         value={withdrawTarget}
+        maxLength={isFiatPayment ? 19 : undefined}
+        required
       />
 
       {isFiatPayment ? (
