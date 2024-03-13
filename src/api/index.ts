@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getCookie } from 'cookies-next';
-import router from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import { ResponseStatus } from '@/constants';
@@ -41,7 +41,7 @@ instance.interceptors.response.use(
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
         if (typeof window !== 'undefined') {
           toast.error(error?.response?.data?.message || defaultErrorMessage);
-          router.redirect('/auth/login');
+          redirect('/auth/login');
         }
         deleteTokens();
         requestQueue = [];

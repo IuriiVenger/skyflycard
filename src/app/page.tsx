@@ -1,5 +1,5 @@
-import MainPageContent from './_components/MainPageContent';
+import MainPage from './(main_layout)/page';
 
-const Home = async () => <MainPageContent />;
+const Home = async () => <MainPage />;
 
 export default Home;

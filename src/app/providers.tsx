@@ -4,7 +4,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import { AppProgressBar } from 'next-nprogress-bar';
 import { Suspense } from 'react';
 
-import ModalsContainer from './_components/ModalContainer';
+import ModalsContainer from './(main_layout)/_components/ModalContainer';
 
 export const Providers = ({ children }: { children: React.ReactNode }) => (
   <NextUIProvider className="flex min-h-screen flex-col items-center">

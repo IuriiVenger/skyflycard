@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useRouter } from 'next/navigation';
+
+import { useRouter } from 'next-nprogress-bar';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -144,17 +145,25 @@ const useAuth = (dispatch: AppDispatch) => {
   };
 
   const getOtp = async () => {
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: true,
-        emailRedirectTo: `${location.origin}/auth/callback?email=${email}`,
-      },
-    });
-    if (error) {
-      return toast.error(error.message);
+    setLoadingStatus(RequestStatus.PENDING);
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: `${location.origin}/auth/callback?email=${email}`,
+        },
+      });
+      if (error) {
+        setLoadingStatus(RequestStatus.REJECTED);
+        return toast.error(error.message);
+      }
+      setIsOtpRequested(true);
+      setLoadingStatus(RequestStatus.FULLFILLED);
+    } catch (e) {
+      setLoadingStatus(RequestStatus.REJECTED);
+      throw e;
     }
-    setIsOtpRequested(true);
   };
 
   const signInByOtp = async () => {
@@ -183,8 +192,9 @@ const useAuth = (dispatch: AppDispatch) => {
 
       dispatch(setUser(data.user));
       await loadUserContent();
-      setLoadingStatus(RequestStatus.FULLFILLED);
       router.push('/dashboard');
+      toast.success('You have successfully logged in');
+      setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
       throw e;
