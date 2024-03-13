@@ -251,7 +251,7 @@ export namespace API {
             ttl: string;
           }
           export interface Request {
-            address: string;
+            address?: string;
             amount: number;
             crypto_uuid: string;
             wallet_uuid: string;

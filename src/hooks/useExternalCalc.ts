@@ -61,7 +61,6 @@ const useExternalCalc: UseExternalCalc = () => {
         wallet_uuid: selectedWallet.uuid,
         is_subtract: true,
         amount,
-        address: 'TGZBr8uMoQx6q72ZyeEv2U35DQ7Fzmg2Tk', // have to delete
       };
 
       dispatch(loadOnrampCalc(onRampCalcParams));
