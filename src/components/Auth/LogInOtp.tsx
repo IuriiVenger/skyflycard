@@ -74,13 +74,27 @@ const LogInOtp: FC<LogInOtpProps> = (props) => {
       {isOtpRequested && (
         <h5 className="mb-4 text-center text-sm font-semibold text-neutral-400">OTP sent to {email}</h5>
       )}
-      <input
-        name={isOtpRequested ? 'otp' : 'email'}
-        placeholder={isOtpRequested ? 'Input one time password' : 'Input your email'}
-        value={isOtpRequested ? otp : email}
-        className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
-        onChange={isOtpRequested ? handleOtpInput : handleEmailInput}
-      />
+      {isOtpRequested ? (
+        <input
+          key="otp"
+          name="otp"
+          placeholder="Input one time password"
+          value={otp}
+          className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+          onChange={handleOtpInput}
+          type="text"
+        />
+      ) : (
+        <input
+          key="email"
+          name="email"
+          placeholder="Input your email"
+          value={email}
+          className="mb-4 w-full rounded-md border-gray-700 bg-gray-200 p-3  placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+          onChange={handleEmailInput}
+          type="email"
+        />
+      )}
 
       <Button isLoading={isLoading} type="submit" color="success" className="mb-2 w-full text-white" radius="sm">
         {buttonText}
