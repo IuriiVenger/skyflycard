@@ -24,5 +24,5 @@ export const separateNumbers = (num: number, separator: string = ',', group_size
 export const getDate = (date: string) => {
   const dateObj = new Date(date);
 
-  return dateObj.toLocaleString('en-US');
+  return dateObj.toLocaleString('ru-RU');
 };

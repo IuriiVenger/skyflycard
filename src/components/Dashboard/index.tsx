@@ -1,3 +1,4 @@
+import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 import { useQueryState } from 'nuqs';
 import { FC, useEffect, useState } from 'react';
 import { BsArrowDownLeft, BsArrowLeftRight, BsArrowUpRight } from 'react-icons/bs';
@@ -50,6 +51,9 @@ type DashboardProps = {
 const Dashboard: FC<DashboardProps> = (props) => {
   const [queryTab, setQueryTab] = useQueryState('tab');
   const initialTab = (queryTab as DashboardTabs) || DashboardTabs.DEPOSIT;
+  const [balanceAccordinState, setBalanceAccordionState] = useState<Selection>(new Set(['1']));
+
+  const isBalanceAccordionOpen = (balanceAccordinState as Set<string>).has('1');
 
   const {
     wallets,
@@ -110,8 +114,8 @@ const Dashboard: FC<DashboardProps> = (props) => {
   }, [queryTab]);
 
   return (
-    <section className="grid w-full max-w-screen-xl grid-cols-1 gap-x-12  gap-y-8 md:grid-cols-[280px,auto] md:gap-y-12 lg:gap-x-20 xl:gap-x-40">
-      <aside className="row-start-1 row-end-6 flex w-full flex-shrink-0 flex-col justify-between gap-8 sm:flex-row  md:max-w-xs md:flex-col md:justify-start md:pt-6">
+    <section className="grid w-full max-w-screen-xl grid-cols-1 gap-x-12  gap-y-4 md:grid-cols-[280px,auto] md:gap-y-12 lg:gap-x-20 xl:gap-x-40">
+      <aside className="row-start-1 row-end-6 hidden w-full flex-shrink-0 flex-col justify-between gap-8 sm:flex-row md:flex  md:max-w-xs md:flex-col md:justify-start md:pt-6">
         <WalletList
           createWallet={createWallet}
           wallets={wallets}
@@ -123,14 +127,37 @@ const Dashboard: FC<DashboardProps> = (props) => {
       </aside>
 
       <MainInformation
-        className="order-2 md:col-start-2 md:col-end-4"
+        className="order-1 md:order-2 md:col-start-2 md:col-end-4"
         balance={currentWalletBalance}
         actionButtons={actionButtons}
         activeTab={activeTab}
         verificationStatus={verificationStatus}
         openKYC={openKYC}
       />
-      <div className="order-3 mt-4 overflow-scroll md:col-start-2 md:col-end-4">
+      <WalletList
+        className="order-2 mt-1 md:hidden"
+        createWallet={createWallet}
+        wallets={wallets}
+        onSelect={selectWallet}
+        activeWallet={selectedWallet}
+        walletTypes={walletTypes}
+      />
+      <Accordion
+        selectedKeys={balanceAccordinState}
+        onSelectionChange={setBalanceAccordionState}
+        fullWidth
+        className="order-3 pl-0 pr-3 md:hidden"
+      >
+        <AccordionItem
+          key={1}
+          subtitle={isBalanceAccordionOpen ? 'Tap to collapse' : 'Tap to expand'}
+          title={<h3 className="text-xl font-bold">Wallet crypto balance</h3>}
+        >
+          <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
+        </AccordionItem>
+      </Accordion>
+
+      <div className="order-4 overflow-scroll md:order-3 md:col-start-2 md:col-end-4 md:mt-4">
         {activeTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
         {activeTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
         {activeTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}

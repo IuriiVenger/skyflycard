@@ -28,22 +28,22 @@ const Transactions: FC<TransactionsProps> = (props) => {
         <>
           <Table removeWrapper aria-label="Wallet transactions" className="overflow-scroll">
             <TableHeader>
+              <TableColumn>ID</TableColumn>
               <TableColumn>Date</TableColumn>
               <TableColumn>Type</TableColumn>
               <TableColumn>Amount</TableColumn>
               <TableColumn>Status</TableColumn>
-              <TableColumn>Transaction ID</TableColumn>
             </TableHeader>
             <TableBody emptyContent="No transactions to display.">
               {data.map((transaction) => (
                 <TableRow key={transaction.id}>
+                  <TableCell>{transaction.id}</TableCell>
                   <TableCell>{getDate(transaction.created_at)}</TableCell>
                   <TableCell>{transaction.type}</TableCell>
-                  <TableCell>
+                  <TableCell className="whitespace-nowrap">
                     {transaction.amount} {transaction.crypto?.symbol}
                   </TableCell>
                   <TableCell>{transaction.status}</TableCell>
-                  <TableCell>{transaction.id}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

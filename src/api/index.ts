@@ -67,11 +67,6 @@ instance.interceptors.response.use(
         });
       });
     }
-    if (error?.response?.status === ResponseStatus.FORBIDDEN) {
-      // deleteCookie('authToken');
-    }
-
-    // console.log('error', error);
 
     return Promise.reject(error);
   },

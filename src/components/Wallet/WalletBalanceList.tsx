@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { FC } from 'react';
 
 import { API } from '@/api/types';
@@ -7,10 +8,11 @@ type WalletBalanceListProps = {
   wallet: API.Wallets.Wallet | null;
   cryptoList: API.List.Crypto[];
   chains: API.List.Chains[];
+  className?: string;
 };
 
 const WalletBalanceList: FC<WalletBalanceListProps> = (props) => {
-  const { wallet, cryptoList, chains } = props;
+  const { wallet, cryptoList, chains, className } = props;
   const cryptoListWithBalance = cryptoList.map((crypto) => {
     const balance = wallet?.balance.find((walletBalance) => walletBalance.crypto.uuid === crypto.uuid);
     return { ...crypto, balance: balance?.amount || null };
@@ -19,8 +21,8 @@ const WalletBalanceList: FC<WalletBalanceListProps> = (props) => {
   const filteredCryptoList = cryptoListWithBalance.filter((crypto) => crypto.balance !== null);
 
   return (
-    <section className="flex flex-col">
-      <h3 className="mb-4 text-xl font-bold">Wallet crypto balance</h3>
+    <section className={cn(className, 'flex flex-col')}>
+      <h3 className="mb-4 hidden text-xl font-bold md:inline">Wallet crypto balance</h3>
       <div className="flex flex-col gap-2">
         {filteredCryptoList.map((crypto) => (
           <section key={crypto.uuid} className="flex items-center justify-between gap-4">
