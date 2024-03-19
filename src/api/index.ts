@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { getCookie } from 'cookies-next';
 import { redirect } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -18,11 +18,14 @@ export const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use((config: AxiosRequestConfig) => {
+instance.interceptors.request.use((config) => {
   const access_token = getCookie('access_token');
 
   if (access_token) {
-    return { ...config, headers: { ...config.headers, Authorization: `${access_token}` } };
+    return {
+      ...config,
+      headers: { ...config.headers, Authorization: `${access_token}` },
+    } as InternalAxiosRequestConfig;
   }
   return config;
 });
