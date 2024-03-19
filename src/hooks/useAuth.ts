@@ -5,10 +5,11 @@ import { useRouter } from 'next-nprogress-bar';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import useWallet from './useWallet';
+
 import { auth } from '@/api/auth';
-import { wallets } from '@/api/wallets';
+
 import { RequestStatus } from '@/constants';
-import { setSelectedWallet, setUserWallets } from '@/store/slices/finance';
 import { setUser, setUserData, setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { deleteTokens, setTokens } from '@/utils/tokensFactory';
@@ -20,26 +21,12 @@ const useAuth = (dispatch: AppDispatch) => {
   const [isOtpRequested, setIsOtpRequested] = useState(false);
 
   const router = useRouter();
+  const { loadWallets, unloadWallets } = useWallet();
 
   const supabase = createClientComponentClient();
 
   const setLoadingStatus = (status: RequestStatus) => {
     dispatch(setUserLoadingStatus(status));
-  };
-
-  const loadWallets = async () => {
-    const userWallets = await wallets.getAll();
-    dispatch(setUserWallets(userWallets));
-    if (userWallets.length) {
-      const activeWalletUuid = userWallets[0].uuid;
-      const activeWallet = await wallets.getByUuid(activeWalletUuid);
-      dispatch(setSelectedWallet(activeWallet));
-    }
-  };
-
-  const unloadWallets = () => {
-    dispatch(setUserWallets([]));
-    dispatch(setSelectedWallet(null));
   };
 
   const loadUserData = async () => {
@@ -55,13 +42,13 @@ const useAuth = (dispatch: AppDispatch) => {
   };
 
   const loadUserContent = async () => {
-    await Promise.all([loadUserData(), loadWallets()]);
+    await Promise.all([loadUserData(), loadWallets(dispatch)]);
   };
 
   const clearUserContent = async () => {
     dispatch(setUser(null));
     dispatch(setUserData(null));
-    unloadWallets();
+    unloadWallets(dispatch);
   };
 
   const resetAuthState = () => {
@@ -74,8 +61,8 @@ const useAuth = (dispatch: AppDispatch) => {
   const getUser = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      const { data } = await supabase.auth.getUser();
-      dispatch(setUser(data.user));
+      const { data } = await auth.me();
+      dispatch(setUser(data));
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
@@ -84,14 +71,10 @@ const useAuth = (dispatch: AppDispatch) => {
   };
 
   const initUser = async () => {
-    const { data } = await supabase.auth.getSession();
-    const { session } = data;
-
-    if (session) {
-      setTokens(session);
+    try {
       await getUser();
       await loadUserContent();
-    } else {
+    } catch (e) {
       deleteTokens();
     }
   };
@@ -147,16 +130,10 @@ const useAuth = (dispatch: AppDispatch) => {
   const getOtp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: `${location.origin}/auth/callback?email=${email}`,
-        },
-      });
-      if (error) {
+      const { data } = await auth.signin.email.otp(email);
+      if (data.error) {
         setLoadingStatus(RequestStatus.REJECTED);
-        return toast.error(error.message);
+        return toast.error(data.error);
       }
       setIsOtpRequested(true);
       setLoadingStatus(RequestStatus.FULLFILLED);
@@ -168,18 +145,13 @@ const useAuth = (dispatch: AppDispatch) => {
 
   const signInByOtp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+
     try {
-      const { data, error }: any = await supabase.auth.verifyOtp({
-        email,
-        token: otp,
-        type: 'email',
-      });
-      if (error) {
+      const { data } = await auth.verify.email.otp(email, otp);
+
+      if (data.error) {
         setLoadingStatus(RequestStatus.REJECTED);
-        return toast.error(error.message);
-      }
-      if (data.session) {
-        setTokens(data.session);
+        return toast.error(data.error);
       }
 
       if (data.access_token) {
@@ -204,7 +176,7 @@ const useAuth = (dispatch: AppDispatch) => {
   const signOut = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      await supabase.auth.signOut();
+      await supabase.auth.signOut(); // have to delete
       clearUserContent();
       deleteTokens();
       router.push('/');

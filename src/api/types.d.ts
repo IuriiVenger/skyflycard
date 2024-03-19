@@ -1,7 +1,11 @@
+import { AuthResponse, User } from '@supabase/supabase-js';
+
 import { KYCStatuses, OrderStatuses, OrderTypes } from '@/constants';
 
 export namespace API {
   export namespace Auth {
+    export type Me = User;
+
     export interface Tokens {
       access_token: string;
       refresh_token: string;
@@ -19,6 +23,15 @@ export namespace API {
         offramp: number;
         total: number;
       };
+    }
+    export interface SupabaseGetSessionResponse {
+      session?: Tokens;
+      user?: User;
+      error?: string;
+    }
+
+    export namespace VerifyOtp {
+      export type Response = { access_token: string; refresh_token: string; user: User; error?: string };
     }
   }
 
