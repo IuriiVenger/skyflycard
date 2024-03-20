@@ -1,3 +1,5 @@
+import { getCookie } from 'cookies-next';
+
 import useAuth from './useAuth';
 
 import { exchange } from '@/api/exchange';
@@ -18,12 +20,13 @@ const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
   const initApp = async () => {
     try {
+      const isAuthTokensExist = getCookie('access_token');
       const [fiats, crypto, chains, fiatExchangeRate] = await Promise.all([
         list.fiats.getAll(),
         list.crypto.getAll(),
         list.chains.getAll(),
         exchange.fiat2crypto.getByUuid(defaultCurrency.fiat.uuid),
-        initUser(),
+        isAuthTokensExist && initUser(),
       ]);
 
       dispatch(setFiats(fiats));

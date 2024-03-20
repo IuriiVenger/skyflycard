@@ -1,4 +1,4 @@
-import { AuthResponse, User } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 
 import { KYCStatuses, OrderStatuses, OrderTypes } from '@/constants';
 

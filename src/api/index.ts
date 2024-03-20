@@ -1,9 +1,10 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { getCookie } from 'cookies-next';
-import { redirect } from 'next/navigation';
+
 import { toast } from 'react-toastify';
 
 import { ResponseStatus } from '@/constants';
+import { navigate } from '@/utils/router';
 import { deleteTokens, refreshTokens, setTokens } from '@/utils/tokensFactory';
 
 // eslint-disable-next-line no-constant-condition
@@ -30,7 +31,7 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-const defaultErrorMessage = 'Something went wrong. Try again later.';
+const defaultErrorMessageForUnauthorized = 'You are not authorized. Please log in.';
 
 let isTokenRefreshing = false;
 let requestQueue: (() => void)[] = [];
@@ -41,10 +42,12 @@ instance.interceptors.response.use(
     if (error?.response?.status === ResponseStatus.UNAUTHORIZED) {
       const { response, config: failedRequest } = error;
       const refreshToken = getCookie('refresh_token');
+
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
         if (typeof window !== 'undefined') {
-          toast.error(error?.response?.data?.message || defaultErrorMessage);
-          redirect('/auth/login');
+          toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
+
+          navigate('/auth/login');
         }
         deleteTokens();
         requestQueue = [];
