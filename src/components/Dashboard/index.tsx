@@ -1,4 +1,3 @@
-import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 import { useQueryState } from 'nuqs';
 import { FC, useEffect, useState } from 'react';
 import { BsArrowDownLeft, BsArrowLeftRight, BsArrowUpRight } from 'react-icons/bs';

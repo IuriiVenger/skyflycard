@@ -58,9 +58,10 @@ const Transactions: FC<TransactionsProps> = (props) => {
           <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
         </AccordionItem>
       </Accordion>
-      <h3 className="mb-4 text-xl font-bold">Transactions</h3>
+
       {!isFirstTransactionsLoading && data ? (
         <>
+          <h3 className="mb-4 text-xl font-bold">Transactions</h3>
           <Table removeWrapper aria-label="Wallet transactions" className="overflow-scroll">
             <TableHeader>
               <TableColumn>ID</TableColumn>

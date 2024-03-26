@@ -30,7 +30,7 @@ const MainInformation: FC<MainInformationProps> = (props) => {
   return (
     <Card
       className={cn(
-        'flex w-full flex-shrink-0 flex-col gap-4 bg-gray-100 p-4 xs:px-6 xs:py-6 sm:gap-0 sm:px-8',
+        'flex h-fit w-full flex-shrink-0 flex-col gap-4 bg-gray-100 p-4 xs:px-6 xs:py-6 sm:gap-0 sm:px-8',
         className,
       )}
     >
