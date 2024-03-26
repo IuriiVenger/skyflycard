@@ -135,3 +135,5 @@ export enum OrderTypes {
   OFFRAMP = 'offramp',
   CRYPTO_WITHDRAWAL = 'crypto_withdrawal',
 }
+
+export const supportEmail = 'support@vpwallet.io';

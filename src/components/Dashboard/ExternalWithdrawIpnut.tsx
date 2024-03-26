@@ -20,13 +20,14 @@ const ExternalWithdrawInput: FC<ExternalWithdrawInputProps> = (props) => {
   const handleAmountInput = (e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value));
   const prettyCommission = commission ? commission.toFixed(2) : '';
   return (
-    <Card className={cn(className, 'p-3')}>
+    <Card className={cn(className, 'border-1 shadow-none')}>
       <CardBody>
         <Input
           className="-mt-4"
           type="number"
           placeholder="Enter amount"
           label="Amount to withdraw"
+          size="lg"
           labelPlacement="outside"
           endContent={
             <div className="pointer-events-none flex items-center">

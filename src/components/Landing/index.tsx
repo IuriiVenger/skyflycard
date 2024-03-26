@@ -8,7 +8,6 @@ import CryptoTradingInfo from './CryptoTradingInfo';
 
 import FAQ from './FAQ';
 import HaveMoreQuestions from './HaveMoreQuestions';
-import LandingFooter from './LandingFooter';
 import WalletOverview from './WalletOverview';
 
 import { API } from '@/api/types';
@@ -28,7 +27,7 @@ type LandingProps = {
 };
 
 const Landing: FC<LandingProps> = (props) => (
-  <div className="flex">
+  <div className="-mb-5 flex">
     <div className="relative left-0 flex w-screen flex-col items-center">
       <WalletOverview {...props} />
       <CryptoSwap {...props} />
@@ -37,7 +36,6 @@ const Landing: FC<LandingProps> = (props) => (
       <HaveMoreQuestions />
       <FAQ />
       <Contacts />
-      <LandingFooter />
     </div>
   </div>
 );

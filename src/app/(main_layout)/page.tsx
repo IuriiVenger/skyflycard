@@ -3,7 +3,7 @@ import MainLayout from './layout';
 
 const Home = async () => (
   <MainLayout>
-    <MainPageContent />;
+    <MainPageContent />
   </MainLayout>
 );
 
