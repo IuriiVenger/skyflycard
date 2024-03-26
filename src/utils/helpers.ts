@@ -1,6 +1,6 @@
 import { getCookie, setCookie } from 'cookies-next';
 
-import { walletType } from '@/constants';
+import { supportEmail, walletType } from '@/constants';
 
 export const getWalletTypeLabel = (type: string) => walletType[type]?.label || type;
 
@@ -21,3 +21,5 @@ export const getStartTimeForTimer = (sec: number, key: string): Date => {
 
   return restTime;
 };
+
+export const mailToSupport = () => window.open(`mailto:${supportEmail}`, '_blank');

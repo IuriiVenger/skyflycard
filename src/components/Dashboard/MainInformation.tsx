@@ -28,18 +28,22 @@ type MainInformationProps = {
 const MainInformation: FC<MainInformationProps> = (props) => {
   const { className, actionButtons, balance, activeTab, verificationStatus, openKYC } = props;
   return (
-    <Card className={cn('flex w-full flex-shrink-0 flex-col gap-4 bg-gray-100 px-8 py-6 sm:gap-0', className)}>
-      <div className="flex flex-col items-center justify-between gap-6 sm:flex-row md:flex-col lg:flex-row">
+    <Card
+      className={cn(
+        'flex w-full flex-shrink-0 flex-col gap-4 bg-gray-100 p-4 xs:px-6 xs:py-6 sm:gap-0 sm:px-8',
+        className,
+      )}
+    >
+      <div className="flex items-start justify-between gap-6">
         <div className="flex flex-col gap-6">
-          <h1 className="self-center text-3xl font-bold lg:self-start">Dashboard</h1>
           <div className="self-center lg:self-start">
-            <p>Available balance</p>
-            <p className="text-4xl font-semibold">€ {separateNumbers(balance)}</p>
+            <p className="whitespace-nowrap text-sm sm:text-base">Total balance</p>
+            <p className="whitespace-nowrap font-semibold sm:text-2xl lg:text-4xl">€ {separateNumbers(balance)}</p>
           </div>
         </div>
         {verificationStatus && <VerificationStatus openKYC={openKYC} verifyStatus={verificationStatus} />}
       </div>
-      <div className="mt-4 grid grid-cols-1 justify-between gap-4 sm:mt-10 lg:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-2 grid  grid-cols-2 justify-between gap-x-2 gap-y-3 xs:gap-4 sm:mt-10 xl:grid-cols-4">
         {actionButtons.map((button, index) => (
           <Button
             key={index}
@@ -48,7 +52,6 @@ const MainInformation: FC<MainInformationProps> = (props) => {
               button.disabled ? '!cursor-not-allowed opacity-50 hover:!opacity-50' : ' hover:!bg-gray-200',
               activeTab === button.id && 'bg-tenant-main text-white hover:!bg-tenant-main hover:!text-white',
             )}
-            size="lg"
             onClick={button.onClick}
             disabled={button?.disabled}
           >

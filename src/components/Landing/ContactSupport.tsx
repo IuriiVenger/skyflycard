@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import customerSupportImg from '@/assets/svg/customer_support.svg';
+
 const ContactSupport: FC = () => (
   <div className="flex items-center justify-center self-stretch bg-white px-16 py-16 max-md:px-5">
     <div className="w-full max-w-screen-xl">
@@ -18,7 +20,7 @@ const ContactSupport: FC = () => (
           <img
             alt="Legendary customer support"
             loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/ff9eb3a463ab2e87343b2949a5abb466125af7e4bf8c4c45105e0268f4553b9d?apiKey=73f80fdb1c984aeeab687b7998ab4028&"
+            src={customerSupportImg.src}
             className="aspect-square w-full self-center max-md:mt-10 max-md:max-w-[50%]"
           />
         </div>

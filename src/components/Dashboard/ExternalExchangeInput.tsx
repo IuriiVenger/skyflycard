@@ -37,15 +37,17 @@ const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
 
   return (
     <section>
-      <Card className={cn(className, 'p-3')}>
+      <Card className={cn(className, 'border-1 shadow-none')}>
         <CardBody className="flex flex-col gap-2">
           <Input
             type="number"
             label={`Amount to ${isWithdraw ? 'Withdraw' : 'deposit'} `}
             labelPlacement="outside"
             placeholder="0.00"
+            size="lg"
             onChange={handleInput}
             value={String(sellValue)}
+            content="width=device-width, initial-scale=1, maximum-scale=1"
             startContent={
               <div className="pointer-events-none flex items-center">
                 <span className="text-small text-default-400">{sellingCurrency.symbol}</span>
