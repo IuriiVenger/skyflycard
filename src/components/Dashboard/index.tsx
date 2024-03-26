@@ -50,10 +50,7 @@ type DashboardProps = {
 
 const Dashboard: FC<DashboardProps> = (props) => {
   const [queryTab, setQueryTab] = useQueryState('tab');
-  const initialTab = (queryTab as DashboardTabs) || DashboardTabs.DEPOSIT;
-  const [balanceAccordinState, setBalanceAccordionState] = useState<Selection>(new Set(['1']));
-
-  const isBalanceAccordionOpen = (balanceAccordinState as Set<string>).has('1');
+  const initialTab = (queryTab as DashboardTabs) || DashboardTabs.TRANSACTIONS;
 
   const {
     wallets,
@@ -70,6 +67,15 @@ const Dashboard: FC<DashboardProps> = (props) => {
   const [activeTab, setActiveTab] = useState<DashboardTabs>(initialTab);
 
   const actionButtons = [
+    {
+      id: DashboardTabs.TRANSACTIONS,
+      title: 'Transactions',
+      icon: IoIosList,
+      onClick: () => {
+        setQueryTab(DashboardTabs.TRANSACTIONS);
+        setActiveTab(DashboardTabs.TRANSACTIONS);
+      },
+    },
     {
       id: DashboardTabs.DEPOSIT,
       title: 'Deposit',
@@ -89,15 +95,6 @@ const Dashboard: FC<DashboardProps> = (props) => {
       },
     },
     {
-      id: DashboardTabs.TRANSACTIONS,
-      title: 'Transactions',
-      icon: IoIosList,
-      onClick: () => {
-        setQueryTab(DashboardTabs.TRANSACTIONS);
-        setActiveTab(DashboardTabs.TRANSACTIONS);
-      },
-    },
-    {
       id: DashboardTabs.EXCHANGE,
       title: 'Exchange',
       icon: BsArrowLeftRight,
@@ -114,8 +111,8 @@ const Dashboard: FC<DashboardProps> = (props) => {
   }, [queryTab]);
 
   return (
-    <section className="grid w-full max-w-screen-xl grid-cols-1 gap-x-12  gap-y-4 md:grid-cols-[280px,auto] md:gap-y-12 lg:gap-x-20 xl:gap-x-40">
-      <aside className="row-start-1 row-end-6 hidden w-full flex-shrink-0 flex-col justify-between gap-8 sm:flex-row md:flex  md:max-w-xs md:flex-col md:justify-start md:pt-6">
+    <section className="grid w-full max-w-screen-xl grid-cols-1 gap-x-12  gap-y-4 md:grid-cols-[280px,auto] lg:gap-x-20 xl:gap-x-40">
+      <aside className="row-start-1 row-end-3 hidden w-full flex-shrink-0 flex-col justify-between gap-8 sm:flex-row md:flex  md:max-w-xs md:flex-col md:justify-start ">
         <WalletList
           createWallet={createWallet}
           wallets={wallets}
@@ -142,20 +139,6 @@ const Dashboard: FC<DashboardProps> = (props) => {
         activeWallet={selectedWallet}
         walletTypes={walletTypes}
       />
-      <Accordion
-        selectedKeys={balanceAccordinState}
-        onSelectionChange={setBalanceAccordionState}
-        fullWidth
-        className="order-3 pl-0 pr-3 md:hidden"
-      >
-        <AccordionItem
-          key={1}
-          subtitle={isBalanceAccordionOpen ? 'Tap to collapse' : 'Tap to expand'}
-          title={<h3 className="text-xl font-bold">Wallet crypto balance</h3>}
-        >
-          <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
-        </AccordionItem>
-      </Accordion>
 
       <div className="order-4 overflow-scroll md:order-3 md:col-start-2 md:col-end-4 md:mt-4">
         {activeTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}

@@ -41,7 +41,7 @@ const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
         <CardBody className="flex flex-col gap-2">
           <Input
             type="number"
-            label={`Amount to ${isWithdraw ? 'Withdraw' : 'deposit'} `}
+            label={`Amount to ${isWithdraw ? 'withdraw' : 'deposit'} `}
             labelPlacement="outside"
             placeholder="0.00"
             size="lg"

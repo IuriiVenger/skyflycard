@@ -1,7 +1,20 @@
-import { Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react';
-import { FC } from 'react';
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Selection,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from '@nextui-org/react';
+import { FC, useState } from 'react';
 
 import Loader from '../Loader';
+
+import WalletBalanceList from '../Wallet/WalletBalanceList';
 
 import { API } from '@/api/types';
 import { RequestStatus } from '@/constants';
@@ -11,11 +24,18 @@ import { getDate } from '@/utils/converters';
 type TransactionsProps = {
   transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
   loadMoreTransactions: () => void;
+  selectedWallet: API.Wallets.ExtendWallet | null;
+  cryptoList: API.List.Crypto[];
+  chainList: API.List.Chains[];
 };
 
 const Transactions: FC<TransactionsProps> = (props) => {
-  const { transactions, loadMoreTransactions } = props;
+  const { transactions, loadMoreTransactions, chainList, selectedWallet, cryptoList } = props;
   const { data, status, meta } = transactions;
+
+  const [balanceAccordinState, setBalanceAccordionState] = useState<Selection>(new Set(['1']));
+
+  const isBalanceAccordionOpen = (balanceAccordinState as Set<string>).has('1');
 
   const isTransactionsLoading = status === RequestStatus.PENDING;
   const isFirstTransactionsLoading = isTransactionsLoading && !data?.length;
@@ -23,6 +43,21 @@ const Transactions: FC<TransactionsProps> = (props) => {
 
   return (
     <section className="flex flex-col md:mt-6">
+      <Accordion
+        selectedKeys={balanceAccordinState}
+        onSelectionChange={setBalanceAccordionState}
+        fullWidth
+        className="-mt-4 mb-4 pl-0 pr-3 md:hidden"
+      >
+        <AccordionItem
+          key={1}
+          subtitle={isBalanceAccordionOpen ? 'Tap to collapse' : 'Tap to expand'}
+          className="p-0"
+          title={<h3 className="text-xl font-bold">Wallet crypto balance</h3>}
+        >
+          <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
+        </AccordionItem>
+      </Accordion>
       <h3 className="mb-4 text-xl font-bold">Transactions</h3>
       {!isFirstTransactionsLoading && data ? (
         <>

@@ -132,7 +132,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   return (
     <div className={cn('flex flex-col gap-8 md:mt-6', className)}>
       <SelectPaymentMethod
-        label="Choose payment method"
+        label="Choose deposit method"
         className="w-full"
         activePaymentMethod={activePaymentMethod}
         onSelect={setActivePaymentMethod}
