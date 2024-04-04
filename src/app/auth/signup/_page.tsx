@@ -6,7 +6,7 @@ import SignUp from '@/components/Auth/SignUp';
 import useAuth from '@/hooks/useAuth';
 import { useAppDispatch } from '@/store';
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const dispatch = useAppDispatch();
   const { resetAuthState, ...authHandlers } = useAuth(dispatch);
 
@@ -14,4 +14,4 @@ const LoginPage = () => {
 
   return <SignUp {...authHandlers} />;
 };
-export default LoginPage;
+export default SignUpPage;

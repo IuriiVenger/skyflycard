@@ -1,5 +1,4 @@
 /* eslint-disable no-restricted-globals */
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { useRouter } from 'next-nprogress-bar';
 import { useState } from 'react';
@@ -22,8 +21,6 @@ const useAuth = (dispatch: AppDispatch) => {
 
   const router = useRouter();
   const { loadWallets, unloadWallets } = useWallet();
-
-  const supabase = createClientComponentClient();
 
   const setLoadingStatus = (status: RequestStatus) => {
     dispatch(setUserLoadingStatus(status));
@@ -82,20 +79,15 @@ const useAuth = (dispatch: AppDispatch) => {
   const signUp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${location.origin}/auth/callback?email=${email}`,
-        },
-      });
+      const { data } = await auth.signUp.password(email, password);
+      const { error, user, session } = data;
       if (error) {
         setLoadingStatus(RequestStatus.REJECTED);
-        return toast.error(error.message);
+        return toast.error(error);
       }
-      data.session && setTokens(data.session);
+      session && setTokens(session);
       await loadUserContent();
-      dispatch(setUser(data.user));
+      dispatch(setUser(user));
       router.push('/dashboard');
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
@@ -107,18 +99,17 @@ const useAuth = (dispatch: AppDispatch) => {
   const signIn = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data } = await auth.signin.password(email, password);
+
+      const { error, user, session } = data;
 
       if (error) {
         setLoadingStatus(RequestStatus.REJECTED);
-        return toast.error(error.message);
+        return toast.error(error);
       }
-      data.session && setTokens(data.session);
+      session && setTokens(session);
       await loadUserContent();
-      dispatch(setUser(data.user));
+      dispatch(setUser(user));
       router.push('/dashboard');
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
@@ -176,7 +167,6 @@ const useAuth = (dispatch: AppDispatch) => {
   const signOut = async () => {
     setLoadingStatus(RequestStatus.PENDING);
     try {
-      await supabase.auth.signOut(); // have to delete
       clearUserContent();
       deleteTokens();
       router.push('/');

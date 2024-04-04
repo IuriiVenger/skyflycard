@@ -2,6 +2,8 @@ import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { RequestStatus } from '@/constants';
+
 type LogInProps = {
   email: string;
   password: string;
@@ -9,10 +11,13 @@ type LogInProps = {
   setPassword: (value: string) => void;
   signIn: () => void;
   signUp: () => void;
+  userLoadingStatus: RequestStatus;
 };
 
 const LogIn: FC<LogInProps> = (props) => {
-  const { email, password, setEmail, setPassword, signIn, signUp } = props;
+  const { email, password, setEmail, setPassword, signIn, signUp, userLoadingStatus } = props;
+
+  const isUserLoading = userLoadingStatus === RequestStatus.PENDING;
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,11 +43,18 @@ const LogIn: FC<LogInProps> = (props) => {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <Button type="submit" color="success" className="mb-2 w-full text-white" radius="sm">
+      <Button isDisabled={isUserLoading} type="submit" color="success" className="mb-2 w-full text-white" radius="sm">
         Log in
       </Button>
 
-      <Button variant="bordered" color="primary" onClick={signUp} className="mb-2 w-full" radius="sm">
+      <Button
+        isDisabled={isUserLoading}
+        variant="bordered"
+        color="primary"
+        onClick={signUp}
+        className="mb-2 w-full"
+        radius="sm"
+      >
         Sign up
       </Button>
       <Link href="/auth/login/otp" className="mb-2 w-fit self-center text-center hover:underline focus:outline-none">

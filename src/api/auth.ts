@@ -9,12 +9,18 @@ export const auth = {
       otp: (email: string) =>
         postRequest<API.Auth.SupabaseGetSessionResponse>('/auth/signin/email/otp', { data: { email } }),
     },
+    password: (email: string, password: string) =>
+      postRequest<API.Auth.SupabaseGetSessionResponse>('/auth/signin/password', { data: { email, password } }),
   },
   verify: {
     email: {
       otp: (email: string, token: string) =>
         postRequest<API.Auth.VerifyOtp.Response>('/auth/verify/email/otp', { data: { email, token } }),
     },
+  },
+  signUp: {
+    password: (email: string, password: string) =>
+      postRequest<API.Auth.SupabaseGetSessionResponse>('/auth/signup/password', { data: { email, password } }),
   },
   refresh: {
     refresh_token: (refresh_token: string) =>
