@@ -154,6 +154,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
           </Button>
         </>
       )}
+
       {activePaymentMethod === PaymentMethod.CRYPTO && (
         <>
           <SelectCurrency label="Deposit by" onClick={openChainModal} currency={selectedChain} />
@@ -164,6 +165,16 @@ const DepositForm: FC<DepositFormProps> = (props) => {
           />
         </>
       )}
+
+      <small className="mt-8 text-xs">
+        *Before engaging in digital asset transactions, users must be aware of the high risk of substantial financial
+        loss. Digital assets, including cryptocurrencies, are highly volatile and speculative. Users should exercise
+        caution and conduct thorough research. Transactions involving digital assets may lack consumer protections found
+        in traditional financial transactions. Digital currencies are not backed by central authorities, exposing users
+        to risks such as hacking and fraud. By proceeding with digital asset transactions, users acknowledge the
+        inherent risks and waive any claims against Vlka Cryptana s.r.o.. This notice complies with regulations
+        governing Virtual Asset Service Providers (VASPs) for transparency and legal compliance.
+      </small>
 
       <CurrencyListModal
         isOpen={isFiatModalOpen}

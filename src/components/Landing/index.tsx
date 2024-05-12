@@ -27,7 +27,7 @@ type LandingProps = {
 };
 
 const Landing: FC<LandingProps> = (props) => (
-  <div className="-mb-5 flex">
+  <div className="-mb-20 flex">
     <div className="relative left-0 flex w-screen flex-col items-center">
       <WalletOverview {...props} />
       <CryptoSwap {...props} />
