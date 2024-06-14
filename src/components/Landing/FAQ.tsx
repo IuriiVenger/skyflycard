@@ -2,34 +2,34 @@ import { Accordion, AccordionItem } from '@nextui-org/react';
 
 const faqData = [
   {
-    question: 'What is VPWallet?',
+    question: 'What is PPrince?',
     answer:
       'If you need any help or if you have questions, you can send us an email or call us. Our support managers are always willing to help. You can also start your support request online by using our Frequently Asked Questions.',
   },
   {
-    question: 'Why choose VPWallet?',
+    question: 'Why choose PPrince?',
     answer:
-      'VPWallet is a comprehensive digital wallet, connecting multiple payment methods simultaneously. VPWallet provides you with the highest level of security, offering you a unique way to make secure and quick online payments. VPWallet helps you have better control over your spending and/or your budget. The wallet is easy to use and the registration is quick and simple. Sign up today for FREE.',
+      'PPrince is a comprehensive digital wallet, connecting multiple payment methods simultaneously. PPrince provides you with the highest level of security, offering you a unique way to make secure and quick online payments. PPrince helps you have better control over your spending and/or your budget. The wallet is easy to use and the registration is quick and simple. Sign up today for FREE.',
   },
   {
-    question: 'Is my VPWallet account a bank account?',
+    question: 'Is my PPrince account a bank account?',
     answer:
-      'No. VPWallet is a digital wallet giving you the flexibility and convenience to pay with your available funds.',
+      'No. PPrince is a digital wallet giving you the flexibility and convenience to pay with your available funds.',
   },
   {
-    question: 'How do I sign up for a VPWallet account?',
+    question: 'How do I sign up for a PPrince account?',
     answer:
       'The sign-up process is a simple and easy 2-step process: Step 1: Complete the registration form. Step 2: Verify the account by clicking on the link provided in the email. Please contact customer support in case you did not receive the verification link.',
   },
   {
-    question: 'Who can open a VPWallet account?',
+    question: 'Who can open a PPrince account?',
     answer:
       'Any natural person 18 years or the age of legal capacity in the jurisdiction of their residence can open a wallet account, whichever is higher.',
   },
   {
-    question: 'What do I need to open an account with VPWallet?',
+    question: 'What do I need to open an account with PPrince?',
     answer:
-      'To open an account with VPWallet, you need: an active email address; to be 18 years old or the age of legal capacity in the jurisdiction of your residence, whichever is higher; to be from an accepted country.',
+      'To open an account with PPrince, you need: an active email address; to be 18 years old or the age of legal capacity in the jurisdiction of your residence, whichever is higher; to be from an accepted country.',
   },
   {
     question: 'Can I register more than one account?',
@@ -38,11 +38,11 @@ const faqData = [
   {
     question: 'How can I log in to my account?',
     answer:
-      'Click on sign in on the VPWallet website. Enter the email address you provided during sign up. Enter the password you chose during sign up.',
+      'Click on sign in on the PPrince website. Enter the email address you provided during sign up. Enter the password you chose during sign up.',
   },
   {
-    question: 'How do I reset my VPWallet password?',
-    answer: 'Go to VPWallet.io. Click on the upper right corner on «My Account». Click on «Change Password» tab.',
+    question: 'How do I reset my PPrince password?',
+    answer: 'Go to pprince.io. Click on the upper right corner on «My Account». Click on «Change Password» tab.',
   },
   {
     question: 'My email and password are both correct, but I still can’t log in. Why not?',
@@ -59,7 +59,7 @@ const faqData = [
 
 const FAQ = () => (
   <section className="flex max-w-screen-xl flex-col items-center gap-4 p-5 md:p-16">
-    <h3 className="text-center text-3xl font-bold sm:text-4xl"> VPWallet support</h3>
+    <h3 className="text-center text-3xl font-bold sm:text-4xl"> PPrince support</h3>
     <p className="max-w-[760px] text-center sm:mb-8">
       If you need any help or if you have questions, you can send us an email or call us. Our support managers are
       always willing to help. You can also start your support request online by using our

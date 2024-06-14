@@ -27,9 +27,10 @@ const KYCButton: FC<KYCButtonProps> = ({ onClick, disabled, className, status })
     <Button
       onClick={onClick}
       isDisabled={disabled}
-      color="default"
+      color="primary"
+      radius="sm"
       variant="bordered"
-      className={cn(className, 'w-full rounded-lg  pl-2 pr-4 text-xs font-bold')}
+      className={cn(className, 'w-full pl-2 pr-4 text-xs font-medium')}
     >
       {buttonIcon} {buttonText}
     </Button>

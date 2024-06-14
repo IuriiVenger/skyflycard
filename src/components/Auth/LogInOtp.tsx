@@ -1,6 +1,7 @@
 import { Button } from '@nextui-org/react';
 import cn from 'classnames';
 import { hasCookie } from 'cookies-next';
+import Link from 'next/link';
 import { ChangeEvent, FC, useEffect, useMemo, useState } from 'react';
 import { useTimer } from 'react-timer-hook';
 
@@ -70,7 +71,7 @@ const LogInOtp: FC<LogInOtpProps> = (props) => {
   }, [isOtpRequested]);
 
   return (
-    <form onSubmit={onSubmit} className="h-fit w-full max-w-96 rounded-lg border  border-b-gray-400 p-8 shadow-md">
+    <form onSubmit={onSubmit} className="h-fit w-full max-w-96">
       {isOtpRequested && (
         <h5 className="mb-4 text-center text-sm font-semibold text-neutral-400">OTP sent to {email}</h5>
       )}
@@ -96,9 +97,14 @@ const LogInOtp: FC<LogInOtpProps> = (props) => {
         />
       )}
 
-      <Button isLoading={isLoading} type="submit" color="success" className="mb-2 w-full text-white" radius="sm">
+      <Button isLoading={isLoading} type="submit" color="primary" className="mb-2 w-full text-white" radius="sm">
         {buttonText}
       </Button>
+      {!isOtpRequested && (
+        <Link className="m-auto mt-2 block w-fit text-center text-tenant-main underline" href="/">
+          Back to main page
+        </Link>
+      )}
       {isOtpRequested && !isTimerDisabled && (
         <div className="m-auto mt-2 w-fit">
           <button

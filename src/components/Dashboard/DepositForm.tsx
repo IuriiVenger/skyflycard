@@ -149,7 +149,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
             setSellValue={setAmount}
             isCalculating={isOnrampCalcPending}
           />
-          <Button size="lg" color="success" className="mt-6 text-white" radius="sm" onClick={clickButtonHandler}>
+          <Button size="lg" color="primary" className="mt-8 text-white" radius="sm" onClick={clickButtonHandler}>
             Buy
           </Button>
         </>
@@ -172,8 +172,8 @@ const DepositForm: FC<DepositFormProps> = (props) => {
         caution and conduct thorough research. Transactions involving digital assets may lack consumer protections found
         in traditional financial transactions. Digital currencies are not backed by central authorities, exposing users
         to risks such as hacking and fraud. By proceeding with digital asset transactions, users acknowledge the
-        inherent risks and waive any claims against Vlka Cryptana s.r.o.. This notice complies with regulations
-        governing Virtual Asset Service Providers (VASPs) for transparency and legal compliance.
+        inherent risks and waive any claims against PPrince Ex s.r.o. This notice complies with regulations governing
+        Virtual Asset Service Providers (VASPs) for transparency and legal compliance.
       </small>
 
       <CurrencyListModal

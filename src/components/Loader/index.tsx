@@ -8,7 +8,7 @@ type LoaderProps = {
 };
 
 const Loader: FC<LoaderProps> = ({ className, size }) => (
-  <Spinner size={size} className={cn(className, 'items-centerh-full flex w-full justify-center')} color="success" />
+  <Spinner size={size} className={cn(className, 'items-centerh-full flex w-full justify-center')} color="primary" />
 );
 
 export default Loader;

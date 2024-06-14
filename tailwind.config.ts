@@ -5,6 +5,9 @@ import type { Config } from 'tailwindcss';
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const lightBlueGradient = 'linear-gradient(125deg, #71A9ED 0%, #436CB6 100%)';
+const lightLavanderGradient = 'linear-gradient(32.49deg, rgba(255, 255, 255, 1) 0.15%, rgba(183, 182, 255, 0.2) 100%)';
+export const tenantMainColor = '#3F3BE1';
+export const tenantMainColorLight = '#EEF2FF';
 
 const config: Config = {
   content: [
@@ -27,22 +30,50 @@ const config: Config = {
       ...defaultTheme.screens,
     },
     extend: {
+      gridTemplateColumns: {
+        '20': 'repeat(20, minmax(0, 1fr))',
+      },
       backgroundImage: {
         'light-blue-gradient': lightBlueGradient,
+        'light-lavander-gradient': lightLavanderGradient,
       },
       colors: {
-        'tenant-main': '#367C55',
+        'tenant-main': tenantMainColor,
+        'tenant-main-light': tenantMainColorLight,
+        indigo: {
+          50: '#EEEEFF',
+        },
+      },
+      fontSize: {
+        '2.5xl': [
+          '1.75rem',
+          {
+            lineHeight: '2.25rem',
+            fontWeight: 500,
+          },
+        ],
       },
     },
   },
   darkMode: 'class',
   plugins: [
     nextui({
+      layout: {
+        radius: {
+          small: '0.25rem',
+        },
+      },
       themes: {
         light: {
           colors: {
             success: {
               DEFAULT: '#367A53',
+            },
+            primary: {
+              DEFAULT: tenantMainColor,
+            },
+            secondary: {
+              DEFAULT: tenantMainColorLight,
             },
           },
         },

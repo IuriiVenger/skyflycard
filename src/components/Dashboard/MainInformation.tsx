@@ -43,19 +43,20 @@ const MainInformation: FC<MainInformationProps> = (props) => {
         </div>
         {verificationStatus && <VerificationStatus openKYC={openKYC} verifyStatus={verificationStatus} />}
       </div>
-      <div className="mt-2 grid  grid-cols-2 justify-between gap-x-2 gap-y-3 xs:gap-4 sm:mt-10 xl:grid-cols-4">
+      <div className="mt-2 flex gap-1 sm:mt-10">
         {actionButtons.map((button, index) => (
           <Button
             key={index}
             className={cn(
-              'bg-white',
+              'w-fit bg-inherit',
               button.disabled ? '!cursor-not-allowed opacity-50 hover:!opacity-50' : ' hover:!bg-gray-200',
               activeTab === button.id && 'bg-tenant-main text-white hover:!bg-tenant-main hover:!text-white',
             )}
+            radius="sm"
             onClick={button.onClick}
             disabled={button?.disabled}
           >
-            <span className="capitalize">{button.title}</span> <button.icon className="ml-2 flex-shrink-0 " />
+            <span className="capitalize">{button.title}</span>
           </Button>
         ))}
       </div>

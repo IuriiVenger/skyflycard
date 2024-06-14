@@ -21,7 +21,7 @@ type OrderStatusesInfo = {
     title: string;
     description: string;
     icon: IconType;
-    buttonColor: 'default' | 'success' | 'warning';
+    buttonColor: 'default' | 'success' | 'warning' | 'primary';
     iconColorClassname: string;
   };
 };
@@ -38,7 +38,7 @@ const orderStatusesInfo: OrderStatusesInfo = {
     title: 'Complete',
     description: 'Your order has been completed.',
     icon: GoVerified,
-    buttonColor: 'success',
+    buttonColor: 'primary',
     iconColorClassname: 'text-tenant-main',
   },
   [OrderStatuses.CANCELED]: {

@@ -63,7 +63,7 @@ const ConfirmModal: FC<ConfirmModalProps> = (props) => {
           <Button
             isDisabled={!!delay}
             className="text-white"
-            color="success"
+            color="primary"
             isLoading={isConfirmationPending}
             onClick={handleConfirmModal}
           >

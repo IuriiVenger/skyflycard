@@ -1,15 +1,21 @@
 'use client';
 
-import { Button, Card, Tab, Tabs } from '@nextui-org/react';
+import { Button, Card } from '@nextui-org/react';
 
 import cx from 'classnames';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { FC, useState } from 'react';
+
+import { MdInfoOutline, MdOutlineArrowCircleRight } from 'react-icons/md';
 
 import CryptoFormField from './CryptoFormField';
 
 import { API } from '@/api/types';
+import logo from '@/assets/svg/logo.svg';
+import mastercard from '@/assets/svg/payment-systems/mastercard.svg';
+import visa from '@/assets/svg/payment-systems/visa.svg';
 import { CryptoFormFieldAction, CryptoFormTabs } from '@/constants';
 import { UseExchangeData } from '@/hooks/useExchange';
 import { getActiveFiatAvailableCrypto, isCrypto, isFiat } from '@/utils/financial';
@@ -17,7 +23,7 @@ import { getActiveFiatAvailableCrypto, isCrypto, isFiat } from '@/utils/financia
 type CryptoFormTabsType = {
   [key in CryptoFormTabs]: {
     tabTitle: string;
-    getButtonTitle: (currency: string) => string;
+
     key: CryptoFormTabs;
   };
 };
@@ -51,16 +57,18 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
 
   const availableCrypto = getActiveFiatAvailableCrypto(exchangeRate, cryptoList);
 
+  const selectedChainName = chainList.find((chain) => chain.id === selectedCrypto.chain)?.name;
+
   const cryptoFormTabs: CryptoFormTabsType = {
     [CryptoFormTabs.BUY]: {
       tabTitle: 'Buy',
-      getButtonTitle: (currency: string) => `Buy ${currency} now`,
+
       key: CryptoFormTabs.BUY,
     },
     [CryptoFormTabs.EXCHANGE]: {
       tabTitle: 'Exchange',
       // eslint-disable-next-line no-console
-      getButtonTitle: (currency: string) => `Exchange ${currency} now`,
+
       key: CryptoFormTabs.EXCHANGE,
     },
   };
@@ -77,52 +85,50 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   };
 
   return (
-    <Card className={cx('w-full max-w-xl p-4 py-6 xs:px-10 xs:py-8', className)}>
-      <Tabs
-        selectedKey={activeTabKey}
-        onSelectionChange={(key) => {
-          setActiveTabKey(key as CryptoFormTabs);
-        }}
-        variant="solid"
-        aria-label="Options"
-        fullWidth
-        className="mb-4"
-        radius="sm"
-      >
-        <Tab key={cryptoFormTabs.buy.key} title={cryptoFormTabs.buy.tabTitle} className="flex flex-col gap-3">
-          <CryptoFormField
-            action={CryptoFormFieldAction.SELL}
-            currency={selectedFiat}
-            currencies={fiatList}
-            setValue={setSellValue}
-            minValue={minSellValue}
-            value={sellValue}
-            onInputBlur={checkMinSellValue}
-            onChangeCurrency={selectCurrency}
-          />
-          <CryptoFormField
-            action={CryptoFormFieldAction.BUY}
-            currency={selectedCrypto}
-            currencies={availableCrypto}
-            value={fiat2CryptoValue}
-            onChangeCurrency={selectCurrency}
-            chains={chainList}
-          />
-        </Tab>
-        <Tab
-          key={cryptoFormTabs.exchange.key}
-          title={cryptoFormTabs.exchange.tabTitle}
-          className="flex flex-col gap-3"
-          isDisabled
-        >
-          <p>Exchange</p>
-        </Tab>
-      </Tabs>
-      <Link href="/dashboard">
-        <Button radius="sm" color="success" size="lg" className="mt-2 w-full font-medium text-white">
-          {cryptoFormTabs[activeTabKey].getButtonTitle(selectedCrypto.name)}
-        </Button>
-      </Link>
+    <Card className={cx('flex w-full max-w-2xl flex-col gap-8 p-4 py-6 xs:px-10 xs:py-8', className)}>
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-medium lg:text-2.5xl">
+          Buy {selectedCrypto.name} {selectedChainName}
+        </h3>
+        <Image src={logo} alt="logo" height={48} />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <CryptoFormField
+          action={CryptoFormFieldAction.SELL}
+          currency={selectedFiat}
+          currencies={fiatList}
+          setValue={setSellValue}
+          minValue={minSellValue}
+          value={sellValue}
+          onInputBlur={checkMinSellValue}
+          onChangeCurrency={selectCurrency}
+        />
+        <CryptoFormField
+          action={CryptoFormFieldAction.BUY}
+          currency={selectedCrypto}
+          currencies={availableCrypto}
+          value={fiat2CryptoValue}
+          onChangeCurrency={selectCurrency}
+          chains={chainList}
+        />
+        <div className="flex gap-2 text-zinc-600 ">
+          <MdInfoOutline />
+          <span className="text-xs md:text-sm">Purchases over €700.00 require enhanced verification checks</span>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <Link href="/dashboard">
+          <Button color="primary" radius="sm" size="md" className="font-medium text-white">
+            To the payment <MdOutlineArrowCircleRight />
+          </Button>
+        </Link>
+        <div className="flex gap-2">
+          <Image src={visa} alt="visa" height={16} />
+          <Image src={mastercard} alt="mastercard" height={16} />
+        </div>
+      </div>
     </Card>
   );
 };

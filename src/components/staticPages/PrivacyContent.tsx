@@ -3,14 +3,14 @@ import privacyTable from '@/assets/img/privacy-table.png';
 
 const PrivacyContent = () => (
   <section className="privacy-content mt-8">
-    <h1 className="mb-24 text-center text-3xl font-bold lg:text-6xl">Privacy Notice of VPWallet</h1>
+    <h1 className="mb-24 text-center text-3xl font-bold lg:text-6xl">Privacy Notice of PPrince</h1>
     <div className="doc-content">
       <p className="c1">
         <span className="c0">This Privacy Notice describes the rules according to which </span>
-        <span className="c0 c2">Vlka Cryptana s.r.o.</span>
+        <span className="c0 c2">PPrince Ex s.r.o</span>
         <span className="c6 c0">
-          &nbsp;processes the personal data of any person using the VPwallet and/or any person using any services
-          offered by Company.
+          &nbsp;processes the personal data of any person using the PPrince and/or any person using any services offered
+          by Company.
         </span>
       </p>
       <p className="c1">
@@ -26,21 +26,21 @@ const PrivacyContent = () => (
       <p className="c1">
         <span className="c0 c2">Company</span>
         <span className="c0">: </span>
-        <span className="c0 c2">Vlka Cryptana s.r.o</span>
+        <span className="c0 c2">PPrince Ex s.r.o</span>
         <span className="c0">&nbsp;(further </span>
-        <span className="c0 c2">Vlka Cryptana s.r.o</span>
+        <span className="c0 c2">PPrince Ex s.r.o</span>
         <span className="c6 c0">&nbsp;or we)</span>
       </p>
       <p className="c1">
-        <span className="c6 c0">Payment Account: payment account at VPwallet</span>
+        <span className="c6 c0">Payment Account: payment account at PPrince</span>
       </p>
       <p className="c1">
         <span className="c0">
           Payment Account Terms: regulated under General Terms and Conditions available on the{' '}
         </span>
         <span className="c11 c0">
-          <a className="c3" href=" https://vpwallet.io/">
-            https://vpwallet.io/
+          <a className="c3" href=" https://pprince.io/">
+            https://pprince.io/
           </a>
         </span>
         <span className="c6 c0">&nbsp;website</span>
@@ -50,9 +50,9 @@ const PrivacyContent = () => (
       </p>
       <p className="c1">
         <span className="c0">
-          Person (You): any person using the VPwallet and/or any person using any services offered by{' '}
+          Person (You): any person using the PPrince and/or any person using any services offered by{' '}
         </span>
-        <span className="c0 c2">Vlka Cryptana s.r.o</span>
+        <span className="c0 c2">PPrince Ex s.r.o</span>
         <span className="c6 c0">&nbsp;(incl user)</span>
       </p>
       <p className="c1">
@@ -62,18 +62,18 @@ const PrivacyContent = () => (
       </p>
       <p className="c1">
         <span className="c0">Data controller of personal data: </span>
-        <span className="c0">Vlka Cryptana s.r.o.</span>
+        <span className="c0">PPrince Ex s.r.o</span>
         <span className="c0">, registry code </span>
-        <span className="c0">17664021</span>
+        <span className="c0">21602735</span>
         <span className="c0">, address </span>
-        <span className="c0">Praha, Praha 9, Kurta Konr&aacute;da 2517/1, 190 00 Czech Republic</span>
+        <span className="c0">Na Čečelička 425/4, Smíchov, 150 00 Prague 5 Czech Republic</span>
         <span className="c0">&nbsp;(incl data controllers authorized by </span>
-        <span className="c0">Vlka Cryptana s.r.o</span>
+        <span className="c0">PPrince Ex s.r.o</span>
         <span className="c6 c0">).</span>
       </p>
       <p className="c1">
         <span className="c0">Data Protection Officer- The responsible person appointed by the </span>
-        <span className="c0">Vlka Cryptana s.r.o</span>
+        <span className="c0">PPrince Ex s.r.o</span>
       </p>
       <p className="c1">
         <span className="c6 c4">2. THE PRINCIPLES OF PROCESSING PERSONAL DATA</span>
@@ -81,7 +81,7 @@ const PrivacyContent = () => (
       <p className="c1">
         <span className="c0">Company</span>
         <span className="c0">&nbsp;principles while processing Person&rsquo;s/ </span>
-        <span className="c0">Vlka Cryptana s.r.o</span>
+        <span className="c0">PPrince Ex s.r.o</span>
         <span className="c6 c0">&nbsp;user personal data:</span>
       </p>
       <p className="c1">
@@ -236,15 +236,15 @@ const PrivacyContent = () => (
       <p className="c1">
         <span className="c4">3.1.6. &nbsp;</span>
         <span className="c6 c0">
-          Device Data &ndash; Information regarding the device on which Person is using the VPwallet, including the
+          Device Data &ndash; Information regarding the device on which Person is using the PPrince, including the
           device&rsquo;s model, name or any other identifier and the IP address of the network from which Person is
-          using the VPwallet.
+          using the PPrince.
         </span>
       </p>
       <p className="c1">
         <span className="c4">3.1.7. &nbsp;</span>
         <span className="c6 c0">
-          Preference Data &ndash; Person&rsquo;s preferences in the VPwallet (language preferences, transaction limits,
+          Preference Data &ndash; Person&rsquo;s preferences in the PPrince (language preferences, transaction limits,
           etc).
         </span>
       </p>
@@ -262,9 +262,9 @@ const PrivacyContent = () => (
       <p className="c1">
         <span className="c4">3.1.10. &nbsp;</span>
         <span className="c6 c0">
-          Usage Data &ndash; Data about Person interaction with the VPwallet (e.g. information
+          Usage Data &ndash; Data about Person interaction with the PPrince (e.g. information
           <br />
-          about which features of the VPwallet does Person use, which features do not use,
+          about which features of the PPrince does Person use, which features do not use,
           <br />
           etc).
         </span>
@@ -322,14 +322,14 @@ const PrivacyContent = () => (
         <span className="c4">4.1.4. &nbsp;</span>
         <span className="c6 c0">
           Analytical purposes (GDPR art 6 ( 1 ) ( f )) &ndash; to gain a better understanding of the preferences of
-          Company&rsquo;s customers and how customers interact with the VPwallet.
+          Company&rsquo;s customers and how customers interact with the PPrince.
         </span>
       </p>
       <p className="c1">
         <span className="c6 c0">
           Note that upon processing personal data for Analytical Purposes, the data is part of a large mass of data.
           Company does not analyze Person&rsquo;s individual preferences or Person&rsquo;s individual interaction with
-          VPwallet.
+          PPrince.
         </span>
       </p>
       <p className="c1">
@@ -420,7 +420,7 @@ const PrivacyContent = () => (
         </span>
         <span>&bull; </span>
         <span className="c0">Send an email to </span>
-        <span className="c0 c8">gdpr@vpwallet.io </span>
+        <span className="c0 c8">gdpr@pprince.io </span>
         <span className="c0">
           to delete personal data for marketing purposes.
           <br />
@@ -507,7 +507,7 @@ const PrivacyContent = () => (
         <span className="c4">10.1.3. </span>
         <span className="c0">
           Device Data, Preference Data, Contact Data &ndash; Until the closure of Payment Account (for Payment Account
-          and VPwallet to function).
+          and PPrince to function).
           <br />
         </span>
         <span className="c4">10.1.4. </span>
@@ -527,7 +527,7 @@ const PrivacyContent = () => (
         <span className="c4">10.1.5. </span>
         <span className="c0">Other Data &ndash; Deleted after closing Payment Account. </span>
         <span className="c0 c2 c14">This data is necessary only for enabling Person the use of the </span>
-        <span className="c0">VPwallet</span>
+        <span className="c0">PPrince</span>
         <span className="c12 c0 c2">&nbsp;and is not necessary after Payment Account is closed.</span>
       </p>
       <p className="c1">
@@ -558,8 +558,8 @@ const PrivacyContent = () => (
           valid version of this Policy will be available on the{' '}
         </span>
         <span className="c0 c11">
-          <a className="c3" href="https://vpwallet.io/">
-            https://vpwallet.io/
+          <a className="c3" href="https://pprince.io/">
+            https://pprince.io/
           </a>
         </span>
         <span className="c0 c8">&nbsp;</span>
@@ -629,9 +629,9 @@ const PrivacyContent = () => (
         <span className="c4 c2">.2. </span>
         <span className="c0">
           Person can exercise its rights stipulated in this Section 11 by using the respective functionalities of the
-          VPwallet or sending a respective request to{' '}
+          PPrince or sending a respective request to{' '}
         </span>
-        <span className="c0 c8">gdpr@vpwallet.io</span>
+        <span className="c0 c8">gdpr@pprince.io</span>
         <span className="c0">
           <br />
         </span>
@@ -781,7 +781,7 @@ const PrivacyContent = () => (
         <span className="c0">Company</span>
         <span className="c6 c0">
           &nbsp;may unilaterally amend this Policy from time to time. Upon amending this Policy, Company will notify
-          person about the new Policy by e-mail and/or via the VPwallet. In case the new Policy refers to processing
+          person about the new Policy by e-mail and/or via the PPrince. In case the new Policy refers to processing
           personal data for any new purpose, which requires Person&rsquo;s consent, then Company will not process
           personal data for such new purpose, before it has Your consent for processing Your personal data for such new
           purpose.
@@ -799,7 +799,7 @@ const PrivacyContent = () => (
         <span className="c0 c17">&nbsp;</span>
         <span className="c0">&nbsp;</span>
         <span className="c0 c8">
-          gdpr@vpwallet.io
+          gdpr@pprince.io
           <br />
         </span>
         <span className="c6 c0">which are processed by the Data Protection Officer of Company </span>

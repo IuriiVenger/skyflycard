@@ -41,22 +41,16 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
               <KYCButton onClick={openKycModal} status={userData.kyc_status} />
             </NavbarItem>
           )}
-          <Button className="font-medium text-black" onClick={signOut} color="danger" variant="light" href="/">
+          <Button className="font-medium text-black" onClick={signOut} color="secondary" radius="sm" href="/">
             Logout
           </Button>
         </>
       ) : (
-        <>
-          {/* <NavbarItem className="hidden lg:flex">
-            <Link href="/auth/signup">Sign up</Link>
-          </NavbarItem> */}
-
-          <NavbarItem>
-            <Button as={Link} color="success" href="/auth/login/otp" variant="flat">
-              Log in
-            </Button>
-          </NavbarItem>
-        </>
+        <NavbarItem>
+          <Button as={Link} color="primary" href="/auth/login/otp" variant="flat" radius="sm">
+            Log in
+          </Button>
+        </NavbarItem>
       )}
     </NavbarContent>
   );

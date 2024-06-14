@@ -23,3 +23,7 @@ export const getStartTimeForTimer = (sec: number, key: string): Date => {
 };
 
 export const mailToSupport = () => window.open(`mailto:${supportEmail}`, '_blank');
+
+export const isOddNumber = (num: number) => num % 2 !== 0;
+
+export const isMultipleOf = (multiple: number, num: number) => num % multiple === 0;

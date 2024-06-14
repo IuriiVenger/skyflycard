@@ -136,4 +136,4 @@ export enum OrderTypes {
   CRYPTO_WITHDRAWAL = 'crypto_withdrawal',
 }
 
-export const supportEmail = 'support@vpwallet.io';
+export const supportEmail = 'info@pprince.io';

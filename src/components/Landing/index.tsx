@@ -1,14 +1,10 @@
 import { FC } from 'react';
 
 import Contacts from './Contacts';
-import ContactSupport from './ContactSupport';
-
 import CryptoSwap from './CryptoSwap';
-import CryptoTradingInfo from './CryptoTradingInfo';
-
-import FAQ from './FAQ';
+import Features from './Features';
 import HaveMoreQuestions from './HaveMoreQuestions';
-import WalletOverview from './WalletOverview';
+import LandingTitle from './LandingTitle';
 
 import { API } from '@/api/types';
 import { UseExchangeData } from '@/hooks/useExchange';
@@ -27,14 +23,12 @@ type LandingProps = {
 };
 
 const Landing: FC<LandingProps> = (props) => (
-  <div className="-mb-20 flex">
+  <div className="-mb-20 -mt-8 flex">
     <div className="relative left-0 flex w-screen flex-col items-center">
-      <WalletOverview {...props} />
+      <LandingTitle />
+      <Features />
       <CryptoSwap {...props} />
-      <ContactSupport />
-      <CryptoTradingInfo />
       <HaveMoreQuestions />
-      <FAQ />
       <Contacts />
     </div>
   </div>

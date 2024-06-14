@@ -15,6 +15,26 @@ import xrp from 'cryptocurrency-icons/svg/icon/xrp.svg';
 import currencyFlag from 'react-currency-flags/dist/flags';
 
 import { API } from '@/api/types';
+import acalaNetwork from '@/assets/svg/landing-cryptocurrency-icons/acala-network.svg';
+import achain from '@/assets/svg/landing-cryptocurrency-icons/achain.svg';
+import adcoin from '@/assets/svg/landing-cryptocurrency-icons/adcoin.svg';
+import akropolis from '@/assets/svg/landing-cryptocurrency-icons/akropolis.svg';
+import alphaWallet from '@/assets/svg/landing-cryptocurrency-icons/alphaWallet.svg';
+import alqo from '@/assets/svg/landing-cryptocurrency-icons/alqo.svg';
+import anchorProtocol from '@/assets/svg/landing-cryptocurrency-icons/anchorProtocol.svg';
+import ankr from '@/assets/svg/landing-cryptocurrency-icons/ankr.svg';
+import appCoins from '@/assets/svg/landing-cryptocurrency-icons/appCoins.svg';
+import compound from '@/assets/svg/landing-cryptocurrency-icons/compound.svg';
+import consensysCodefi from '@/assets/svg/landing-cryptocurrency-icons/consensysCodefi.svg';
+import convex from '@/assets/svg/landing-cryptocurrency-icons/convex.svg';
+import cortex from '@/assets/svg/landing-cryptocurrency-icons/cortex.svg';
+import cosmos from '@/assets/svg/landing-cryptocurrency-icons/cosmos.svg';
+import coti from '@/assets/svg/landing-cryptocurrency-icons/coti.svg';
+import covalent from '@/assets/svg/landing-cryptocurrency-icons/covalent.svg';
+import cream from '@/assets/svg/landing-cryptocurrency-icons/cream.svg';
+import cryptoCom from '@/assets/svg/landing-cryptocurrency-icons/cryptoCom.svg';
+import currencyCom from '@/assets/svg/landing-cryptocurrency-icons/currencyCom.svg';
+import dash from '@/assets/svg/landing-cryptocurrency-icons/dash.svg';
 
 type CryptoIcons = {
   [key: string]: string;
@@ -35,6 +55,29 @@ export const cryptoIcons: CryptoIcons = {
   xrp,
   usdc,
 };
+
+export const landingCryptoIcons = [
+  acalaNetwork,
+  achain,
+  adcoin,
+  akropolis,
+  alphaWallet,
+  alqo,
+  anchorProtocol,
+  ankr,
+  appCoins,
+  compound,
+  consensysCodefi,
+  convex,
+  cortex,
+  cosmos,
+  coti,
+  covalent,
+  cream,
+  cryptoCom,
+  currencyCom,
+  dash,
+];
 
 export const isFiat = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains): currency is API.List.Fiat =>
   (currency as API.List.Fiat).code !== undefined && (currency as API.List.Fiat).enabled !== undefined;

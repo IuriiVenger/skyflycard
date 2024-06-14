@@ -34,16 +34,8 @@ const Footer: FC = () => (
         2024 © All rights reserved
         <div className="mt-2 opacity-60">
           <p>
-            Czech Republic Vlka Cryptana s.r.o. (Praha, Praha 9, Kurta Konráda 2517/1, 190 00 Czech Republic) is
-            incorporated as a limited liability company, in accordance with Czech Republic law.
-          </p>
-          <p>
-            Crypto exchanges services provided by Vlka Cryptana s.r.o. (registration number 176 640 21) Kurta Konráda
-            2517/1, Liben, 190 00 Prague 9
-          </p>
-          <p>
-            The website www.vpwallet.io is owned and operated by Vlka Cryptana s.r.o. (registration number 176 640 21)
-            Kurta Konráda 2517/1, Liben, 190 00 Prague 9
+            PPrince s.r.o.– a limited liability company registred in Czech Republic with registration number 21602735
+            and a license in the Register of Payment Services of Poland under number MIP 155/2022
           </p>
         </div>
       </section>

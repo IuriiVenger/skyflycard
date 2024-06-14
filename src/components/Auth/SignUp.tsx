@@ -18,7 +18,7 @@ const SignUp: FC<SignUpProps> = (props) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-96 rounded-lg border border-b-gray-400  p-8 shadow-md">
+    <form onSubmit={onSubmit} className="w-96">
       <input
         type="email"
         name="email"

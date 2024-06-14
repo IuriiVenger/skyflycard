@@ -22,10 +22,7 @@ const SelectCurrency: FC<SelectCurrencyProps> = (props) => {
       <h3 className="mb-4 text-xl font-bold">{label}</h3>
       <div
         onClick={onClick}
-        className={cn(
-          'flex w-full items-center justify-between rounded-lg border px-4 py-3',
-          onClick && 'cursor-pointer',
-        )}
+        className={cn('flex w-full items-center justify-between rounded border px-4 py-3', onClick && 'cursor-pointer')}
       >
         <CurrencyInfo hideShevron currency={currency} chains={chains} />
         <div className="flex items-center gap-2">

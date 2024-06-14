@@ -6,31 +6,30 @@ const TermsContent = () => (
 
     <div className="doc-content">
       <p className="c2">
-        <span className="c10">Vlka Cryptana s.r.o.</span>
-        <span className="c10">&nbsp;(&quot;VPwallet &quot;or &ldquo;Vlka </span>
-        <span className="c10">Cryptana &rdquo;</span>
+        <span className="c10">PPrince Ex s.r.o</span>
+        <span className="c10">&nbsp;(&quot;PPrince &quot;platform </span>
         <span className="c10">) operates through the website </span>
         <span className="c6">
-          <a className="c3" href="https://vpwallet.io/">
-            https://vpwallet.io/
+          <a className="c3" href="https://pprince.io/">
+            https://pprince.io/
           </a>
         </span>
         <span className="c1">
-          &nbsp;(such websites and the services of VPwallet described below, collectively, the &quot;Service &quot;).{' '}
+          &nbsp;(such websites and the services of PPrince described below, collectively, the &quot;Service &quot;).{' '}
         </span>
       </p>
       <p className="c0">
         <span className="c1"></span>
       </p>
       <p className="c2">
-        <span className="c10">Vlka Cryptana s.r.o.</span>
+        <span className="c10">PPrince Ex s.r.o</span>
         <span className="c10">
-          &nbsp;(&quot;us &quot;or &quot;we &quot;or &quot;our &quot;or &quot;VPwallet &quot;) is a company incorporated
+          &nbsp;(&quot;us &quot;or &quot;we &quot;or &quot;our &quot;or &quot;PPrince &quot;) is a company incorporated
           under the laws of{' '}
         </span>
         <span className="c10">Czech Republic</span>
         <span className="c10">, with a registered office at </span>
-        <span className="c10">Praha, Praha 9, Kurta Konr &aacute;da 2517/1, 190 00 Czech Republic</span>
+        <span className="c10">Na Čečelička 425/4, Smíchov, 150 00 Prague 5 Czech Republic</span>
       </p>
       <p className="c0">
         <span className="c1"></span>
@@ -71,8 +70,8 @@ const TermsContent = () => (
       <p className="c2">
         <span className="c10">1.3. When you use the Services via the website located at </span>
         <span className="c6">
-          <a className="c3" href="https://vpwallet.io/">
-            https://vpwallet.io
+          <a className="c3" href="https://pprince.io/">
+            https://pprince.io
           </a>
         </span>
         <span className="c1">
@@ -153,7 +152,7 @@ const TermsContent = () => (
           have been tampered with, or are in any way proven to be misleading or misrepresenting &ndash;we shall be under
           no obligation to accept such documents as valid, and under no obligation to provide feedback on the exact
           nature of our findings with regards to these documents. In addition, we may request that you attend a video
-          call to verify your identity. VPwallet may decide, at its sole discretion, to terminate your account and these
+          call to verify your identity. PPrince may decide, at its sole discretion, to terminate your account and these
           Terms &amp;Conditions, on the basis that such documents or verification provides a negative or uncertain
           conclusion or we suspect that you are not aged 18 or over.{' '}
         </span>
@@ -234,7 +233,7 @@ const TermsContent = () => (
           purchase Cryptocurrency from us, in exchange for USD, GBP, EUR or other government-issued currency, that is
           designated as legal tender in its country of issuance through government decree, regulation, or law as
           determined by us from time to time (collectively and individually the &quot;FIAT Currency &quot;). Following
-          your payment of FIAT Currency being received by VPwallet, subject to the provisions of the Terms
+          your payment of FIAT Currency being received by PPrince, subject to the provisions of the Terms
           &amp;Conditions, we shall deliver to your virtual wallet address opened with us, the Cryptocurrency bought by
           you.{' '}
         </span>
@@ -253,7 +252,7 @@ const TermsContent = () => (
           our liability in such circumstances. You acknowledge that due to the occasional nature of the Guest Account,
           you will not be assigned access details (e.g. password), therefore will not be able to log in to the account.
           Should you wish to have full access to transactions made as part of a &quot;Guest Account &quot;, please
-          contact support@vpwallet.io
+          contact support@pprince.io
         </span>
       </p>
       <p className="c0">
@@ -263,7 +262,7 @@ const TermsContent = () => (
         <span className="c1">
           4.8 Sale of Cryptocurrency by you: following your opening of an account with us and after opening a wallet
           with us, you will be able to sell Cryptocurrency to us, in exchange for FIAT Currency. Following your delivery
-          of Cryptocurrency bought by us being received by VPwallet, subject to the provisions of the Terms
+          of Cryptocurrency bought by us being received by PPrince, subject to the provisions of the Terms
           &amp;Conditions, we shall deliver to your designated bank account provided to us the FIAT Currency.{' '}
         </span>
       </p>
@@ -274,8 +273,8 @@ const TermsContent = () => (
         <span className="c1">
           4.9 You acknowledge and agree that it is at our sole discretion whether to: (i) provide you with the Services;
           and/or (ii) reverse any of your orders and/or transactions. For example: in order to provide liquidity for its
-          users, VPwallet trades cryptocurrencies with other cryptocurrency exchanges. In the event of insufficient
-          liquidity of a certain Cryptocurrency, VPwallet may decline or reverse your order for purchasing such
+          users, PPrince trades cryptocurrencies with other cryptocurrency exchanges. In the event of insufficient
+          liquidity of a certain Cryptocurrency, PPrince may decline or reverse your order for purchasing such
           Cryptocurrency.{' '}
         </span>
       </p>
@@ -313,7 +312,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          4.13 VPwallet has no obligation to check whether users are using the Services in accordance with the Terms
+          4.13 PPrince has no obligation to check whether users are using the Services in accordance with the Terms
           &amp;Conditions, as updated from time to time. You acknowledge that it is solely your responsibility to ensure
           that you are aware of the correct and current provisions of the Terms &amp;Conditions and of any amendments or
           updates made thereto and you should regularly check the Terms &amp;Conditions.{' '}
@@ -352,7 +351,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          5.1 All sale prices of Cryptocurrency shall be quoted in FIAT Currency as determined by VPwallet.{' '}
+          5.1 All sale prices of Cryptocurrency shall be quoted in FIAT Currency as determined by PPrince.{' '}
         </span>
       </p>
       <p className="c0">
@@ -454,7 +453,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          6.5 In rare circumstances, VPwallet reserves the right to either cancel your order or offer you a different
+          6.5 In rare circumstances, PPrince reserves the right to either cancel your order or offer you a different
           price for the Services. In the event we cancel your order, if we have already received FIAT Currency from you
           with regards to such order, we will, subject to applicable law and regulation, refund such funds to you after
           deduction of any cost or expense we incur with regards to such transfer, including without limitation any bank
@@ -471,9 +470,8 @@ const TermsContent = () => (
         <span className="c1">
           6.6 Other than at our sole discretion, you cannot cancel, reverse, or change any transaction or order. If your
           payment to purchase Cryptocurrency from us is not successful or if your payment method has insufficient funds,
-          you agree that VPwallet, in its sole discretion, may: (i) cancel the transaction; (ii) fulfil a portion of
-          that transaction; or (iii) debit your other payment methods, in any amount necessary to complete the
-          transaction.{' '}
+          you agree that PPrince, in its sole discretion, may: (i) cancel the transaction; (ii) fulfil a portion of that
+          transaction; or (iii) debit your other payment methods, in any amount necessary to complete the transaction.{' '}
         </span>
       </p>
       <p className="c0">
@@ -490,8 +488,8 @@ const TermsContent = () => (
           7.1 The Services are only available to individuals who are at least 18 years old (and at least the legal age
           in their jurisdiction). You represent and warrant that if you are an individual, you are at least 18 years old
           and of legal age in your jurisdiction to form a binding contract, and that all registration information you
-          submit is accurate and truthful. VPwallet reserves the right to ask for proof of age from you and your account
-          with VPwallet may be suspended until satisfactory proof of age is provided.{' '}
+          submit is accurate and truthful. PPrince reserves the right to ask for proof of age from you and your account
+          with PPrince may be suspended until satisfactory proof of age is provided.{' '}
         </span>
       </p>
       <p className="c0">
@@ -525,10 +523,10 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          7.4 You understand and accept that VPwallet is unable to provide you with any legal advice or assurances in
-          respect of your use of the Services and VPwallet makes no representations whatsoever as to the legality of the
+          7.4 You understand and accept that PPrince is unable to provide you with any legal advice or assurances in
+          respect of your use of the Services and PPrince makes no representations whatsoever as to the legality of the
           Services in your jurisdiction. Please verify the relevant laws in your jurisdiction before registering with
-          VPwallet and using the Services.{' '}
+          PPrince and using the Services.{' '}
         </span>
       </p>
       <p className="c0">
@@ -561,7 +559,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          8.3 VPwallet may, at any time, set off any amount of Cryptocurrency owed by us to you against any amount of
+          8.3 PPrince may, at any time, set off any amount of Cryptocurrency owed by us to you against any amount of
           FIAT Currency owed by you to us, or vice versa, whether in Cryptocurrency or in FIAT Currency.{' '}
         </span>
       </p>
@@ -571,8 +569,8 @@ const TermsContent = () => (
       <p className="c2">
         <span className="c1">
           8.4 All official communication (requests, notifications and other information addressed to you) shall be sent
-          to your account unless otherwise stated herein. VPwallet shall not be responsible for unanswered requests that
-          were directed to VPwallet through other means of communication.{' '}
+          to your account unless otherwise stated herein. PPrince shall not be responsible for unanswered requests that
+          were directed to PPrince through other means of communication.{' '}
         </span>
       </p>
       <p className="c0">
@@ -580,9 +578,9 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          8.5 VPwallet shall not be responsible for damage and/or loss caused by the unauthorized use of the Website,
+          8.5 PPrince shall not be responsible for damage and/or loss caused by the unauthorized use of the Website,
           Platform and/or Services due to information security system malfunction, unless such security malfunction is
-          caused by VPwallet &#39;s gross negligence or wilful misconduct.{' '}
+          caused by PPrince &#39;s gross negligence or wilful misconduct.{' '}
         </span>
       </p>
       <p className="c0">
@@ -590,9 +588,9 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          8.6 VPwallet shall not be responsible if the information associated with the use of the Website, Platform
+          8.6 PPrince shall not be responsible if the information associated with the use of the Website, Platform
           and/or Services by the Client becomes known to a third party as a result of accessing the information through
-          means of communication that are beyond VPwallet &#39;s control.{' '}
+          means of communication that are beyond PPrince &#39;s control.{' '}
         </span>
       </p>
       <p className="c0">
@@ -708,7 +706,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          10.6 Your account with VPwallet is solely for your benefit. You shall not allow any third party (including a
+          10.6 Your account with PPrince is solely for your benefit. You shall not allow any third party (including a
           relative) to use your account, password or identity to access or use the Services or the Platform and you
           shall be fully responsible for any activities undertaken on your account by a third party. You will not reveal
           your account username or password to any person and you shall take all steps to ensure that such details are
@@ -726,7 +724,7 @@ const TermsContent = () => (
           10.7 You are responsible for the security of your private key, username and password on your own PC or
           internet access location. If this username password combination is &quot;hacked &quot;from your computer due
           to any viruses or malware that is present on the computer that you access your account with, this is your sole
-          responsibility. You should report immediately to VPwallet any possible hacking attempts or security breaches
+          responsibility. You should report immediately to PPrince any possible hacking attempts or security breaches
           from your computer terminal.{' '}
         </span>
       </p>
@@ -842,11 +840,11 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          10.19 That you understand that VPwallet shall be entitled to inform relevant authorities, other online service
+          10.19 That you understand that PPrince shall be entitled to inform relevant authorities, other online service
           providers and banks, credit card companies, electronic payment providers or other financial institutions
           (together &quot;Interested Third Parties &quot;) of your identity and of any suspected unlawful, fraudulent or
-          improper activity and that you will cooperate fully with VPwallet to investigate any such activity. For
-          avoidance of doubt, your failure to cooperate with VPwallet with regard to such investigation may result in
+          improper activity and that you will cooperate fully with PPrince to investigate any such activity. For
+          avoidance of doubt, your failure to cooperate with PPrince with regard to such investigation may result in
           immediate suspension of your account pending the outcome of any investigation results.{' '}
         </span>
       </p>
@@ -876,18 +874,18 @@ const TermsContent = () => (
       <ul className="c9 lst-kix_qovms0k2293h-0 start">
         <li className="c4 li-bullet-0">
           <span className="c1">
-            10.21.1 VPwallet will not be responsible for any loss, including without limitation loss of profits, that
-            may result therefrom; and <br />
+            10.21.1 PPrince will not be responsible for any loss, including without limitation loss of profits, that may
+            result therefrom; and <br />
           </span>
         </li>
         <li className="c4 li-bullet-0">
           <span className="c1">
             10.21.2 if any such error results in an increase of the Cryptocurrency or FIAT Currency amount owed or paid
-            to you by VPwallet, you shall not be entitled to the Cryptocurrency or FIAT Currency in excess due to such
-            increase. You shall immediately inform VPwallet of the error and you shall immediately repay any such
-            increase, transferred to you in error, to VPwallet (as directed by VPwallet), or alternatively VPwallet may,
-            at its discretion, deduct an amount equal to such increase from any FIAT Currency or Cryptocurrency paid to
-            you by VPwallet. <br />
+            to you by PPrince, you shall not be entitled to the Cryptocurrency or FIAT Currency in excess due to such
+            increase. You shall immediately inform PPrince of the error and you shall immediately repay any such
+            increase, transferred to you in error, to PPrince (as directed by PPrince), or alternatively PPrince may, at
+            its discretion, deduct an amount equal to such increase from any FIAT Currency or Cryptocurrency paid to you
+            by PPrince. <br />
           </span>
         </li>
       </ul>
@@ -909,7 +907,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          11.2 We reserve the right not to credit wire transfers to you until VPwallet can properly identify and
+          11.2 We reserve the right not to credit wire transfers to you until PPrince can properly identify and
           authenticate your identity or payment account (as applicable).{' '}
         </span>
       </p>
@@ -949,8 +947,8 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          12.1 You understand and agree that VPwallet records shall be the final authority in determining your use of
-          the Services and you shall have no right to dispute VPwallet &#39;s decisions in regard to such matters.{' '}
+          12.1 You understand and agree that PPrince records shall be the final authority in determining your use of the
+          Services and you shall have no right to dispute PPrince &#39;s decisions in regard to such matters.{' '}
         </span>
       </p>
       <p className="c0">
@@ -960,8 +958,8 @@ const TermsContent = () => (
         <span className="c1">
           12.2 No claims or disputes will be considered if more than 7 (seven) calendar days following the date of the
           original transaction have lapsed. You hereby undertake to raise such claims or disputes with the customer
-          service department at support@vpwallet.io and to provide VPwallet with all the relevant information or
-          evidence which VPwallet reasonably requires to review your claim or dispute.{' '}
+          service department at support@pprince.io and to provide PPrince with all the relevant information or evidence
+          which PPrince reasonably requires to review your claim or dispute.{' '}
         </span>
       </p>
       <p className="c0">
@@ -969,7 +967,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          12.3 VPwallet &#39;s customer service department will review your claim and provide you with its decision
+          12.3 PPrince &#39;s customer service department will review your claim and provide you with its decision
           within 21 (twenty one) business days of submission of your claim or dispute.{' '}
         </span>
       </p>
@@ -978,9 +976,9 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          12.4 If you do not agree with VPwallet &#39;s decision, you should contact our customer service manager to
-          appeal VPwallet &#39;s decision and promptly provide VPwallet with all the relevant evidence in relation to
-          your appeal.{' '}
+          12.4 If you do not agree with PPrince &#39;s decision, you should contact our customer service manager to
+          appeal PPrince &#39;s decision and promptly provide PPrince with all the relevant evidence in relation to your
+          appeal.{' '}
         </span>
       </p>
       <p className="c0">
@@ -988,7 +986,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          12.5 The customer service manager will review your appeal and provide you with VPwallet &#39;s final and
+          12.5 The customer service manager will review your appeal and provide you with PPrince &#39;s final and
           binding decision within 14 (fourteen) business days.{' '}
         </span>
       </p>
@@ -1018,7 +1016,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          13.1 VPwallet shall not be responsible for any damage or loss incurred by you as a result of the Services. By
+          13.1 PPrince shall not be responsible for any damage or loss incurred by you as a result of the Services. By
           accepting the Terms &amp;Conditions, you acknowledge that you have fully read and understood and are aware of
           the possible risks related to the Services.{' '}
         </span>
@@ -1051,8 +1049,8 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          13.4 You acknowledge and agree that VPwallet does not act as a financial advisor, does not provide investment
-          advice services, and any communication between you and VPwallet cannot be considered as an investment advice.
+          13.4 You acknowledge and agree that PPrince does not act as a financial advisor, does not provide investment
+          advice services, and any communication between you and PPrince cannot be considered as an investment advice.
           Without prejudice to our foregoing obligations, in asking us to enter into any transaction, you represent that
           you have been solely responsible for making your own independent appraisal and investigations into the risks
           of the transaction. You represent that you have sufficient knowledge, market sophistication and experience to
@@ -1076,8 +1074,8 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          13.6 VPwallet is not liable for any price fluctuations in Cryptocurrency. In the event of a market disruption,
-          VPwallet may, at its discretion and in addition to any other right and remedy, suspend the Services. VPwallet
+          13.6 PPrince is not liable for any price fluctuations in Cryptocurrency. In the event of a market disruption,
+          PPrince may, at its discretion and in addition to any other right and remedy, suspend the Services. PPrince
           will not be liable for any loss suffered by you resulting from such action. Following any such event, when
           Services resume, you acknowledge that prevailing market rates may differ significantly from the rates
           available prior to such event.{' '}
@@ -1095,7 +1093,7 @@ const TermsContent = () => (
       <p className="c2">
         <span className="c1">
           14.1 THE SERVICES, PLATFORM AND WEBSITE ARE PROVIDED ON AN &quot;AS IS &quot;AND &quot;AS AVAILABLE
-          &quot;BASIS. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, VPWALLET MAKES NO WARRANTY OR REPRESENTATION,
+          &quot;BASIS. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, PPrince MAKES NO WARRANTY OR REPRESENTATION,
           WHETHER EXPRESS OR IMPLIED (WHETHER BY LAW, STATUTE OR OTHERWISE), INCLUDING BUT NOT LIMITED TO IMPLIED
           WARRANTIES AND CONDITIONS OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR PURPOSE,
           COMPLETENESS AND/OR ACCURACY OF THE WEBSITE, SERVICES AND/OR THE PLATFORM AND/OR INFRINGEMENT OF APPLICABLE
@@ -1108,7 +1106,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          14.2 TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, VPWALLET MAKES NO WARRANTY THAT THE WEBSITE, PLATFORM
+          14.2 TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, PPrince MAKES NO WARRANTY THAT THE WEBSITE, PLATFORM
           AND/OR SERVICES WILL MEET YOUR REQUIREMENTS, BE UNINTERRUPTED, TIMELY, SECURE OR ERROR-FREE, THAT DEFECTS WILL
           BE CORRECTED, AND/OR THAT THE PLATFORM OR THE SERVER THAT MAKES IT AVAILABLE ARE FREE OF VIRUSES AND BUGS
           AND/OR REPRESENTS THE FULL FUNCTIONALITY, ACCURACY, RELIABILITY OF THE MATERIALS AND/OR AS TO RESULTS OR THE
@@ -1120,9 +1118,9 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          14.3 VPWALLET HAS NO OBLIGATION TO MAINTAIN YOUR ACCOUNT NAME OR PASSWORD. IF YOU MISPLACE, FORGET OR LOSE
-          YOUR ACCOUNT NAME OR PASSWORD BECAUSE OF ANYTHING OTHER THAN VPWALLET &#39;S GROSS NEGLIGENCE OR WILFUL
-          MISCONDUCT, VPWALLET SHALL NOT BE LIABLE.{' '}
+          14.3 PPrince HAS NO OBLIGATION TO MAINTAIN YOUR ACCOUNT NAME OR PASSWORD. IF YOU MISPLACE, FORGET OR LOSE YOUR
+          ACCOUNT NAME OR PASSWORD BECAUSE OF ANYTHING OTHER THAN PPrince &#39;S GROSS NEGLIGENCE OR WILFUL MISCONDUCT,
+          PPrince SHALL NOT BE LIABLE.{' '}
         </span>
       </p>
       <p className="c0">
@@ -1130,7 +1128,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          14.4 TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL VPWALLET, ITS AFFILIATES AND/OR THEIR
+          14.4 TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL PPrince, ITS AFFILIATES AND/OR THEIR
           RESPECTIVE SERVICE PROVIDERS, AND/OR ANY OF THEIR RESPECTIVE OFFICERS, DIRECTORS, AGENTS, JOINT VENTURERS,
           EMPLOYEES AND THEIR REPRESENTATIVES, BE LIABLE TO YOU OR ANYONE ON YOUR BEHALF, FOR ANY DIRECT, CONSEQUENTIAL,
           INDIRECT, INCIDENTAL OR SPECIAL DAMAGE OR LOSS OF ANY KIND WHATSOEVER; AND/OR ANY LOSS OF BUSINESS, PROFITS,
@@ -1211,7 +1209,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          15.1 You agree to fully indemnify, defend and hold VPwallet, its affiliates and their respective service
+          15.1 You agree to fully indemnify, defend and hold PPrince, its affiliates and their respective service
           providers, and any of their respective officers, directors, agents, joint venturers, employees and
           representatives harmless immediately on demand from and against any and all claims, demands, liabilities,
           damages, losses, costs and expenses, including reasonable legal fees and any other charges whatsoever,
@@ -1364,8 +1362,8 @@ const TermsContent = () => (
         </li>
         <li className="c4 li-bullet-0">
           <span className="c1">
-            16.2.18 if you do not provide information upon the request of VPwallet or the information provided does not
-            meet VPwallet &#39;s requirements; <br />
+            16.2.18 if you do not provide information upon the request of PPrince or the information provided does not
+            meet PPrince &#39;s requirements; <br />
           </span>
         </li>
         <li className="c4 li-bullet-0">
@@ -1396,7 +1394,7 @@ const TermsContent = () => (
       <p className="c2">
         <span className="c1">
           16.4 You may terminate the Terms &amp;Conditions and close your account at any time by sending an email to us
-          at support@vpwallet.io. Such termination of the Terms &amp;Conditions shall take effect upon the closing of
+          at support@pprince.io. Such termination of the Terms &amp;Conditions shall take effect upon the closing of
           your account (including username and password), which shall occur within 7 (seven) calendar days following
           receipt by us of your email on our servers. You will remain responsible for any activity on your account
           between sending us such email and the closing of your account by us, which includes without limitation paying
@@ -1523,7 +1521,7 @@ const TermsContent = () => (
           accordance with, the laws of Slovak Republic. You irrevocably agree for your and our benefit that the courts
           of Slovak Republic shall have jurisdiction to settle any suit, action or other proceedings relating to the
           Terms &amp;Conditions (&quot;Proceedings &quot;) and irrevocably submit to the jurisdiction of such courts
-          (provided that this shall not prevent VPwallet from bringing an action in the courts of any other
+          (provided that this shall not prevent PPrince from bringing an action in the courts of any other
           jurisdiction), and you irrevocably waive any objection which you may have at any time to the laying of venue
           of any Proceedings brought in any such court and agrees not to claim that such Proceedings have been brought
           in an inconvenient forum or that such court does not have jurisdiction over it.{' '}
@@ -1540,11 +1538,11 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          20.1 Entire Agreement: The Terms &amp;Conditions contains the entire agreement between VPwallet and you
+          20.1 Entire Agreement: The Terms &amp;Conditions contains the entire agreement between PPrince and you
           relating to your use of the Website, Platform and the Services and supersedes any and all prior agreements
-          between VPwallet and you in relation to the subject matter hereof. You confirm that, in agreeing to accept the
+          between PPrince and you in relation to the subject matter hereof. You confirm that, in agreeing to accept the
           Terms &amp;Conditions, you have not relied on any representation save insofar as the same has expressly been
-          made a representation by VPwallet in the Terms &amp;Conditions.{' '}
+          made a representation by PPrince in the Terms &amp;Conditions.{' '}
         </span>
       </p>
       <p className="c0">
@@ -1571,7 +1569,7 @@ const TermsContent = () => (
           authority to be invalid, unlawful or unenforceable to any extent, such provision will be severed from the
           remaining provisions, which shall continue to be valid to the fullest extent permitted by law. In such cases,
           the part deemed invalid or unenforceable shall be amended in a manner consistent with the applicable law to
-          reflect, as closely as possible, VPwallet &#39;s original intent.{' '}
+          reflect, as closely as possible, PPrince &#39;s original intent.{' '}
         </span>
       </p>
       <p className="c0">
@@ -1598,7 +1596,7 @@ const TermsContent = () => (
       </p>
       <p className="c2">
         <span className="c1">
-          20.6 Outsourcing: Subject to applicable laws and regulation, VPwallet may outsource any or all of the Services
+          20.6 Outsourcing: Subject to applicable laws and regulation, PPrince may outsource any or all of the Services
           it provides under the Terms &amp;Conditions to third parties.{' '}
         </span>
       </p>

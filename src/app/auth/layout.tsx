@@ -9,12 +9,14 @@ import logo from '@/assets/svg/header_logo.svg';
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 
 const RootLayout: FC<RootLayoutProps> = ({ children }) => (
-  <main className="flex w-full flex-col items-center p-6 pt-20">
-    <h1 className="mb-4 text-3xl font-semibold text-neutral-400">Welcome to</h1>
-    <Link href="/">
-      <Image src={logo} width={200} height={45} alt="logo" className="mb-20" />
-    </Link>
-    {children}
+  <main className="flex flex-grow pt-10 sm:items-center sm:pt-0">
+    <div className="flex flex-col items-center rounded-lg border-b-gray-400  p-6 sm:border sm:shadow-md">
+      <Link href="/">
+        <Image src={logo} height={32} alt="logo" />
+      </Link>
+      <h1 className="my-6 text-2.5xl font-medium ">Authorization</h1>
+      {children}
+    </div>
   </main>
 );
 

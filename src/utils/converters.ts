@@ -17,7 +17,9 @@ export const separateNumbers = (num: number, separator: string = ',', group_size
   const regExp = new RegExp(`.{1,${group_size}}`, 'g');
   const splitedIntegerPart = reverseStr(integerPart).match(regExp)?.join(separator);
   const formattedIntegerPart = splitedIntegerPart || integerPart;
-  const formattedNumber = `${isNegative ? '-' : ''}${reverseStr(formattedIntegerPart)}${decimalPart ? `.${decimalPart}` : ''}`;
+  const formattedNumber = `${isNegative ? '-' : ''}${reverseStr(formattedIntegerPart)}${
+    decimalPart ? `.${decimalPart}` : ''
+  }`;
   return formattedNumber;
 };
 

@@ -34,7 +34,7 @@ const Start: FC<StartProps> = ({ nextStep, isPending, isError }: StartProps) => 
         isDisabled={isError}
         className="mb-5 w-3/5 px-12"
         variant="bordered"
-        color={isError ? 'danger' : 'success'}
+        color={isError ? 'danger' : 'primary'}
         onClick={() => nextStep()}
       >
         {buttonContent}

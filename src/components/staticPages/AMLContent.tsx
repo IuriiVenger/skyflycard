@@ -1,6 +1,6 @@
 const AMLContent = () => (
   <section className="mt-8">
-    <h1 className="text-center text-3xl font-bold lg:text-6xl">VPWallet AML/KYC Policy</h1>
+    <h1 className="text-center text-3xl font-bold lg:text-6xl">PPrince AML/KYC Policy</h1>
     <div className="mt-24 flex flex-col gap-2">
       <p>Last updated: 01.05.2024</p>
       <div className="flex flex-col gap-1">
@@ -8,9 +8,9 @@ const AMLContent = () => (
           <strong>1. Introduction</strong>
         </p>
         <p>
-          This VPwallet AML/KYC Policy (“
-          <strong>Policy</strong>”) sets forth the rules and procedures that the Vlka Cryptana s.r.o.&nbsp; incorporated
-          under the law of Czech Republic, with a registered office at Praha, Praha 9, Kurta Konráda 2517/1, 190 00
+          This PPrince AML/KYC Policy (“
+          <strong>Policy</strong>”) sets forth the rules and procedures that the PPrince Ex s.r.o&nbsp; incorporated
+          under the law of Czech Republic, with a registered office at Na Čečelička 425/4, Smíchov, 150 00 Prague 5
           Czech Republic, its subsidiaries and affiliated parties (the &quot;<strong>Company</strong>&quot;) follows for
           detecting and preventing any financial crime.
         </p>
@@ -236,7 +236,7 @@ const AMLContent = () => (
         <p>
           If you have any questions about this Policy, the Procedures, or any other AML/KYC-related matters, please
           contact the Compliance Department at:
-          <span>info@vpwallet.io</span>
+          <span>info@pprince.io</span>
         </p>
       </div>
     </div>

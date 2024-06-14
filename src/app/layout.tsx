@@ -1,4 +1,4 @@
-import { Open_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import '@/assets/styles/globals.css';
 import '@/assets/styles/main.scss';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,11 +13,11 @@ import type { Metadata } from 'next';
 import StoreProvider from '@/store/components/StoreProvider';
 import StoreWatchers from '@/store/components/StoreWatchers';
 
-const font = Open_Sans({ subsets: ['latin'] });
+const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'VPWallet',
-  description: 'VPWallet. Your Secure Oasis for Global Transactions',
+  title: 'PPrince',
+  description: 'PPrince. Your Secure Oasis for Global Transactions',
 };
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;

@@ -185,7 +185,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
       <Button
         isDisabled={!isWIthdrawAvailible}
         size="lg"
-        color="success"
+        color="primary"
         className="mt-6 text-white"
         radius="sm"
         onClick={openWithdrawModal}

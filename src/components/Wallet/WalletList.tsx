@@ -34,7 +34,7 @@ const WalletList: FC<WalletMenuProps> = ({ wallets, onSelect, activeWallet, clas
         <Button
           isIconOnly
           className="ml-2 h-fit w-fit min-w-0 self-center text-black md:hidden"
-          color="success"
+          color="primary"
           onClick={openCreateWalletModal}
           variant="light"
           radius="sm"
@@ -46,7 +46,7 @@ const WalletList: FC<WalletMenuProps> = ({ wallets, onSelect, activeWallet, clas
         {wallets.map((wallet) => (
           <div
             className={cn(
-              'flex cursor-pointer items-center gap-4 rounded-lg px-4 py-2 transition-background',
+              'flex cursor-pointer items-center gap-4 rounded px-4 py-2 transition-background',
               wallet.uuid === activeWallet?.uuid ? 'bg-tenant-main text-white' : 'hover:bg-gray-100',
             )}
             key={wallet.uuid}
@@ -68,7 +68,7 @@ const WalletList: FC<WalletMenuProps> = ({ wallets, onSelect, activeWallet, clas
           onChange={handleSelectWallet}
           selectedKeys={activeWallet?.uuid && [activeWallet.uuid]}
           variant="bordered"
-          color="success"
+          color="primary"
         >
           {wallets.map((wallet) => (
             <SelectItem key={wallet.uuid} value={wallet.uuid}>
@@ -78,10 +78,10 @@ const WalletList: FC<WalletMenuProps> = ({ wallets, onSelect, activeWallet, clas
         </Select>
       </div>
       <Button
-        className="mt-2 hidden w-fit self-center text-black md:flex"
-        color="success"
+        className="mt-2 hidden w-fit self-center bg-tenant-main-light text-tenant-main md:flex"
+        color="primary"
         onClick={openCreateWalletModal}
-        variant="light"
+        variant="flat"
         radius="sm"
       >
         Create new wallet <CiCirclePlus />

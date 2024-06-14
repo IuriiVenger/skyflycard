@@ -50,7 +50,7 @@ const CreateWalletModal: FC<CreateWalletProps> = (props) => {
         <ModalBody>
           <Select
             label="Select wallet type"
-            className="max-w-xs"
+            className=""
             onChange={handleSelectChange}
             selectedKeys={selectedWalletType && [selectedWalletType]}
           >
@@ -65,7 +65,7 @@ const CreateWalletModal: FC<CreateWalletProps> = (props) => {
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             className="text-white"
-            color="success"
+            color="primary"
             isDisabled={!selectedWalletType}
             isLoading={isWalletCreating}
             onClick={handleCreateWallet}

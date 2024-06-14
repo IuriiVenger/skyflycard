@@ -25,7 +25,7 @@ const LogIn: FC<LogInProps> = (props) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex w-96 flex-col rounded-lg  border border-b-gray-400 p-8 shadow-md">
+    <form onSubmit={onSubmit} className="flex w-96 flex-col ">
       <input
         type="email"
         name="email"
@@ -43,7 +43,7 @@ const LogIn: FC<LogInProps> = (props) => {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <Button isDisabled={isUserLoading} type="submit" color="success" className="mb-2 w-full text-white" radius="sm">
+      <Button isDisabled={isUserLoading} type="submit" color="primary" className="mb-2 w-full text-white" radius="sm">
         Log in
       </Button>
 
