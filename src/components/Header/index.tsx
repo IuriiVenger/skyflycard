@@ -70,16 +70,13 @@ const Header: FC = () => {
         </Link>
 
         <div className="flex w-full  justify-center gap-8">
-          {menuItems.map(
-            (item, index) =>
-              isUserSignedIn && (
-                <NavbarItem key={`${item}-${index}`}>
-                  <Link className="text-sm text-tenant-main hover:underline" href={item.href}>
-                    {item.title}
-                  </Link>
-                </NavbarItem>
-              ),
-          )}
+          {menuItems.map((item, index) => (
+            <NavbarItem key={`${item}-${index}`}>
+              <Link className="text-sm text-tenant-main hover:underline" href={item.href}>
+                {item.title}
+              </Link>
+            </NavbarItem>
+          ))}
         </div>
         <AuthButtons />
       </NavbarContent>
