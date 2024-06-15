@@ -9,6 +9,7 @@ import arrows from '@/assets/svg/arrows.svg';
 import shield from '@/assets/svg/shield.svg';
 import { supportEmail } from '@/constants';
 import { landingCryptoIcons } from '@/utils/financial';
+
 import { mailToSupport } from '@/utils/helpers';
 
 type FeatureProps = {
@@ -18,6 +19,7 @@ type FeatureProps = {
   buttonTitle: string;
   onClick: () => void;
   className?: string;
+  id?: string;
 };
 
 const features = [
@@ -35,11 +37,12 @@ const features = [
     icon: arrows,
     buttonTitle: supportEmail,
     onClick: mailToSupport,
+    id: 'otc',
   },
 ];
 
 const Feature: FC<FeatureProps> = (props) => {
-  const { title, description, icon, buttonTitle, onClick, className } = props;
+  const { title, description, icon, buttonTitle, onClick, className, id } = props;
 
   return (
     <div
@@ -47,6 +50,7 @@ const Feature: FC<FeatureProps> = (props) => {
         'flex max-w-xs flex-col items-center gap-4 lg:h-[260px] lg:max-w-none lg:flex-row lg:items-start lg:gap-8',
         className,
       )}
+      id={id}
     >
       <Image src={icon} alt="Icon" className="w-16 md:w-auto" />
       <div className="flex h-full flex-col items-center justify-between gap-2 text-center lg:items-start lg:gap-0 lg:text-start">
@@ -60,8 +64,12 @@ const Feature: FC<FeatureProps> = (props) => {
   );
 };
 
-const HaveMoreQuestions = () => (
-  <section className="flex w-full flex-col bg-light-lavander-gradient">
+type HaveMoreQuestionsProps = {
+  id?: string;
+};
+
+const HaveMoreQuestions: FC<HaveMoreQuestionsProps> = ({ id }) => (
+  <section className="flex w-full flex-col bg-light-lavander-gradient" id={id}>
     <div className="px-4 py-12 lg:px-12 lg:py-24">
       <h3 className="m-auto max-w-xs text-center text-xl font-medium text-neutral-950 sm:max-w-none lg:text-2.5xl xl:text-4xl">
         Cryptocurrencies available on PPrince platform
@@ -85,7 +93,7 @@ const HaveMoreQuestions = () => (
     </div>
     <div className="m-auto flex w-full max-w-screen-2xl flex-col items-center justify-around gap-20 px-4 py-12 lg:flex-row  lg:px-12 lg:py-24">
       {features.map((feature, index) => (
-        <Feature key={index} {...feature} className="" />
+        <Feature key={index} {...feature} />
       ))}
     </div>
   </section>

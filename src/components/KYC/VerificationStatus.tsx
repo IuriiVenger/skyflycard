@@ -3,6 +3,8 @@ import { FC } from 'react';
 import { GoHistory, GoIssueDraft, GoNoEntry, GoUnverified, GoVerified } from 'react-icons/go';
 import { MdMoreTime } from 'react-icons/md';
 
+import KYCButton from './KYCButton';
+
 import { KYCStatuses, requestKYCStatuses } from '@/constants';
 
 type VerificationStatusProps = {
@@ -54,7 +56,6 @@ const verificationStatusInfo = {
 };
 
 const VerificationStatus: FC<VerificationStatusProps> = ({ verifyStatus, openKYC }) => {
-  const Icon = verificationStatusInfo[verifyStatus]?.icon;
   const isKYCRequired = requestKYCStatuses.includes(verifyStatus);
 
   const clickHandler = () => {
@@ -63,19 +64,19 @@ const VerificationStatus: FC<VerificationStatusProps> = ({ verifyStatus, openKYC
     }
   };
 
-  const CustomTag = isKYCRequired ? 'button' : 'div';
-
   return (
-    <CustomTag
-      className={cn('flex w-fit items-center justify-between gap-4', isKYCRequired && 'hover:opacity-70')}
+    <div
+      className={cn(
+        'flex w-fit flex-col items-center justify-end gap-2 xs:flex-col-reverse md:items-end lg:flex-row lg:items-center',
+        isKYCRequired && 'hover:opacity-70',
+      )}
       onClick={clickHandler}
     >
-      <div>
-        <p className="flex text-sm font-bold sm:text-xl">{verificationStatusInfo[verifyStatus]?.title}</p>
-        <p className="mt-1 max-w-40 text-left text-[8px] ">{verificationStatusInfo[verifyStatus]?.subtitle}</p>
-      </div>
-      {Icon && <Icon className="h-6 w-6 xs:h-8 xs:w-8" />}
-    </CustomTag>
+      <p className="mt-1 max-w-40 text-left text-[8px] text-neutral-500">
+        {verificationStatusInfo[verifyStatus]?.subtitle}
+      </p>
+      {isKYCRequired && <KYCButton onClick={openKYC} disabled={!isKYCRequired} status={verifyStatus} />}
+    </div>
   );
 };
 

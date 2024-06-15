@@ -10,6 +10,10 @@ type FeatureCardProps = {
   className?: string;
 };
 
+type FeaturesProps = {
+  id?: string;
+};
+
 const features: FeatureCardProps[] = [
   {
     title: 'Simple interface',
@@ -46,8 +50,11 @@ const FeatureCard: FC<FeatureCardProps> = ({ Icon, title, description, className
   </div>
 );
 
-const Features = () => (
-  <section className="=items-center 2 grid grid-cols-1 gap-4 py-12 sm:grid-cols-2 md:p-16 lg:px-12 lg:py-24  xl:grid-cols-4">
+const Features: FC<FeaturesProps> = ({ id }) => (
+  <section
+    className="=items-center 2 grid grid-cols-1 gap-4 py-12 sm:grid-cols-2 md:p-16 lg:px-12 lg:py-24  xl:grid-cols-4"
+    id={id}
+  >
     {features.map((feature, index) => (
       <FeatureCard key={index} {...feature} />
     ))}

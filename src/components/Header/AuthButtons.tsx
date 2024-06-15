@@ -4,6 +4,7 @@ import { Button, NavbarContent, NavbarItem } from '@nextui-org/react';
 import cn from 'classnames';
 import Link from 'next/link';
 
+import { usePathname } from 'next/navigation';
 import { FC } from 'react';
 
 import KYCButton from '../KYC/KYCButton';
@@ -23,11 +24,14 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
   const { user, userData } = useAppSelector(selectUser);
   const { isAppInitialized } = useAppSelector(selectFinanceData);
   const { signOut } = useAuth(dispatch);
+  const pathname = usePathname();
+  const isDashboardPage = pathname === '/dashboard';
+  const isKYCButtonVisible = !isDashboardPage && userData && requestKYCStatuses.includes(userData.kyc_status);
 
   const openKycModal = () => dispatch(setModalVisible(ModalNames.KYC));
 
   const userClassNames = cn(
-    'transition-opacity duration-300',
+    'transition-opacity duration-300 md:flex hidden',
     isAppInitialized ? 'opacity-100' : 'opacity-0',
     className,
   );
@@ -36,21 +40,33 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
     <NavbarContent className={userClassNames} justify="end">
       {user ? (
         <>
-          {userData && requestKYCStatuses.includes(userData.kyc_status) && (
-            <NavbarItem className="hidden sm:flex">
+          {isKYCButtonVisible && (
+            <NavbarItem className="hidden lg:flex">
               <KYCButton onClick={openKycModal} status={userData.kyc_status} />
             </NavbarItem>
           )}
-          <Button className="font-medium text-black" onClick={signOut} color="secondary" radius="sm" href="/">
+          <Button
+            className=" bg-inherit font-medium text-tenant-main hover:underline"
+            onClick={signOut}
+            radius="sm"
+            href="/"
+          >
             Logout
           </Button>
         </>
       ) : (
-        <NavbarItem>
-          <Button as={Link} color="primary" href="/auth/login/otp" variant="flat" radius="sm">
-            Log in
-          </Button>
-        </NavbarItem>
+        <div className="hoflex gap-8">
+          <NavbarItem>
+            <Link className="hidden bg-inherit text-sm text-tenant-main hover:underline" href="/auth/login/otp">
+              Sign up
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link className="bg-inherit text-sm text-tenant-main hover:underline" href="/auth/login/otp">
+              Log in
+            </Link>
+          </NavbarItem>
+        </div>
       )}
     </NavbarContent>
   );

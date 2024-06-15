@@ -25,11 +25,11 @@ type LandingProps = {
 const Landing: FC<LandingProps> = (props) => (
   <div className="-mb-20 -mt-8 flex">
     <div className="relative left-0 flex w-screen flex-col items-center">
-      <LandingTitle />
-      <Features />
-      <CryptoSwap {...props} />
-      <HaveMoreQuestions />
-      <Contacts />
+      <LandingTitle id="title" {...props} />
+      <Features id="features" />
+      <CryptoSwap {...props} id="exchange" />
+      <HaveMoreQuestions id="haveMoreQuestion" />
+      <Contacts id="contacts" />
     </div>
   </div>
 );

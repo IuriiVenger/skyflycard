@@ -10,5 +10,7 @@
   }
   html {
     @apply text-neutral-950;
+    scroll-behavior: smooth;
+    scroll-padding-top: 30px;
   }
 }

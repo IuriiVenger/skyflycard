@@ -6,7 +6,7 @@ import cx from 'classnames';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { MdInfoOutline, MdOutlineArrowCircleRight } from 'react-icons/md';
 
@@ -16,17 +16,9 @@ import { API } from '@/api/types';
 import logo from '@/assets/svg/logo.svg';
 import mastercard from '@/assets/svg/payment-systems/mastercard.svg';
 import visa from '@/assets/svg/payment-systems/visa.svg';
-import { CryptoFormFieldAction, CryptoFormTabs } from '@/constants';
+import { CryptoFormFieldAction } from '@/constants';
 import { UseExchangeData } from '@/hooks/useExchange';
 import { getActiveFiatAvailableCrypto, isCrypto, isFiat } from '@/utils/financial';
-
-type CryptoFormTabsType = {
-  [key in CryptoFormTabs]: {
-    tabTitle: string;
-
-    key: CryptoFormTabs;
-  };
-};
 
 type CryptoFormProps = {
   selectCrypto: (crypto: API.List.Crypto) => void;
@@ -58,22 +50,6 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
   const availableCrypto = getActiveFiatAvailableCrypto(exchangeRate, cryptoList);
 
   const selectedChainName = chainList.find((chain) => chain.id === selectedCrypto.chain)?.name;
-
-  const cryptoFormTabs: CryptoFormTabsType = {
-    [CryptoFormTabs.BUY]: {
-      tabTitle: 'Buy',
-
-      key: CryptoFormTabs.BUY,
-    },
-    [CryptoFormTabs.EXCHANGE]: {
-      tabTitle: 'Exchange',
-      // eslint-disable-next-line no-console
-
-      key: CryptoFormTabs.EXCHANGE,
-    },
-  };
-
-  const [activeTabKey, setActiveTabKey] = useState<CryptoFormTabs>(cryptoFormTabs.buy.key);
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
     if (isFiat(currency)) {
@@ -119,11 +95,10 @@ const CryptoForm: FC<CryptoFormProps> = (props) => {
       </div>
 
       <div className="flex items-center justify-between">
-        <Link href="/dashboard">
-          <Button color="primary" radius="sm" size="md" className="font-medium text-white">
-            To the payment <MdOutlineArrowCircleRight />
-          </Button>
-        </Link>
+        <Button as={Link} href="/dashboard" color="primary" radius="sm" size="md" className="font-medium text-white">
+          To the payment <MdOutlineArrowCircleRight />
+        </Button>
+
         <div className="flex gap-2">
           <Image src={visa} alt="visa" height={16} />
           <Image src={mastercard} alt="mastercard" height={16} />
