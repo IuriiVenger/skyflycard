@@ -37,7 +37,6 @@ const features = [
     icon: arrows,
     buttonTitle: supportEmail,
     onClick: mailToSupport,
-    id: 'otc',
   },
 ];
 
@@ -91,7 +90,10 @@ const HaveMoreQuestions: FC<HaveMoreQuestionsProps> = ({ id }) => (
         </Button>
       </div>
     </div>
-    <div className="m-auto flex w-full max-w-screen-2xl flex-col items-center justify-around gap-20 px-4 py-12 lg:flex-row  lg:px-12 lg:py-24">
+    <div
+      className="m-auto flex w-full max-w-screen-2xl flex-col items-center justify-around gap-20 px-4 py-12 lg:flex-row  lg:px-12 lg:py-24"
+      id="otc"
+    >
       {features.map((feature, index) => (
         <Feature key={index} {...feature} />
       ))}
