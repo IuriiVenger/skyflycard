@@ -23,7 +23,7 @@ const timeCount = 60;
 const LogInOtp: FC<LogInOtpProps> = (props) => {
   const { otp, email, setOtp, signInByOtp, setEmail, isOtpRequested, getOtp, isLoading } = props;
   const [isTimerDisabled, setIsTimerDisabled] = useState(false);
-  const timeKey = useMemo(() => `get-otp-start-timer-time-${email}`, [email]);
+  const timeKey = useMemo(() => `get-otp-start-timer-time-${email.length}`, [email]);
 
   const hasTimeCookie = hasCookie(timeKey);
 
