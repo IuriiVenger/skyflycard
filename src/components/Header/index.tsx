@@ -55,7 +55,13 @@ const Header: FC = () => {
   };
 
   return (
-    <Navbar isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen} className="w-full" isBordered maxWidth="2xl">
+    <Navbar
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      className="w-full font-medium"
+      isBordered
+      maxWidth="2xl"
+    >
       <NavbarContent className="md:hidden" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>

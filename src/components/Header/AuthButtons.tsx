@@ -31,7 +31,7 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
   const openKycModal = () => dispatch(setModalVisible(ModalNames.KYC));
 
   const userClassNames = cn(
-    'transition-opacity duration-300 md:flex hidden',
+    'transition-opacity duration-300 md:flex hidden text-sm',
     isAppInitialized ? 'opacity-100' : 'opacity-0',
     className,
   );
@@ -45,24 +45,24 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
               <KYCButton onClick={openKycModal} status={userData.kyc_status} />
             </NavbarItem>
           )}
-          <Button
-            className=" bg-inherit font-medium text-tenant-main hover:underline"
-            onClick={signOut}
-            radius="sm"
-            href="/"
-          >
+          <NavbarItem>
+            <Link className="w-full text-sm text-tenant-main hover:underline" href="/dashboard">
+              Dashboard
+            </Link>
+          </NavbarItem>
+          <button type="button" className="w-fit bg-inherit p-0  text-tenant-main hover:underline" onClick={signOut}>
             Logout
-          </Button>
+          </button>
         </>
       ) : (
         <div className="flex gap-8">
           <NavbarItem>
-            <Link className="bg-inherit text-sm text-tenant-main hover:underline" href="/auth/login/otp">
+            <Link className="bg-inherit  text-tenant-main hover:underline" href="/auth/login/otp">
               Sign up
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link className="bg-inherit text-sm text-tenant-main hover:underline" href="/auth/login/otp">
+            <Link className="bg-inherit  text-tenant-main hover:underline" href="/auth/login/otp">
               Log in
             </Link>
           </NavbarItem>
