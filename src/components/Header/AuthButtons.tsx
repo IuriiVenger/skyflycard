@@ -57,12 +57,12 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
       ) : (
         <div className="flex gap-8">
           <NavbarItem>
-            <Link className="bg-inherit  text-tenant-main hover:underline" href="/auth/login/otp">
+            <Link className="bg-inherit text-sm text-tenant-main hover:underline" href="/auth/login/otp">
               Sign up
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link className="bg-inherit  text-tenant-main hover:underline" href="/auth/login/otp">
+            <Link className="bg-inherit text-sm text-tenant-main hover:underline" href="/auth/login/otp">
               Log in
             </Link>
           </NavbarItem>
