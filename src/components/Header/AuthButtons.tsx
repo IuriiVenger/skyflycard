@@ -50,9 +50,9 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
               Dashboard
             </Link>
           </NavbarItem>
-          <button type="button" className="w-fit bg-inherit p-0  text-tenant-main hover:underline" onClick={signOut}>
+          <span className="w-fit cursor-pointer bg-inherit p-0 text-tenant-main hover:underline" onClick={signOut}>
             Logout
-          </button>
+          </span>
         </>
       ) : (
         <div className="flex gap-8">
