@@ -35,7 +35,6 @@ const Footer: FC = () => (
         <div className="mt-2 opacity-60">
           <p>
             PPrince s.r.o.– a limited liability company registred in Czech Republic with registration number 21602735
-            and a license in the Register of Payment Services of Poland under number MIP 155/2022
           </p>
         </div>
       </section>
