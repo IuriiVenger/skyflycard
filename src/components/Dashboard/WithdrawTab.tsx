@@ -19,7 +19,7 @@ import { PaymentMethod } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isCrypto, isFiat } from '@/utils/financial';
 
-type WithdrawFormProps = {
+type WithdrawTabProps = {
   className?: string;
   selectedFiat: API.List.Fiat;
   selectFiat: (fiat: API.List.Fiat) => void;
@@ -34,7 +34,7 @@ type WithdrawFormProps = {
   externalCalcData: UseExternalCalcData;
 };
 
-const WithdrawForm: FC<WithdrawFormProps> = (props) => {
+const WithdrawTab: FC<WithdrawTabProps> = (props) => {
   const {
     selectedWallet,
     className,
@@ -131,7 +131,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
   }, [activePaymentMethod]);
 
   return (
-    <div className={cn('flex flex-col gap-8 md:mt-6', className)}>
+    <div className={cn('flex flex-col gap-8', className)}>
       <SelectPaymentMethod
         isWithdraw
         label="Choose withdraw method"
@@ -195,14 +195,14 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
 
       <CurrencyListModal
         isOpen={isFiatModalOpen}
-        onOpenChange={setIsFiatModalOpen}
+        setIsModalOpen={setIsFiatModalOpen}
         activeCurrency={selectedFiat}
         currencies={fiatList}
         onSelect={selectCurrency}
       />
       <CurrencyListModal
         isOpen={isCryptoModalOpen}
-        onOpenChange={setIsCryptoModalOpen}
+        setIsModalOpen={setIsCryptoModalOpen}
         activeCurrency={selectedCrypto}
         currencies={cryptoList}
         onSelect={selectCurrency}
@@ -210,7 +210,7 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
       />
       <ConfirmModal
         isOpen={isWithdrawModalOpen}
-        onOpenChange={setIsWithdrawModalOpen}
+        setIsModalOpen={setIsWithdrawModalOpen}
         onConfirm={clickButtonHandler}
         title="Withdraw confirmation"
         confirmText={withrawConfirmationText}
@@ -219,4 +219,4 @@ const WithdrawForm: FC<WithdrawFormProps> = (props) => {
   );
 };
 
-export default WithdrawForm;
+export default WithdrawTab;

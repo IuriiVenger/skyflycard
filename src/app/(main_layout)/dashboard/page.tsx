@@ -1,22 +1,33 @@
 'use client';
 
+import { useQueryState } from 'nuqs';
 import { useEffect, useState } from 'react';
 
 import { API } from '@/api/types';
+import { vcards } from '@/api/vcards';
 import { wallets } from '@/api/wallets';
-import Dashboard from '@/components/Dashboard';
+import Dashboard, { DashboardProps } from '@/components/Dashboard';
 import Loader from '@/components/Loader';
 import privateRoute from '@/components/privateRoute';
-import { walletType, defaultUpdateInterval, WalletTypeValues, defaultPaginationParams, ModalNames } from '@/constants';
+import {
+  walletType,
+  defaultUpdateInterval,
+  WalletTypeValues,
+  defaultPaginationParams,
+  ModalNames,
+  DashboardTabs,
+} from '@/constants';
 import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
 import useWallet from '@/hooks/useWallet';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectActiveFiatAvailableCrypto, selectFinanceData, selectUser } from '@/store/selectors';
 import {
+  loadCards,
   loadMoreTransactions,
   loadSelectedWallet,
   loadTransactions,
+  loadSelectedCard,
   setSelectedChain,
   setSelectedCrypto,
   setSelectedFiat,
@@ -30,6 +41,7 @@ const DashboardPage = () => {
     selectedCrypto,
     selectedWallet,
     selectedFiat,
+    selectedCard,
     chains,
     fiats,
     crypto,
@@ -37,23 +49,47 @@ const DashboardPage = () => {
     userWallets,
     fiatExchangeRate,
     selectedWalletTransactions,
+    selectedWalletCards,
   } = useAppSelector(selectFinanceData);
+
   const { userData } = useAppSelector(selectUser);
+  const availableToExchangeCrypto = useAppSelector(selectActiveFiatAvailableCrypto);
   const { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder } = useOrder();
   const { getWalletAddress, createWalletAddress } = useWallet();
-
-  const availableToExchangeCrypto = useAppSelector(selectActiveFiatAvailableCrypto);
-  const dispatch = useAppDispatch();
   const externalCalcData = useExternalCalc();
+  const [lastActiveWallet, setLastActiveWallet] = useState<API.Wallets.ExtendWallet | null>(null);
+  const dispatch = useAppDispatch();
+
+  const [queryDashboardTab, setQueryDashboardTab] = useQueryState('tab');
+  const [queryCardId, setQueryCardId] = useQueryState('card_id');
+
+  const initialDasboardTab = (queryDashboardTab as DashboardTabs) || DashboardTabs.TRANSACTIONS;
+  const initialCardId = queryCardId;
+
+  const [activeDashboardTab, setActiveDashboardTab] = useState<DashboardTabs>(initialDasboardTab);
+  const [activeCardId, setActiveCardId] = useState<string | null>(initialCardId);
+
+  const walletTypes = Object.values(walletType);
 
   const selectChain = (chain: API.List.Chains) => dispatch(setSelectedChain(chain));
   const selectCrypto = (currency: API.List.Crypto) => dispatch(setSelectedCrypto(currency));
   const selectFiat = (currency: API.List.Fiat) => dispatch(setSelectedFiat(currency));
+  const selectCard = (card_id: string | null) => {
+    dispatch(loadSelectedCard(card_id));
+  };
+
   const openKYCModal = () => dispatch(setModalVisible(ModalNames.KYC));
 
-  const [lastActiveWallet, setLastActiveWallet] = useState<API.Wallets.ExtendWallet | null>(null);
+  const changeDashboardTab = (tab: DashboardTabs) => {
+    setActiveDashboardTab(tab);
+    setQueryDashboardTab(tab);
+  };
 
-  const walletTypes = Object.values(walletType);
+  const changeActiveCard = (card_id: string | null) => {
+    setActiveCardId(card_id);
+    setQueryCardId(card_id);
+    selectCard(card_id);
+  };
 
   const loadMoreTransactionsHandler = () =>
     selectedWallet &&
@@ -78,28 +114,78 @@ const DashboardPage = () => {
     await dispatch(loadSelectedWallet(uuid));
   };
 
-  const updateTransactionsOnWalletChange = async () => {
-    if (selectedWallet) {
-      if (selectedWallet.uuid !== lastActiveWallet?.uuid) {
-        setLastActiveWallet(selectedWallet);
-        dispatch(loadTransactions({ wallet_uuid: selectedWallet.uuid }));
-      }
+  const getSensitiveData = async (card_id: string) => {
+    const { data } = await vcards.cards.getSensitiveData(card_id);
 
-      if (selectedWallet.total_amount !== lastActiveWallet?.total_amount) {
-        setLastActiveWallet(selectedWallet);
-        dispatch(
-          loadTransactions({
-            wallet_uuid: selectedWallet.uuid,
-            limit: selectedWalletTransactions.data?.length || defaultPaginationParams.limit,
-            offset: 0,
-          }),
-        );
-      }
+    return data;
+  };
+
+  const onWalletChange = async (wallet: API.Wallets.ExtendWallet) => {
+    setLastActiveWallet(wallet);
+    dispatch(loadTransactions({ wallet_uuid: wallet.uuid }));
+    dispatch(loadCards(wallet.uuid));
+    changeActiveCard(null);
+  };
+
+  const onWalletTotalAmountUpdate = async (wallet: API.Wallets.ExtendWallet) => {
+    setLastActiveWallet(wallet);
+    dispatch(
+      loadTransactions({
+        wallet_uuid: wallet.uuid,
+        limit: selectedWalletTransactions.data?.length || defaultPaginationParams.limit,
+        offset: 0,
+      }),
+    );
+  };
+
+  const checkWalletUpdates = async () => {
+    if (!selectedWallet) {
+      return;
     }
+
+    selectedWallet.uuid !== lastActiveWallet?.uuid && onWalletChange(selectedWallet);
+    selectedWallet.total_amount !== lastActiveWallet?.total_amount && onWalletTotalAmountUpdate(selectedWallet);
+  };
+
+  const dasboardProps: DashboardProps = {
+    wallets: userWallets,
+    getWalletAddress,
+    createWalletAddress,
+    selectChain,
+    selectedChain,
+    selectedWallet,
+    selectWallet,
+    selectedCard,
+    selectCard,
+    chainList: chains,
+    cryptoList: crypto,
+    availableToExchangeCrypto,
+    fiatList: fiats,
+    selectedCrypto,
+    selectedFiat,
+    selectCrypto,
+    selectFiat,
+    exchangeRate: fiatExchangeRate,
+    createFiat2CryptoOrder: createOnRampOrder,
+    createCrypto2FiatOrder: createOffRampOrder,
+    createCrypto2CryptoOrder,
+    transactions: selectedWalletTransactions,
+    cards: selectedWalletCards,
+    loadMoreTransactions: loadMoreTransactionsHandler,
+    createWallet,
+    walletTypes,
+    externalCalcData,
+    verificationStatus: userData?.kyc_status,
+    openKYC: openKYCModal,
+    changeDashboardTab,
+    activeDashboardTab,
+    changeActiveCard,
+    activeCardId,
+    getSensitiveData,
   };
 
   useEffect(() => {
-    updateTransactionsOnWalletChange();
+    checkWalletUpdates();
 
     const intervalLoadSelectedWallet = setInterval(() => {
       selectedWallet && dispatch(loadSelectedWallet(selectedWallet.uuid));
@@ -108,40 +194,19 @@ const DashboardPage = () => {
     return () => clearInterval(intervalLoadSelectedWallet);
   }, [selectedWallet]);
 
+  useEffect(() => {
+    queryDashboardTab && setActiveDashboardTab(queryDashboardTab as DashboardTabs);
+  }, [queryDashboardTab]);
+
+  useEffect(() => {
+    activeCardId && selectCard(activeCardId);
+  }, []);
+
   if (!isAppInitialized) {
     return <Loader />;
   }
 
-  return (
-    <Dashboard
-      wallets={userWallets}
-      getWalletAddress={getWalletAddress}
-      createWalletAddress={createWalletAddress}
-      selectChain={selectChain}
-      selectedChain={selectedChain}
-      selectedWallet={selectedWallet}
-      selectWallet={selectWallet}
-      chainList={chains}
-      cryptoList={crypto}
-      availableToExchangeCrypto={availableToExchangeCrypto}
-      fiatList={fiats}
-      selectedCrypto={selectedCrypto}
-      selectedFiat={selectedFiat}
-      selectCrypto={selectCrypto}
-      selectFiat={selectFiat}
-      exchangeRate={fiatExchangeRate}
-      createFiat2CryptoOrder={createOnRampOrder}
-      createCrypto2FiatOrder={createOffRampOrder}
-      createCrypto2CryptoOrder={createCrypto2CryptoOrder}
-      transactions={selectedWalletTransactions}
-      loadMoreTransactions={loadMoreTransactionsHandler}
-      createWallet={createWallet}
-      walletTypes={walletTypes}
-      externalCalcData={externalCalcData}
-      verificationStatus={userData?.kyc_status}
-      openKYC={openKYCModal}
-    />
-  );
+  return <Dashboard {...dasboardProps} />;
 };
 
 export default privateRoute(DashboardPage);

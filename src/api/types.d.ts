@@ -35,6 +35,229 @@ export namespace API {
     }
   }
 
+  export namespace Cards {
+    export interface User {
+      email: string;
+      whitelabel: string;
+      id: string;
+      nickname: string;
+      role: string;
+      status: string;
+      user_type: string;
+      invite_accept: boolean;
+      is_new_client: boolean;
+      account: {
+        first_name: string;
+        middle_name: string;
+        last_name: string;
+        date_of_birth: string;
+        phone: string;
+        type: string;
+        id: string;
+        user_id: number;
+        tg_account: string;
+        company: {
+          name: string;
+          registration_number: string;
+          phone: string;
+          primary_contact_email: string;
+          id: string;
+        };
+      };
+    }
+
+    export interface Limit {
+      interval: string;
+      amount: number;
+    }
+
+    export interface CardDetailItem {
+      status: string;
+      cardName: string;
+      limits: {
+        single: {
+          amount: number;
+        };
+        daily: {
+          amount: number;
+        };
+        monthly: {
+          amount: number;
+        };
+        lifetime: {
+          amount: number;
+        };
+        weekly: {
+          amount: number;
+        };
+      };
+      autoTopUp: {
+        thresholdAmount: number;
+        topUpAmount: number;
+      };
+      isFavorite: boolean;
+      wallet_id: string;
+      walletInfo: {
+        id: string;
+        code: string;
+        purpose: string;
+        name: string;
+        currencyCode: string;
+        availableBalance: number;
+      };
+      id: string;
+      maskedPan: string;
+      bin: {
+        code: string;
+        countryCode: string;
+        currencyCode: string;
+        provider: string;
+        billingAddress: string;
+        paymentServices: string[];
+        purposes: string[];
+        fees: {
+          issue: {
+            feeAmount: number;
+            unit: string;
+          };
+          authorization: {
+            minAmount: number;
+            maxAmount: number;
+            feeAmount: number;
+            unit: string;
+          }[];
+          decline: {
+            feeAmount: number;
+            unit: string;
+          };
+          zeroAuth: {
+            feeAmount: number;
+            unit: string;
+          };
+        };
+        requirements: {
+          isKycRequired: boolean;
+        };
+      };
+      createdAt: string;
+      balance: {
+        available: number;
+        spent: number;
+        pending: number;
+      };
+      user: {
+        id: string;
+        nickname: string;
+        email: string;
+      };
+      cardId: string;
+    }
+    export interface CardListItem {
+      id: string;
+      userId: string;
+      walletId: string;
+      createdAt: string;
+      type: string;
+      amount: number;
+      availableBalance: number;
+      currencyCode: string;
+      description: string;
+      status: string;
+      direction: string;
+      user: {
+        id: string;
+        role: string;
+        status: string;
+        firstName: string;
+        lastName: string;
+        nickname: string;
+        email: string;
+        balance: {
+          currencyCode: string;
+          available: number;
+          reserved: number;
+          pending: number;
+          total: number;
+        };
+      };
+      walletInfo: {
+        id: string;
+        code: string;
+        name: string;
+        currencyCode: string;
+      };
+      details: {
+        binInfo: {
+          code: string;
+          countryCode: string;
+          currencyCode: string;
+          provider: string;
+        };
+        maskedPan: string;
+        cardName: string;
+      };
+    }
+
+    export interface CardsList {
+      items: CardDetailItem[];
+      totalCount: number;
+    }
+
+    export interface CardTransactionItem {
+      id: string;
+      userId: string;
+      walletId: string;
+      createdAt: string;
+      type: string;
+      amount: number;
+      availableBalance: number;
+      currencyCode: string;
+      description: string;
+      status: string;
+      direction: string;
+      user: {
+        id: string;
+        role: string;
+        status: string;
+        firstName: string;
+        lastName: string;
+        nickname: string;
+        email: string;
+        balance: {
+          currencyCode: string;
+          available: number;
+          reserved: number;
+          pending: number;
+          total: number;
+        };
+      };
+      walletInfo: {
+        id: string;
+        code: string;
+        name: string;
+        currencyCode: string;
+      };
+      details: {
+        binInfo: {
+          code: string;
+          countryCode: string;
+          currencyCode: string;
+          provider: string;
+        };
+        maskedPan: string;
+        cardName: string;
+      };
+    }
+
+    export interface SensitiveData {
+      card_number: string;
+      cvv: string;
+      expiry_month: number;
+      expiry_year: number;
+      name_on_card: string;
+    }
+  }
+
   export namespace Exchange {
     export interface F2C {
       crypto_uuid: string;

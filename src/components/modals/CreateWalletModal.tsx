@@ -14,14 +14,14 @@ import { WalletTypeValues } from '@/constants';
 import { ValueWithLabel } from '@/types';
 
 type CreateWalletProps = {
-  onOpenChange: (isOpen: boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
   onConfirm: (walletType: WalletTypeValues) => Promise<void>;
   isOpen: boolean;
   walletTypes: ValueWithLabel[];
 };
 
 const CreateWalletModal: FC<CreateWalletProps> = (props) => {
-  const { onOpenChange, onConfirm, isOpen, walletTypes } = props;
+  const { setIsModalOpen, onConfirm, isOpen, walletTypes } = props;
   const [selectedWalletType, setSelectedWalletType] = useState<WalletTypeValues | undefined>(undefined);
   const [isWalletCreating, setIsWalletCreating] = useState(false);
 
@@ -29,7 +29,7 @@ const CreateWalletModal: FC<CreateWalletProps> = (props) => {
     setSelectedWalletType(e.target.value as WalletTypeValues);
   };
 
-  const handleClose = () => onOpenChange(false);
+  const handleClose = () => setIsModalOpen(false);
 
   const handleCreateWallet = async () => {
     if (selectedWalletType) {
@@ -44,7 +44,7 @@ const CreateWalletModal: FC<CreateWalletProps> = (props) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} disableAnimation>
+    <Modal isOpen={isOpen} onOpenChange={setIsModalOpen} disableAnimation>
       <ModalContent>
         <ModalHeader>Create Wallet</ModalHeader>
         <ModalBody>

@@ -20,13 +20,13 @@ type MainInformationProps = {
   className?: string;
   actionButtons: ButtonAction[];
   balance: number;
-  activeTab: DashboardTabs | null;
+  activeDashboardTab: DashboardTabs | null;
   verificationStatus?: KYCStatuses;
   openKYC: () => void;
 };
 
 const MainInformation: FC<MainInformationProps> = (props) => {
-  const { className, actionButtons, balance, activeTab, verificationStatus, openKYC } = props;
+  const { className, actionButtons, balance, activeDashboardTab, verificationStatus, openKYC } = props;
   return (
     <Card className={cn('flex h-fit w-full flex-shrink-0 flex-col gap-10  p-4 xs:px-6 xs:py-6 sm:px-8', className)}>
       <div className="flex flex-col flex-wrap items-center justify-around gap-4 xs:flex-row md:items-start lg:flex-nowrap lg:items-center lg:justify-between">
@@ -45,7 +45,7 @@ const MainInformation: FC<MainInformationProps> = (props) => {
             className={cn(
               'bg-inherit lg:w-fit',
               button.disabled ? '!cursor-not-allowed opacity-50 hover:!opacity-50' : ' hover:!bg-gray-200',
-              activeTab === button.id && 'bg-tenant-main text-white hover:!bg-tenant-main hover:!text-white',
+              activeDashboardTab === button.id && 'bg-tenant-main text-white hover:!bg-tenant-main hover:!text-white',
             )}
             radius="sm"
             onClick={button.onClick}

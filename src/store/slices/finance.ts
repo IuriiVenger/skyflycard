@@ -12,6 +12,7 @@ import {
 import { orders } from '@/api/orders';
 import { transactions } from '@/api/transactions';
 import { API } from '@/api/types';
+import { vcards } from '@/api/vcards';
 import { wallets } from '@/api/wallets';
 import {
   CalcType,
@@ -31,10 +32,12 @@ type FinanceState = {
   withdrawCalc: StoreDataWithStatus<API.Orders.Crypto.Withdrawal.Calc.Response | null>;
   selectedChain: API.List.Chains;
   selectedCrypto: API.List.Crypto;
+  selectedCard: StoreDataWithStatus<API.Cards.CardDetailItem | null>;
   selectedFiat: API.List.Fiat;
   selectedWallet: API.Wallets.ExtendWallet | null;
   selectedWalletTransactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null> &
     SupabasePaginationParams;
+  selectedWalletCards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
   userWallets: API.Wallets.Wallet[];
   isAppInitialized: boolean;
 };
@@ -51,10 +54,12 @@ const initialState: FinanceState = {
   selectedCrypto: defaultCurrency.crypto,
   selectedFiat: defaultCurrency.fiat,
   selectedWallet: null,
+  selectedCard: emptyStoreDataWithStatus,
   selectedWalletTransactions: {
     ...emptyStoreDataWithStatus,
     meta: defaultPaginationParams,
   },
+  selectedWalletCards: emptyStoreDataWithStatus,
   userWallets: [],
   isAppInitialized: false,
 };
@@ -67,6 +72,15 @@ type LoadTransactionsPayload = {
 
 export const loadSelectedWallet = createAsyncThunk('finanse/selectedWallet', async (wallet_uuid: string) => {
   const data = await wallets.getByUuid(wallet_uuid);
+
+  return data;
+});
+
+export const loadSelectedCard = createAsyncThunk('finanse/selectedCard', async (card_id: string | null) => {
+  if (!card_id) {
+    return null;
+  }
+  const { data } = await vcards.cards.getById(card_id);
 
   return data;
 });
@@ -94,6 +108,12 @@ export const loadMoreTransactions = createAsyncThunk(
     return data;
   },
 );
+
+export const loadCards = createAsyncThunk('finanse/cards', async (wallet_uuid: string) => {
+  const { data } = await vcards.cards.getAll(wallet_uuid);
+
+  return data;
+});
 
 export const loadOnrampCalc = createAsyncThunk(
   'finanse/onrampCalc',
@@ -161,6 +181,16 @@ const financeSlice = createSlice({
     builder.addCase(loadSelectedWallet.fulfilled, (state, action) => {
       state.selectedWallet = action.payload;
     });
+    builder.addCase(loadSelectedCard.pending, (state) => {
+      state.selectedCard.status = RequestStatus.PENDING;
+    });
+    builder.addCase(loadSelectedCard.fulfilled, (state, action) => {
+      state.selectedCard.status = RequestStatus.FULLFILLED;
+      state.selectedCard.data = action.payload;
+    });
+    builder.addCase(loadSelectedCard.rejected, (state) => {
+      state.selectedCard.status = RequestStatus.REJECTED;
+    });
     builder.addCase(loadTransactions.pending, (state) => {
       state.selectedWalletTransactions.status = RequestStatus.PENDING;
     });
@@ -190,6 +220,16 @@ const financeSlice = createSlice({
     });
     builder.addCase(loadMoreTransactions.rejected, (state) => {
       state.selectedWalletTransactions.status = RequestStatus.REJECTED;
+    });
+    builder.addCase(loadCards.pending, (state) => {
+      state.selectedWalletCards.status = RequestStatus.PENDING;
+    });
+    builder.addCase(loadCards.fulfilled, (state, action) => {
+      state.selectedWalletCards.status = RequestStatus.FULLFILLED;
+      state.selectedWalletCards.data = action.payload.items;
+    });
+    builder.addCase(loadCards.rejected, (state) => {
+      state.selectedWalletCards.status = RequestStatus.REJECTED;
     });
     builder.addCase(loadOnrampCalc.pending, (state) => {
       state.onrampCalc.status = RequestStatus.PENDING;

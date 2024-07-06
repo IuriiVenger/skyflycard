@@ -12,7 +12,7 @@ import { isChain } from '@/utils/financial';
 
 type CurrencyListModalProps = {
   isOpen: boolean;
-  onOpenChange: (isOpen: boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
   chains?: API.List.Chains[];
   onSelect: (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => void;
   currencies: API.List.Crypto[] | API.List.Fiat[] | API.List.Chains[];
@@ -20,11 +20,11 @@ type CurrencyListModalProps = {
 };
 
 const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
-  const { isOpen, onOpenChange, onSelect, currencies, activeCurrency, chains } = props;
+  const { isOpen, setIsModalOpen, onSelect, currencies, activeCurrency, chains } = props;
 
   const handleCurrencyClick = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
     onSelect(currency);
-    onOpenChange(false);
+    setIsModalOpen(false);
   };
 
   const getCurrencyId = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) =>
@@ -33,7 +33,7 @@ const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
   return (
     <Modal
       isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      onOpenChange={setIsModalOpen}
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,
       }}

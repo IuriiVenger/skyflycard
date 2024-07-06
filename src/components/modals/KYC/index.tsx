@@ -15,7 +15,7 @@ type KYCModalProps = {
   onClose: Function;
   isOpen: boolean;
   user_id: string | undefined;
-  onOpenChange: (isOpen: boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
   getSumsubToken: (userId: string) => Promise<AxiosResponse<API.KYC.Sumsub.GenerateToken.Response>>;
 };
 
@@ -24,7 +24,7 @@ enum KYCSteps {
   KYC,
 }
 
-const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, onOpenChange, user_id, getSumsubToken }) => {
+const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, setIsModalOpen, user_id, getSumsubToken }) => {
   const [step, setStep] = useState(KYCSteps.START);
   const [accessToken, setAccessToken] = useState<string>('');
   const [isPending, setIsPending] = useState<boolean>(false);
@@ -63,7 +63,7 @@ const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, onOpenChange, user_id, g
   return (
     <Modal
       isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      onOpenChange={setIsModalOpen}
       onClose={closeHandler}
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,

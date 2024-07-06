@@ -15,7 +15,7 @@ import { PaymentMethod, ResponseStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isChain, isCrypto, isFiat } from '@/utils/financial';
 
-type DepositFormProps = {
+type DepositTabProps = {
   className?: string;
   selectedChain: API.List.Chains;
   selectChain: (chain: API.List.Chains) => void;
@@ -33,7 +33,7 @@ type DepositFormProps = {
   createWalletAddress: (data: API.Wallets.WalletChain.Request) => Promise<API.Wallets.WalletChain.Response>;
 };
 
-const DepositForm: FC<DepositFormProps> = (props) => {
+const DepositTab: FC<DepositTabProps> = (props) => {
   const {
     selectedWallet,
     className,
@@ -130,7 +130,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   }, [activePaymentMethod, selectedWallet?.uuid, selectedChain]);
 
   return (
-    <div className={cn('flex flex-col gap-8 md:mt-6', className)}>
+    <div className={cn('flex flex-col gap-8', className)}>
       <SelectPaymentMethod
         label="Choose deposit method"
         className="w-full"
@@ -178,14 +178,14 @@ const DepositForm: FC<DepositFormProps> = (props) => {
 
       <CurrencyListModal
         isOpen={isFiatModalOpen}
-        onOpenChange={setIsFiatModalOpen}
+        setIsModalOpen={setIsFiatModalOpen}
         activeCurrency={selectedFiat}
         currencies={fiatList}
         onSelect={selectCurrency}
       />
       <CurrencyListModal
         isOpen={isCryptoModalOpen}
-        onOpenChange={setIsCryptoModalOpen}
+        setIsModalOpen={setIsCryptoModalOpen}
         activeCurrency={selectedCrypto}
         currencies={availableToExchangeCrypto}
         onSelect={selectCurrency}
@@ -193,7 +193,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
       />
       <CurrencyListModal
         isOpen={isChainModalOpen}
-        onOpenChange={setIsChainModalOpen}
+        setIsModalOpen={setIsChainModalOpen}
         activeCurrency={selectedChain}
         currencies={chainList}
         onSelect={selectCurrency}
@@ -202,4 +202,4 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   );
 };
 
-export default DepositForm;
+export default DepositTab;

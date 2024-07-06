@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import { framerMotionAnimations } from '@/config/animations';
 
 type ConfirmModalProps = {
-  onOpenChange: (isOpen: boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
   onConfirm: () => any;
   isOpen: boolean;
   title?: string | null;
@@ -12,13 +12,13 @@ type ConfirmModalProps = {
 };
 
 const ConfirmModal: FC<ConfirmModalProps> = (props) => {
-  const { onOpenChange, onConfirm, isOpen, title, confirmText } = props;
+  const { setIsModalOpen, onConfirm, isOpen, title, confirmText } = props;
 
   const [isConfirmationPending, setIsConfirmationPending] = useState(false);
 
   const [delay, setDelay] = useState(5);
 
-  const handleClose = () => onOpenChange(false);
+  const handleClose = () => setIsModalOpen(false);
 
   const handleConfirmModal = async () => {
     try {
@@ -49,7 +49,7 @@ const ConfirmModal: FC<ConfirmModalProps> = (props) => {
         variants: framerMotionAnimations.downEnterExit,
       }}
       isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      onOpenChange={setIsModalOpen}
     >
       <ModalContent>
         <ModalHeader>

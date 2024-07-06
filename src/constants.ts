@@ -62,6 +62,7 @@ export enum DashboardTabs {
   WITHDRAW = 'withdraw',
   EXCHANGE = 'exchange',
   TRANSACTIONS = 'transactions',
+  CARDS = 'cards',
 }
 
 export enum WalletTypeValues {
@@ -137,3 +138,8 @@ export enum OrderTypes {
 }
 
 export const supportEmail = 'info@pprince.io';
+
+export enum CardsTabMode {
+  LIST = 'list',
+  CARD_DETAIL = 'card_detail',
+}

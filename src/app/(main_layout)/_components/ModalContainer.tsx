@@ -18,7 +18,7 @@ const ModalsContainer: FC = () => {
   const { user } = useAppSelector(selectUser);
   const { loadUserData } = useAuth(dispatch);
 
-  const onOpenChange = (modalName: keyof ModalVisibility) => (isOpen: boolean) => {
+  const setIsModalOpen = (modalName: keyof ModalVisibility) => (isOpen: boolean) => {
     isOpen ? dispatch(setModalVisible(modalName)) : dispatch(setModalInvisible(modalName));
   };
 
@@ -26,7 +26,7 @@ const ModalsContainer: FC = () => {
     <KYCModal
       isOpen={modalVisibility.kyc}
       onClose={loadUserData}
-      onOpenChange={onOpenChange(ModalNames.KYC)}
+      setIsModalOpen={setIsModalOpen(ModalNames.KYC)}
       user_id={user?.id}
       getSumsubToken={kyc.sumsub.generate_token}
     />

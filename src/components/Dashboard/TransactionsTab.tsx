@@ -21,7 +21,7 @@ import { RequestStatus } from '@/constants';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { getDate } from '@/utils/converters';
 
-type TransactionsProps = {
+type TransactionsTabProps = {
   transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
   loadMoreTransactions: () => void;
   selectedWallet: API.Wallets.ExtendWallet | null;
@@ -29,7 +29,7 @@ type TransactionsProps = {
   chainList: API.List.Chains[];
 };
 
-const Transactions: FC<TransactionsProps> = (props) => {
+const TransactionsTab: FC<TransactionsTabProps> = (props) => {
   const { transactions, loadMoreTransactions, chainList, selectedWallet, cryptoList } = props;
   const { data, status, meta } = transactions;
 
@@ -42,7 +42,7 @@ const Transactions: FC<TransactionsProps> = (props) => {
   const isLoadMoreAvailible = !meta.isLastPage;
 
   return (
-    <section className="flex flex-col md:mt-6">
+    <section className="flex min-h-96 flex-col">
       <Accordion
         selectedKeys={balanceAccordinState}
         onSelectionChange={setBalanceAccordionState}
@@ -104,4 +104,4 @@ const Transactions: FC<TransactionsProps> = (props) => {
   );
 };
 
-export default Transactions;
+export default TransactionsTab;
