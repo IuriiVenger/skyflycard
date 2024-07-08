@@ -104,7 +104,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
         crypto_uuid: selectedCrypto?.uuid,
         wallet_uuid: selectedWallet?.uuid,
         card_number: withdrawTargetWithoutSpaces,
-        is_subtract: true,
+        is_subsctract: true,
       });
     }
 
@@ -113,7 +113,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
       crypto_uuid: selectedCrypto.uuid,
       wallet_uuid: selectedWallet.uuid,
       to_address: withdrawTarget,
-      is_subtract: true,
+      is_subsctract: true,
     });
   };
 

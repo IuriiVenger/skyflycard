@@ -1,6 +1,6 @@
-import { Button, Input, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import copy from 'copy-to-clipboard';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 
 import ReactCreditCard, { Focused } from 'react-credit-cards';
 
@@ -12,14 +12,14 @@ import { API } from '@/api/types';
 import { framerMotionAnimations } from '@/config/animations';
 import { deleteDash, getCardExpiryRecord, separateNumbers } from '@/utils/converters';
 
-type ConfirmModalProps = {
+type CardSensitiveDataModalProps = {
   setIsModalOpen: (isOpen: boolean) => void;
-  cardSensitiveData: API.Cards.SensitiveData | null;
+  sensitiveData: API.Cards.SensitiveData | null;
   isOpen: boolean;
 };
 
-const CardSensitiveDataModal: FC<ConfirmModalProps> = (props) => {
-  const { setIsModalOpen, isOpen, cardSensitiveData } = props;
+const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
+  const { setIsModalOpen, isOpen, sensitiveData } = props;
   const [focus, setFocus] = useState<Focused>('number');
 
   const isCVVFocused = focus === 'cvc';
@@ -28,12 +28,12 @@ const CardSensitiveDataModal: FC<ConfirmModalProps> = (props) => {
     setFocus(isCVVFocused ? 'number' : 'cvc');
   };
 
-  if (!cardSensitiveData) {
+  if (!sensitiveData) {
     return null;
   }
 
-  const expiry = getCardExpiryRecord(cardSensitiveData.expiry_month, cardSensitiveData.expiry_year);
-  const numberMask = separateNumbers(+cardSensitiveData.card_number, '-', 4);
+  const expiry = getCardExpiryRecord(sensitiveData.expiry_month, sensitiveData.expiry_year);
+  const numberMask = separateNumbers(+sensitiveData.card_number, '-', 4);
 
   const onModalClose = () => setFocus('number');
   const closeModal = () => {
@@ -42,12 +42,12 @@ const CardSensitiveDataModal: FC<ConfirmModalProps> = (props) => {
   };
 
   const copyCVVToClipboard = () => {
-    copy(cardSensitiveData.cvv);
+    copy(sensitiveData.cvv);
     toast.success('CVV copied to clipboard');
   };
 
   const copyCardNumberToClipboard = () => {
-    copy(cardSensitiveData.card_number);
+    copy(sensitiveData.card_number);
     toast.success('Card number copied to clipboard');
   };
 
@@ -59,7 +59,7 @@ const CardSensitiveDataModal: FC<ConfirmModalProps> = (props) => {
       isOpen={isOpen}
       onOpenChange={setIsModalOpen}
       onClose={onModalClose}
-      closeButton
+      hideCloseButton
       backdrop="opaque"
     >
       <ModalContent>
@@ -67,10 +67,10 @@ const CardSensitiveDataModal: FC<ConfirmModalProps> = (props) => {
         <ModalBody className="py-4">
           <button type="button" onClick={toogleFocus} className="m-auto w-fit">
             <ReactCreditCard
-              number={deleteDash(cardSensitiveData.card_number)}
+              number={deleteDash(sensitiveData.card_number)}
               expiry={expiry}
-              cvc={cardSensitiveData.cvv}
-              name={cardSensitiveData.name_on_card}
+              cvc={sensitiveData.cvv}
+              name={sensitiveData.name_on_card}
               focused={focus}
             />
           </button>
@@ -90,7 +90,7 @@ const CardSensitiveDataModal: FC<ConfirmModalProps> = (props) => {
               <Input label="Expiry date" value={expiry} disabled />
               <Input
                 label="CVV"
-                value={cardSensitiveData.cvv}
+                value={sensitiveData.cvv}
                 disabled
                 endContent={
                   <IoCopyOutline
@@ -101,11 +101,12 @@ const CardSensitiveDataModal: FC<ConfirmModalProps> = (props) => {
               />
             </div>
           </div>
-
-          <Button onClick={closeModal} color="primary">
+        </ModalBody>
+        <ModalFooter>
+          <Button onClick={closeModal} radius="md" className="w-full" color="primary" variant="bordered">
             Close
           </Button>
-        </ModalBody>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

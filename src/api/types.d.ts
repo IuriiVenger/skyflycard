@@ -1,6 +1,6 @@
 import { User } from '@supabase/supabase-js';
 
-import { KYCStatuses, OrderStatuses, OrderTypes } from '@/constants';
+import { CardTransactionDirection, CardTransationStatus, KYCStatuses, OrderStatuses, OrderTypes } from '@/constants';
 
 export namespace API {
   export namespace Auth {
@@ -36,6 +36,36 @@ export namespace API {
   }
 
   export namespace Cards {
+    export interface Bin {
+      code: string;
+      countryCode: string;
+      currencyCode: string;
+      provider: string;
+      billingAddress: string;
+      paymentServices: string[];
+      merchants: string[];
+      purposes: string[];
+      fees: {
+        issue: {
+          feeAmount: number;
+          unit: string;
+        };
+        authorization: {
+          minAmount: number;
+          maxAmount: number;
+          feeAmount: number;
+          unit: string;
+        }[];
+        decline: {
+          feeAmount: number;
+          unit: string;
+        };
+        zeroAuth: {
+          feeAmount: number;
+          unit: string;
+        };
+      };
+    }
     export interface User {
       email: string;
       whitelabel: string;
@@ -71,26 +101,18 @@ export namespace API {
       amount: number;
     }
 
+    export interface Limits {
+      single: Limit;
+      daily: Limit;
+      weekly: Limit;
+      monthly: Limit;
+      lifetime: Limit;
+    }
+
     export interface CardDetailItem {
       status: string;
       cardName: string;
-      limits: {
-        single: {
-          amount: number;
-        };
-        daily: {
-          amount: number;
-        };
-        monthly: {
-          amount: number;
-        };
-        lifetime: {
-          amount: number;
-        };
-        weekly: {
-          amount: number;
-        };
-      };
+      limits: Limits;
       autoTopUp: {
         thresholdAmount: number;
         topUpAmount: number;
@@ -203,7 +225,7 @@ export namespace API {
       totalCount: number;
     }
 
-    export interface CardTransactionItem {
+    export interface TransactionItem {
       id: string;
       userId: string;
       walletId: string;
@@ -213,8 +235,8 @@ export namespace API {
       availableBalance: number;
       currencyCode: string;
       description: string;
-      status: string;
-      direction: string;
+      status: CardTransationStatus;
+      direction: CardTransactionDirection;
       user: {
         id: string;
         role: string;
@@ -249,12 +271,27 @@ export namespace API {
       };
     }
 
+    export interface TransactionsList {
+      items: TransactionItem[];
+      totalCount: number;
+    }
+
     export interface SensitiveData {
       card_number: string;
       cvv: string;
       expiry_month: number;
       expiry_year: number;
       name_on_card: string;
+    }
+
+    export interface Request {
+      status: string;
+      cardName: string;
+      limits: Limits;
+      autoTopUp: {
+        thresholdAmount: number;
+        topUpAmount: number;
+      };
     }
   }
 
@@ -398,7 +435,7 @@ export namespace API {
           crypto_uuid: string;
           fiat_uuid: string;
           wallet_uuid: string;
-          is_subtract: boolean;
+          is_subsctract: boolean;
         }
         export type Response = Item[];
       }
@@ -423,7 +460,7 @@ export namespace API {
         return_url_success: string;
         return_url_fail: string;
         return_url_pending: string;
-        is_subtract: boolean;
+        is_subsctract: boolean;
       }
       export type Response = Item;
     }
@@ -448,7 +485,7 @@ export namespace API {
           crypto_uuid: string;
           fiat_uuid: string;
           wallet_uuid: string;
-          is_subtract: boolean;
+          is_subsctract: boolean;
         }
 
         export type Response = Item[];
@@ -472,7 +509,7 @@ export namespace API {
         crypto_uuid: string;
         fiat_uuid: string;
         card_number: string;
-        is_subtract: boolean;
+        is_subsctract: boolean;
       }
       export type Response = Item;
     }
@@ -491,7 +528,7 @@ export namespace API {
             amount: number;
             crypto_uuid: string;
             wallet_uuid: string;
-            is_subtract: boolean;
+            is_subsctract: boolean;
           }
 
           export interface Response {
@@ -516,7 +553,7 @@ export namespace API {
           wallet_uuid: string;
           crypto_uuid: string;
           to_address: string;
-          is_subtract: boolean;
+          is_subsctract: boolean;
         }
         export type Response = Item;
       }
@@ -536,9 +573,40 @@ export namespace API {
         type: OrderTypes;
       }
     }
+
+    export namespace VCards {
+      export namespace Topup {
+        export namespace Internal {
+          export interface Request {
+            amount: number;
+            fiat_uuid: string;
+            wallet_uuid: string;
+            crypto_uuid: string;
+            card_id: string;
+            is_subsctract: boolean;
+          }
+
+          export interface Response {
+            id: number;
+            created_at: string;
+            order_uuid: string;
+            wallet_uuid: string;
+            fiat_uuid: string;
+            crypto_uuid: string;
+            amount_fiat: number;
+            payment_method: string;
+            status: string;
+            provider_uuid: string;
+            card_number: string;
+            amount_crypto: number;
+            comission: number;
+          }
+        }
+      }
+    }
   }
 
-  export namespace Transactions {
+  export namespace WalletTransactions {
     export interface Transaction {
       id: number;
       created_at: string;

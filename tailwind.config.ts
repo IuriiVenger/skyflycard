@@ -70,9 +70,6 @@ const config: Config = {
       themes: {
         light: {
           colors: {
-            success: {
-              DEFAULT: '#367A53',
-            },
             primary: {
               DEFAULT: tenantMainColor,
             },

@@ -33,7 +33,7 @@ const CardsList: FC<CardsListProps> = ({ cards, onCardClick }) => (
           />
         </button>
       ))}
-      <div className="rccs__card flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-md border border-tenant-main bg-light-lavander-gradient transition-all hover:scale-[102%] lg:rounded-xl">
+      <div className="rccs__card flex h-full w-full cursor-pointer flex-col items-center justify-center border border-tenant-main bg-light-lavander-gradient transition-all hover:scale-[102%]">
         <GoPlusCircle className="text-xl text-tenant-main lg:text-4xl" />
         <p className="text-sm text-tenant-main lg:text-base">Add new card</p>
       </div>

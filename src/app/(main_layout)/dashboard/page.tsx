@@ -24,14 +24,17 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { selectActiveFiatAvailableCrypto, selectFinanceData, selectUser } from '@/store/selectors';
 import {
   loadCards,
-  loadMoreTransactions,
+  loadMoreWalletTransactions,
   loadSelectedWallet,
-  loadTransactions,
+  loadWalletTransactions,
+  loadCardTransactions,
+  loadMoreCardTransactions,
   loadSelectedCard,
   setSelectedChain,
   setSelectedCrypto,
   setSelectedFiat,
   setUserWallets,
+  clearSelectedCard,
 } from '@/store/slices/finance';
 import { setModalVisible } from '@/store/slices/ui';
 
@@ -50,54 +53,67 @@ const DashboardPage = () => {
     fiatExchangeRate,
     selectedWalletTransactions,
     selectedWalletCards,
+    selectedCardTransactions,
   } = useAppSelector(selectFinanceData);
 
   const { userData } = useAppSelector(selectUser);
   const availableToExchangeCrypto = useAppSelector(selectActiveFiatAvailableCrypto);
-  const { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder } = useOrder();
+  const { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder, createInternalTopUpOrder } = useOrder();
   const { getWalletAddress, createWalletAddress } = useWallet();
   const externalCalcData = useExternalCalc();
   const [lastActiveWallet, setLastActiveWallet] = useState<API.Wallets.ExtendWallet | null>(null);
   const dispatch = useAppDispatch();
 
   const [queryDashboardTab, setQueryDashboardTab] = useQueryState('tab');
-  const [queryCardId, setQueryCardId] = useQueryState('card_id');
 
   const initialDasboardTab = (queryDashboardTab as DashboardTabs) || DashboardTabs.TRANSACTIONS;
-  const initialCardId = queryCardId;
 
   const [activeDashboardTab, setActiveDashboardTab] = useState<DashboardTabs>(initialDasboardTab);
-  const [activeCardId, setActiveCardId] = useState<string | null>(initialCardId);
+  const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
   const walletTypes = Object.values(walletType);
 
   const selectChain = (chain: API.List.Chains) => dispatch(setSelectedChain(chain));
   const selectCrypto = (currency: API.List.Crypto) => dispatch(setSelectedCrypto(currency));
   const selectFiat = (currency: API.List.Fiat) => dispatch(setSelectedFiat(currency));
-  const selectCard = (card_id: string | null) => {
-    dispatch(loadSelectedCard(card_id));
-  };
+  const selectCard = (card_id: string) =>
+    Promise.all([dispatch(loadSelectedCard(card_id)), dispatch(loadCardTransactions({ card_id }))]);
 
   const openKYCModal = () => dispatch(setModalVisible(ModalNames.KYC));
+
+  const changeActiveCard = async (card_id: string | null) => {
+    setActiveCardId(card_id);
+    if (!card_id) {
+      dispatch(clearSelectedCard());
+      return;
+    }
+
+    await selectCard(card_id);
+  };
 
   const changeDashboardTab = (tab: DashboardTabs) => {
     setActiveDashboardTab(tab);
     setQueryDashboardTab(tab);
+    activeCardId && changeActiveCard(null);
   };
 
-  const changeActiveCard = (card_id: string | null) => {
-    setActiveCardId(card_id);
-    setQueryCardId(card_id);
-    selectCard(card_id);
-  };
-
-  const loadMoreTransactionsHandler = () =>
+  const loadMoreWalletTransactionsHandler = () =>
     selectedWallet &&
     dispatch(
-      loadMoreTransactions({
+      loadMoreWalletTransactions({
         wallet_uuid: selectedWallet.uuid,
         limit: selectedWalletTransactions.meta.limit,
         offset: selectedWalletTransactions.meta.offset,
+      }),
+    );
+
+  const loadMoreCardTransactionsHandler = () =>
+    selectedCard.data &&
+    dispatch(
+      loadMoreCardTransactions({
+        card_id: selectedCard.data.cardId,
+        limit: selectedCardTransactions.meta.limit,
+        offset: selectedCardTransactions.meta.offset,
       }),
     );
 
@@ -122,7 +138,7 @@ const DashboardPage = () => {
 
   const onWalletChange = async (wallet: API.Wallets.ExtendWallet) => {
     setLastActiveWallet(wallet);
-    dispatch(loadTransactions({ wallet_uuid: wallet.uuid }));
+    dispatch(loadWalletTransactions({ wallet_uuid: wallet.uuid }));
     dispatch(loadCards(wallet.uuid));
     changeActiveCard(null);
   };
@@ -130,7 +146,7 @@ const DashboardPage = () => {
   const onWalletTotalAmountUpdate = async (wallet: API.Wallets.ExtendWallet) => {
     setLastActiveWallet(wallet);
     dispatch(
-      loadTransactions({
+      loadWalletTransactions({
         wallet_uuid: wallet.uuid,
         limit: selectedWalletTransactions.data?.length || defaultPaginationParams.limit,
         offset: 0,
@@ -145,6 +161,11 @@ const DashboardPage = () => {
 
     selectedWallet.uuid !== lastActiveWallet?.uuid && onWalletChange(selectedWallet);
     selectedWallet.total_amount !== lastActiveWallet?.total_amount && onWalletTotalAmountUpdate(selectedWallet);
+  };
+
+  const updateCard = async (card_id: string, data: API.Cards.Request) => {
+    await vcards.cards.update(card_id, data);
+    await selectCard(card_id);
   };
 
   const dasboardProps: DashboardProps = {
@@ -169,9 +190,12 @@ const DashboardPage = () => {
     createFiat2CryptoOrder: createOnRampOrder,
     createCrypto2FiatOrder: createOffRampOrder,
     createCrypto2CryptoOrder,
-    transactions: selectedWalletTransactions,
+    createInternalTopUpOrder,
+    walletTransactions: selectedWalletTransactions,
+    cardTransactions: selectedCardTransactions,
     cards: selectedWalletCards,
-    loadMoreTransactions: loadMoreTransactionsHandler,
+    loadMoreWalletTransactions: loadMoreWalletTransactionsHandler,
+    loadMoreCardTransactions: loadMoreCardTransactionsHandler,
     createWallet,
     walletTypes,
     externalCalcData,
@@ -182,6 +206,7 @@ const DashboardPage = () => {
     changeActiveCard,
     activeCardId,
     getSensitiveData,
+    updateCard,
   };
 
   useEffect(() => {

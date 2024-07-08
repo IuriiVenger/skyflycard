@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { FC } from 'react';
 import { BsArrowDownLeft, BsArrowUpRight, BsCreditCard2Back } from 'react-icons/bs';
 
@@ -23,6 +24,7 @@ export type DashboardProps = {
   walletTypes: ValueWithLabel[];
   getWalletAddress: (chain: number, wallet_uuid: string) => Promise<API.Wallets.WalletChain.Response>;
   createWalletAddress: (data: API.Wallets.WalletChain.Request) => Promise<API.Wallets.WalletChain.Response>;
+  cards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
   chainList: API.List.Chains[];
   cryptoList: API.List.Crypto[];
   availableToExchangeCrypto: API.List.Crypto[];
@@ -41,11 +43,13 @@ export type DashboardProps = {
   exchangeRate: API.Exchange.F2C[];
   createWallet: (wallet_type: WalletTypeValues) => Promise<void>;
   createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
+  createInternalTopUpOrder: (requestData: API.Orders.VCards.Topup.Internal.Request) => Promise<void | null>;
   createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
   createCrypto2CryptoOrder: (requestData: API.Orders.Crypto.Withdrawal.Request) => Promise<void | null>;
-  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
-  cards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
-  loadMoreTransactions: () => void;
+  walletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null>;
+  cardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null>;
+  loadMoreWalletTransactions: () => void;
+  loadMoreCardTransactions: () => void;
   verificationStatus?: KYCStatuses;
   openKYC: () => void;
   activeDashboardTab: DashboardTabs;
@@ -53,6 +57,7 @@ export type DashboardProps = {
   getSensitiveData: (card_id: string) => Promise<API.Cards.SensitiveData>;
   changeActiveCard: (card_id: string | null) => void;
   activeCardId: string | null;
+  updateCard: (card_id: string, data: API.Cards.Request) => Promise<void>;
 };
 
 const Dashboard: FC<DashboardProps> = (props) => {
@@ -70,6 +75,8 @@ const Dashboard: FC<DashboardProps> = (props) => {
     changeDashboardTab,
   } = props;
   const currentWalletBalance = roundToDecimals(selectedWallet?.total_amount || 0);
+
+  const isTransactionsTab = activeDashboardTab === DashboardTabs.TRANSACTIONS;
 
   const actionButtons = [
     {
@@ -128,7 +135,12 @@ const Dashboard: FC<DashboardProps> = (props) => {
         walletTypes={walletTypes}
       />
 
-      <div className="order-4 md:order-3 md:col-start-2 md:col-end-4 md:mt-4">
+      <div
+        className={cn(
+          'order-4  md:order-3 md:col-start-2 md:col-end-4 md:mt-4',
+          isTransactionsTab && 'overflow-scroll',
+        )}
+      >
         {activeDashboardTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
         {activeDashboardTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
         {activeDashboardTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}

@@ -143,3 +143,14 @@ export enum CardsTabMode {
   LIST = 'list',
   CARD_DETAIL = 'card_detail',
 }
+
+export enum CardTransationStatus {
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  DECLINE = 'DECLINE',
+}
+
+export enum CardTransactionDirection {
+  INCOMING = 'INCOMING',
+  OUTGOING = 'OUTGOING',
+}

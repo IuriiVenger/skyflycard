@@ -19,19 +19,19 @@ import WalletBalanceList from '../Wallet/WalletBalanceList';
 import { API } from '@/api/types';
 import { RequestStatus } from '@/constants';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
-import { getDate } from '@/utils/converters';
+import { getDateAndTime } from '@/utils/converters';
 
 type TransactionsTabProps = {
-  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
-  loadMoreTransactions: () => void;
+  walletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null>;
+  loadMoreWalletTransactions: () => void;
   selectedWallet: API.Wallets.ExtendWallet | null;
   cryptoList: API.List.Crypto[];
   chainList: API.List.Chains[];
 };
 
 const TransactionsTab: FC<TransactionsTabProps> = (props) => {
-  const { transactions, loadMoreTransactions, chainList, selectedWallet, cryptoList } = props;
-  const { data, status, meta } = transactions;
+  const { walletTransactions, loadMoreWalletTransactions, chainList, selectedWallet, cryptoList } = props;
+  const { data, status, meta } = walletTransactions;
 
   const [balanceAccordinState, setBalanceAccordionState] = useState<Selection>(new Set(['1']));
 
@@ -42,7 +42,7 @@ const TransactionsTab: FC<TransactionsTabProps> = (props) => {
   const isLoadMoreAvailible = !meta.isLastPage;
 
   return (
-    <section className="flex min-h-96 flex-col">
+    <section className="flex min-h-96 flex-col overflow-scroll">
       <Accordion
         selectedKeys={balanceAccordinState}
         onSelectionChange={setBalanceAccordionState}
@@ -74,7 +74,7 @@ const TransactionsTab: FC<TransactionsTabProps> = (props) => {
               {data.map((transaction) => (
                 <TableRow key={transaction.id}>
                   <TableCell>{transaction.id}</TableCell>
-                  <TableCell>{getDate(transaction.created_at)}</TableCell>
+                  <TableCell>{getDateAndTime(transaction.created_at)}</TableCell>
                   <TableCell>{transaction.type}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     {transaction.amount} {transaction.crypto?.symbol}
@@ -90,7 +90,7 @@ const TransactionsTab: FC<TransactionsTabProps> = (props) => {
               variant="bordered"
               radius="sm"
               className="mt-4 w-full max-w-32 self-center "
-              onClick={loadMoreTransactions}
+              onClick={loadMoreWalletTransactions}
               isLoading={isTransactionsLoading}
             >
               Load more

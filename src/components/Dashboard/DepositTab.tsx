@@ -77,7 +77,7 @@ const DepositTab: FC<DepositTabProps> = (props) => {
       return_url_fail: return_url,
       return_url_pending: return_url,
       return_url_success: return_url,
-      is_subtract: true,
+      is_subsctract: true,
     });
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {

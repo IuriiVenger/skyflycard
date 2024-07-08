@@ -90,6 +90,19 @@ interface PostRequestParams extends RequestParams {
   data: object;
 }
 
+export const patchRequest = async <T>(url: string, reqParams?: PostRequestParams): Promise<AxiosResponse<T>> => {
+  const { data = {}, headers = {}, params = {} } = reqParams ?? {};
+
+  const config = {
+    headers,
+    params,
+  };
+
+  const res = await instance.patch(url, data, config);
+
+  return res;
+};
+
 export const postRequest = async <T>(url: string, reqParams?: PostRequestParams): Promise<AxiosResponse<T>> => {
   const { data = {}, headers = {}, params = {} } = reqParams ?? {};
 

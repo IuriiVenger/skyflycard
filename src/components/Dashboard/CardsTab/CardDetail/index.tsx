@@ -6,23 +6,56 @@ import Cards from 'react-credit-cards';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
+import CardLimitsModal from './CardLimitsModal';
 import CardSensitiveDataModal from './CardSensitiveDataModal';
+
+import CardTopupModal from './CardTopupModal';
+import CardTransactionTable from './CardTransactionTable';
 
 import { API } from '@/api/types';
 import { CardsTabMode } from '@/constants';
-import useRequestStatus from '@/hooks/useRequestStatus';
+import { UseExternalCalcData } from '@/hooks/useExternalCalc';
+import { useRequestsStatus } from '@/hooks/useRequestStatus';
+import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { deleteDash } from '@/utils/converters';
 
 type CardDetailProps = {
   card: API.Cards.CardDetailItem;
+  cardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null>;
+  loadMoreCardTransactions: () => void;
   getSensitiveData: (card_id: string) => Promise<API.Cards.SensitiveData>;
   setCardTabMode: (mode: CardsTabMode) => void;
+  selectCard: (card_id: string) => void;
+  updateCard: (card_id: string, data: API.Cards.Request) => Promise<void>;
+  selectedFiat: API.List.Fiat;
+  selectFiat: (fiat: API.List.Fiat) => void;
+  selectedCrypto: API.List.Crypto;
+  selectCrypto: (crypto: API.List.Crypto) => void;
+  fiatList: API.List.Fiat[];
+  cryptoList: API.List.Crypto[];
+  chainList: API.List.Chains[];
+  selectedWallet: API.Wallets.Wallet | null;
+  createInternalTopUpOrder: (requestData: API.Orders.VCards.Topup.Internal.Request) => Promise<void | null>;
+  externalCalcData: UseExternalCalcData;
 };
 
-const CardDetail: FC<CardDetailProps> = ({ card, getSensitiveData, setCardTabMode }) => {
+const cardDetailRequests = {
+  SENSITIVE_DATA: 'sensitiveData',
+  LIMITS: 'limits',
+  TOP_UP: 'topUp',
+};
+
+const CardDetail: FC<CardDetailProps> = (props) => {
+  const { card, setCardTabMode, getSensitiveData } = props;
+
   const [sensitiveData, setSensitiveData] = useState<API.Cards.SensitiveData | null>(null);
   const [isSensitiveDataModalOpen, setIsSensitiveDataModalOpen] = useState(false);
-  const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestStatus();
+  const [isLimitsModalOpen, setIsLimitsModalOpen] = useState(false);
+  const [isTopupModalOpen, setIsTopupModalOpen] = useState(false);
+
+  const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestsStatus(
+    Object.values(cardDetailRequests),
+  );
 
   const cardTitle = `${card.bin.provider}, ${card.bin.currencyCode}`;
   const isActive = card.status === 'active';
@@ -32,20 +65,36 @@ const CardDetail: FC<CardDetailProps> = ({ card, getSensitiveData, setCardTabMod
   };
 
   const loadSensitiveData = async (card_id: string) => {
+    const newSensitiveData = await getSensitiveData(card_id);
+    setSensitiveData(newSensitiveData);
+  };
+
+  const showSensitiveDataModal = async () => {
     try {
-      setPending();
-      const data = await getSensitiveData(card_id);
-      setSensitiveData(data);
-      setFullfilled();
+      setPending(cardDetailRequests.SENSITIVE_DATA);
+      await loadSensitiveData(card.id);
+      setFullfilled(cardDetailRequests.SENSITIVE_DATA);
+      setIsSensitiveDataModalOpen(true);
     } catch (error) {
-      setRejected();
+      setRejected(cardDetailRequests.SENSITIVE_DATA);
       throw error;
     }
   };
 
-  const showSensitiveDataModal = async () => {
-    await loadSensitiveData(card.id);
-    setIsSensitiveDataModalOpen(true);
+  const showLimitsModal = () => {
+    setIsLimitsModalOpen(true);
+  };
+
+  const showTopupModal = async () => {
+    try {
+      setPending(cardDetailRequests.TOP_UP);
+      await loadSensitiveData(card.id);
+      setFullfilled(cardDetailRequests.TOP_UP);
+      setIsTopupModalOpen(true);
+    } catch (error) {
+      setRejected(cardDetailRequests.TOP_UP);
+      throw error;
+    }
   };
 
   return (
@@ -60,7 +109,7 @@ const CardDetail: FC<CardDetailProps> = ({ card, getSensitiveData, setCardTabMod
       <div className="mt-2 flex gap-8">
         <button
           type="button"
-          className=" h-[85px] w-[130px] origin-top-left scale-50 xs:h-[128px] xs:w-[195px] xs:scale-75 lg:h-auto lg:w-auto lg:scale-100"
+          className=" h-[85px] w-[130px] origin-top-left scale-50 px-1 xs:h-[128px] xs:w-[195px] xs:scale-75 lg:h-auto lg:w-auto  lg:scale-100"
           onClick={showSensitiveDataModal}
         >
           <Cards
@@ -88,7 +137,7 @@ const CardDetail: FC<CardDetailProps> = ({ card, getSensitiveData, setCardTabMod
           color="primary"
           variant="flat"
           className=" bg-tenant-main-light text-tenant-main"
-          isLoading={requestStatuses.PENDING}
+          isLoading={requestStatuses[cardDetailRequests.SENSITIVE_DATA].PENDING}
           onClick={showSensitiveDataModal}
           radius="sm"
         >
@@ -98,8 +147,9 @@ const CardDetail: FC<CardDetailProps> = ({ card, getSensitiveData, setCardTabMod
           color="primary"
           variant="flat"
           className=" bg-tenant-main-light text-tenant-main"
-          onClick={showSensitiveDataModal}
+          onClick={showTopupModal}
           radius="sm"
+          isLoading={requestStatuses[cardDetailRequests.TOP_UP].PENDING}
         >
           Top up
         </Button>
@@ -107,8 +157,8 @@ const CardDetail: FC<CardDetailProps> = ({ card, getSensitiveData, setCardTabMod
           color="primary"
           variant="flat"
           className=" bg-tenant-main-light text-tenant-main"
-          isLoading={requestStatuses.PENDING}
-          onClick={showSensitiveDataModal}
+          isLoading={requestStatuses[cardDetailRequests.LIMITS].PENDING}
+          onClick={showLimitsModal}
           radius="sm"
         >
           Change limits
@@ -117,17 +167,31 @@ const CardDetail: FC<CardDetailProps> = ({ card, getSensitiveData, setCardTabMod
           color="primary"
           variant="flat"
           className=" bg-tenant-main-light text-tenant-main"
-          isLoading={requestStatuses.PENDING}
           onClick={showSensitiveDataModal}
           radius="sm"
         >
           Other
         </Button>
       </div>
+
+      <CardTransactionTable className="mt-4" {...props} />
+
       <CardSensitiveDataModal
-        cardSensitiveData={sensitiveData}
+        sensitiveData={sensitiveData}
         isOpen={isSensitiveDataModalOpen}
         setIsModalOpen={setIsSensitiveDataModalOpen}
+      />
+      <CardLimitsModal
+        limits={card.limits}
+        isOpen={isLimitsModalOpen}
+        setIsModalOpen={setIsLimitsModalOpen}
+        {...props}
+      />
+      <CardTopupModal
+        sensitiveData={sensitiveData}
+        isOpen={isTopupModalOpen}
+        setIsModalOpen={setIsTopupModalOpen}
+        {...props}
       />
     </section>
   );

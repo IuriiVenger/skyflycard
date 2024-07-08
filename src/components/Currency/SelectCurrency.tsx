@@ -7,19 +7,20 @@ import { API } from '@/api/types';
 import CurrencyInfo from '@/components/Currency/CurrencyInfo';
 
 type SelectCurrencyProps = {
-  label: string;
+  label?: string;
   onClick?: () => void;
   className?: string;
   currency: API.List.Fiat | API.List.Crypto | API.List.Chains;
   balance?: number;
   chains?: API.List.Chains[];
+  labelClassName?: string;
 };
 
 const SelectCurrency: FC<SelectCurrencyProps> = (props) => {
-  const { label, className, onClick, currency, balance, chains } = props;
+  const { label, className, onClick, currency, balance, chains, labelClassName } = props;
   return (
     <div className={className}>
-      <h3 className="mb-4 text-xl font-bold">{label}</h3>
+      <h3 className={cn(labelClassName, 'mb-4 text-xl font-bold')}>{label}</h3>
       <div
         onClick={onClick}
         className={cn('flex w-full items-center justify-between rounded border px-4 py-3', onClick && 'cursor-pointer')}

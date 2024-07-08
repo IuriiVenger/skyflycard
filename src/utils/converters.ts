@@ -23,10 +23,16 @@ export const separateNumbers = (num: number, separator: string = ',', group_size
   return formattedNumber;
 };
 
-export const getDate = (date: string) => {
+export const getDateAndTime = (date: string) => {
   const dateObj = new Date(date);
 
   return dateObj.toLocaleString('ru-RU');
+};
+
+export const getDate = (date: string) => {
+  const dateObj = new Date(date);
+
+  return dateObj.toLocaleDateString('ru-RU');
 };
 
 export const deleteDash = (str: string) => str.replace(/-/g, '');

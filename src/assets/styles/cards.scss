@@ -4,6 +4,7 @@
     width: 100%;
     height: auto;
     aspect-ratio: 1.6;
+    border-radius: 13px;
 
     .rccs__number,
     .rccs__name {
@@ -29,6 +30,7 @@
     }
 
     @media screen and (max-width: 1023px) {
+      border-radius: 8px;
       &--front,
       &--back {
         border-radius: 8px;

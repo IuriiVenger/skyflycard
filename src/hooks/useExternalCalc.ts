@@ -46,7 +46,7 @@ const useExternalCalc: UseExternalCalc = () => {
         fiat_uuid: selectedFiat.uuid,
         wallet_uuid: selectedWallet.uuid,
         amount,
-        is_subtract: true,
+        is_subsctract: true,
       };
 
       const offRampCalcParams = {
@@ -54,12 +54,12 @@ const useExternalCalc: UseExternalCalc = () => {
         fiat_uuid: selectedFiat.uuid,
         wallet_uuid: selectedWallet.uuid,
         amount,
-        is_subtract: true,
+        is_subsctract: true,
       };
       const withdrawCalcParams = {
         crypto_uuid: selectedCrypto.uuid,
         wallet_uuid: selectedWallet.uuid,
-        is_subtract: true,
+        is_subsctract: true,
         amount,
       };
 

@@ -76,7 +76,11 @@ const useOrder = () => {
     router.push(`/order/${data.order_uuid}`);
   }, []);
 
-  return { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder };
+  const createInternalTopUpOrder = async (requestData: API.Orders.VCards.Topup.Internal.Request) => {
+    await orders.vcars.topup.internal(requestData);
+  };
+
+  return { createOnRampOrder, createOffRampOrder, createCrypto2CryptoOrder, createInternalTopUpOrder };
 };
 
 export default useOrder;
