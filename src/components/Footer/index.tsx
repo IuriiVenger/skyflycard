@@ -17,7 +17,7 @@ const Footer: FC = () => (
   <footer className="flex items-center justify-center self-stretch bg-black px-16 py-10 max-md:px-5 md:py-20">
     <div className="flex w-full max-w-screen-xl flex-col gap-16">
       <div className="flex w-full justify-between gap-5 gap-y-16 max-md:max-w-full max-md:flex-wrap">
-        <Image src={logo.src} alt="Company Logo" className="aspect-[4.55] w-36 max-w-full shrink-0" />
+        <Image src={logo.src} alt="Company Logo" className="white-mask-filter aspect-[4.55] w-36 max-w-full shrink-0" />
         <div className="flex gap-4 text-white">
           <Link className="hover:opacity-80" href="/terms">
             Terms of Service
