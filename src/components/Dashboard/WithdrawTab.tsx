@@ -20,13 +20,13 @@ import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isCrypto, isFiat } from '@/utils/financial';
 
 type WithdrawTabProps = {
+  allowedCryptoToFiatList: API.List.Crypto[];
   className?: string;
   selectedFiat: API.List.Fiat;
   selectFiat: (fiat: API.List.Fiat) => void;
   selectedCrypto: API.List.Crypto;
   selectCrypto: (crypto: API.List.Crypto) => void;
   fiatList: API.List.Fiat[];
-  cryptoList: API.List.Crypto[];
   chainList: API.List.Chains[];
   selectedWallet: API.Wallets.Wallet | null;
   createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
@@ -43,7 +43,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
     selectedCrypto,
     selectedFiat,
     fiatList,
-    cryptoList,
+    allowedCryptoToFiatList,
     createCrypto2FiatOrder,
     createCrypto2CryptoOrder,
     chainList,
@@ -204,7 +204,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
         isOpen={isCryptoModalOpen}
         setIsModalOpen={setIsCryptoModalOpen}
         activeCurrency={selectedCrypto}
-        currencies={cryptoList}
+        currencies={allowedCryptoToFiatList}
         onSelect={selectCurrency}
         chains={chainList}
       />

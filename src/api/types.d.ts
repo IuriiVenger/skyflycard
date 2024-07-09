@@ -65,6 +65,9 @@ export namespace API {
           unit: string;
         };
       };
+      requirements: {
+        isKycRequired: boolean;
+      };
     }
     export interface User {
       email: string;
@@ -97,7 +100,7 @@ export namespace API {
     }
 
     export interface Limit {
-      interval: string;
+      interval?: string;
       amount: number;
     }
 
@@ -284,14 +287,35 @@ export namespace API {
       name_on_card: string;
     }
 
-    export interface Request {
-      status: string;
-      cardName: string;
-      limits: Limits;
-      autoTopUp: {
-        thresholdAmount: number;
-        topUpAmount: number;
-      };
+    export namespace Create {
+      export interface Request {
+        wallet_uuid: string;
+        binCode: string;
+        cardName: string;
+        limits?: Limits;
+        cardBalance: number;
+        cardsCount?: number;
+        autoTopUp?: {
+          thresholdAmount: number;
+          topUpAmount: number;
+        };
+        walletId?: string;
+        ownerId?: string;
+      }
+
+      export type Response = CardDetailItem;
+    }
+
+    export namespace Update {
+      export interface Request {
+        status: string;
+        cardName: string;
+        limits: Limits;
+        autoTopUp: {
+          thresholdAmount: number;
+          topUpAmount: number;
+        };
+      }
     }
   }
 

@@ -10,7 +10,7 @@ type CardLimitsModalProps = {
   limits: API.Cards.Limits | null;
   isOpen: boolean;
   card: API.Cards.CardDetailItem;
-  updateCard: (card_id: string, data: API.Cards.Request) => Promise<void>;
+  updateCard: (card_id: string, data: API.Cards.Update.Request) => Promise<void>;
 };
 
 const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
@@ -46,7 +46,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
   };
 
   const saveLimits = async () => {
-    const newCardsData: API.Cards.Request = { ...card, limits: modalLimits, cardName: 'Pupupu' };
+    const newCardsData: API.Cards.Update.Request = { ...card, limits: modalLimits, cardName: 'Pupupu' };
 
     try {
       setPending();

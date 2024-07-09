@@ -3,8 +3,18 @@ import cn from 'classnames';
 import { FC, useState } from 'react';
 import Cards from 'react-credit-cards';
 
-import { FaCircleCheck } from 'react-icons/fa6';
+import {
+  FaCircleCheck,
+  FaEye,
+  // FaMoneyBillTrendUp  // hide change limits
+} from 'react-icons/fa6';
 import { IoIosArrowRoundBack } from 'react-icons/io';
+
+import { MdCurrencyExchange } from 'react-icons/md';
+
+// import { PiListThin } from 'react-icons/pi'; // hide change limits
+
+import { CardsTabProps } from '..';
 
 import CardLimitsModal from './CardLimitsModal';
 import CardSensitiveDataModal from './CardSensitiveDataModal';
@@ -19,23 +29,10 @@ import { useRequestsStatus } from '@/hooks/useRequestStatus';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { deleteDash } from '@/utils/converters';
 
-type CardDetailProps = {
+export type CardDetailProps = CardsTabProps & {
   card: API.Cards.CardDetailItem;
   cardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null>;
-  loadMoreCardTransactions: () => void;
-  getSensitiveData: (card_id: string) => Promise<API.Cards.SensitiveData>;
   setCardTabMode: (mode: CardsTabMode) => void;
-  selectCard: (card_id: string) => void;
-  updateCard: (card_id: string, data: API.Cards.Request) => Promise<void>;
-  selectedFiat: API.List.Fiat;
-  selectFiat: (fiat: API.List.Fiat) => void;
-  selectedCrypto: API.List.Crypto;
-  selectCrypto: (crypto: API.List.Crypto) => void;
-  fiatList: API.List.Fiat[];
-  cryptoList: API.List.Crypto[];
-  chainList: API.List.Chains[];
-  selectedWallet: API.Wallets.Wallet | null;
-  createInternalTopUpOrder: (requestData: API.Orders.VCards.Topup.Internal.Request) => Promise<void | null>;
   externalCalcData: UseExternalCalcData;
 };
 
@@ -81,9 +78,9 @@ const CardDetail: FC<CardDetailProps> = (props) => {
     }
   };
 
-  const showLimitsModal = () => {
-    setIsLimitsModalOpen(true);
-  };
+  // const showLimitsModal = () => { // hide change limits
+  //   setIsLimitsModalOpen(true);
+  // };
 
   const showTopupModal = async () => {
     try {
@@ -141,7 +138,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           onClick={showSensitiveDataModal}
           radius="sm"
         >
-          View details
+          <FaEye /> View details
         </Button>
         <Button
           color="primary"
@@ -151,9 +148,10 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           radius="sm"
           isLoading={requestStatuses[cardDetailRequests.TOP_UP].PENDING}
         >
+          <MdCurrencyExchange />
           Top up
         </Button>
-        <Button
+        {/* <Button // hide change limits
           color="primary"
           variant="flat"
           className=" bg-tenant-main-light text-tenant-main"
@@ -161,6 +159,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           onClick={showLimitsModal}
           radius="sm"
         >
+          <FaMoneyBillTrendUp />
           Change limits
         </Button>
         <Button
@@ -170,8 +169,9 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           onClick={showSensitiveDataModal}
           radius="sm"
         >
+          <PiListThin />
           Other
-        </Button>
+        </Button> */}
       </div>
 
       <CardTransactionTable className="mt-4" {...props} />

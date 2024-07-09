@@ -11,7 +11,7 @@ import { separateNumbers } from '@/utils/converters';
 type ButtonAction = {
   id: DashboardTabs | null;
   title: string;
-  icon: IconType;
+  icon: JSX.Element;
   onClick: () => void;
   disabled?: boolean;
 };
@@ -51,6 +51,7 @@ const MainInformation: FC<MainInformationProps> = (props) => {
             onClick={button.onClick}
             disabled={button?.disabled}
           >
+            <div className="ml-2 flex-shrink-0 ">{button.icon}</div>
             <span className="capitalize">{button.title}</span>
           </Button>
         ))}

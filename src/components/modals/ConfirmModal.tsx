@@ -2,6 +2,7 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from
 import { FC, useEffect, useState } from 'react';
 
 import { framerMotionAnimations } from '@/config/animations';
+import { useRequestStatus } from '@/hooks/useRequestStatus';
 
 type ConfirmModalProps = {
   setIsModalOpen: (isOpen: boolean) => void;
@@ -14,7 +15,8 @@ type ConfirmModalProps = {
 const ConfirmModal: FC<ConfirmModalProps> = (props) => {
   const { setIsModalOpen, onConfirm, isOpen, title, confirmText } = props;
 
-  const [isConfirmationPending, setIsConfirmationPending] = useState(false);
+  const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestStatus();
+  const [lastRequestStatus, _, setLastRequestFullfilled, setLastRequestRejected] = useRequestStatus();
 
   const [delay, setDelay] = useState(5);
 
@@ -22,16 +24,21 @@ const ConfirmModal: FC<ConfirmModalProps> = (props) => {
 
   const handleConfirmModal = async () => {
     try {
-      setIsConfirmationPending(true);
+      setPending();
       await onConfirm();
       handleClose();
-    } finally {
-      setIsConfirmationPending(false);
+      setFullfilled();
+      setLastRequestFullfilled();
+    } catch (error) {
+      setRejected();
+      setLastRequestRejected();
+      throw error;
     }
   };
 
   const modalTitle = title || 'Confirmation';
   const modalConfirmText = confirmText || 'Are you sure you want to proceed?';
+  const confirmButtonText = `${lastRequestStatus.REJECTED ? 'Try again' : 'Confirm'} ${delay ? ` (${delay})` : ''}`;
 
   useEffect(() => {
     isOpen && delay > 0 && setTimeout(() => setDelay(delay - 1), 1000);
@@ -63,11 +70,11 @@ const ConfirmModal: FC<ConfirmModalProps> = (props) => {
           <Button
             isDisabled={!!delay}
             className="text-white"
-            color="primary"
-            isLoading={isConfirmationPending}
+            color={lastRequestStatus.REJECTED ? 'danger' : 'primary'}
+            isLoading={requestStatuses.PENDING}
             onClick={handleConfirmModal}
           >
-            Confirm {!!delay && `(${delay})`}
+            {confirmButtonText}
           </Button>
         </ModalFooter>
       </ModalContent>

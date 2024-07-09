@@ -16,6 +16,7 @@ import {
   defaultPaginationParams,
   ModalNames,
   DashboardTabs,
+  allowedCryptoToFiatUuid,
 } from '@/constants';
 import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
@@ -45,6 +46,7 @@ const DashboardPage = () => {
     selectedWallet,
     selectedFiat,
     selectedCard,
+    bins,
     chains,
     fiats,
     crypto,
@@ -67,6 +69,7 @@ const DashboardPage = () => {
   const [queryDashboardTab, setQueryDashboardTab] = useQueryState('tab');
 
   const initialDasboardTab = (queryDashboardTab as DashboardTabs) || DashboardTabs.TRANSACTIONS;
+  const allowedCryptoToFiatList = crypto.filter((item) => allowedCryptoToFiatUuid.includes(item.uuid));
 
   const [activeDashboardTab, setActiveDashboardTab] = useState<DashboardTabs>(initialDasboardTab);
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
@@ -95,6 +98,10 @@ const DashboardPage = () => {
     setActiveDashboardTab(tab);
     setQueryDashboardTab(tab);
     activeCardId && changeActiveCard(null);
+  };
+
+  const loadSelectedWalletCards = async () => {
+    selectedWallet && dispatch(loadCards(selectedWallet.uuid));
   };
 
   const loadMoreWalletTransactionsHandler = () =>
@@ -163,49 +170,55 @@ const DashboardPage = () => {
     selectedWallet.total_amount !== lastActiveWallet?.total_amount && onWalletTotalAmountUpdate(selectedWallet);
   };
 
-  const updateCard = async (card_id: string, data: API.Cards.Request) => {
+  const createCard = async (data: API.Cards.Create.Request) => vcards.cards.create(data);
+
+  const updateCard = async (card_id: string, data: API.Cards.Update.Request) => {
     await vcards.cards.update(card_id, data);
     await selectCard(card_id);
   };
 
   const dasboardProps: DashboardProps = {
-    wallets: userWallets,
-    getWalletAddress,
-    createWalletAddress,
-    selectChain,
-    selectedChain,
-    selectedWallet,
-    selectWallet,
-    selectedCard,
-    selectCard,
-    chainList: chains,
-    cryptoList: crypto,
+    activeCardId,
+    activeDashboardTab,
+    allowedCryptoToFiatList,
     availableToExchangeCrypto,
-    fiatList: fiats,
-    selectedCrypto,
-    selectedFiat,
-    selectCrypto,
-    selectFiat,
-    exchangeRate: fiatExchangeRate,
-    createFiat2CryptoOrder: createOnRampOrder,
-    createCrypto2FiatOrder: createOffRampOrder,
-    createCrypto2CryptoOrder,
-    createInternalTopUpOrder,
-    walletTransactions: selectedWalletTransactions,
+    bins,
     cardTransactions: selectedCardTransactions,
     cards: selectedWalletCards,
-    loadMoreWalletTransactions: loadMoreWalletTransactionsHandler,
-    loadMoreCardTransactions: loadMoreCardTransactionsHandler,
-    createWallet,
-    walletTypes,
-    externalCalcData,
-    verificationStatus: userData?.kyc_status,
-    openKYC: openKYCModal,
-    changeDashboardTab,
-    activeDashboardTab,
+    chainList: chains,
     changeActiveCard,
-    activeCardId,
+    changeDashboardTab,
+    createCard,
+    createCrypto2CryptoOrder,
+    createCrypto2FiatOrder: createOffRampOrder,
+    createFiat2CryptoOrder: createOnRampOrder,
+    createInternalTopUpOrder,
+    createWallet,
+    createWalletAddress,
+    cryptoList: crypto,
+    externalCalcData,
+    fiatList: fiats,
+    exchangeRate: fiatExchangeRate,
     getSensitiveData,
+    getWalletAddress,
+    loadMoreCardTransactions: loadMoreCardTransactionsHandler,
+    loadMoreWalletTransactions: loadMoreWalletTransactionsHandler,
+    loadSelectedWalletCards,
+    openKYC: openKYCModal,
+    selectCard,
+    selectedCard,
+    selectedChain,
+    selectedCrypto,
+    selectedFiat,
+    selectedWallet,
+    selectChain,
+    selectCrypto,
+    selectFiat,
+    selectWallet,
+    verificationStatus: userData?.kyc_status,
+    walletTransactions: selectedWalletTransactions,
+    walletTypes,
+    wallets: userWallets,
     updateCard,
   };
 

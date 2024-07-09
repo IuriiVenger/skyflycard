@@ -2,6 +2,8 @@ import cn from 'classnames';
 import { FC, useEffect, useRef, useState } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
+import { DashboardProps } from '..';
+
 import CardDetail from './CardDetail';
 import CardsList from './CardsList';
 
@@ -11,25 +13,10 @@ import { CardsTabMode, RequestStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { StoreDataWithStatus, StoreDataWithStatusAndMeta } from '@/store/types';
 
-type CardsTabProps = {
+export type CardsTabProps = DashboardProps & {
   className?: string;
-  cards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
   selectedCard: StoreDataWithStatus<API.Cards.CardDetailItem | null>;
-  getSensitiveData: (card_id: string) => Promise<API.Cards.SensitiveData>;
-  activeCardId: string | null;
-  changeActiveCard: (card_id: string | null) => void;
   cardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null>;
-  loadMoreCardTransactions: () => void;
-  updateCard: (card_id: string, data: API.Cards.Request) => Promise<void>;
-  selectedFiat: API.List.Fiat;
-  selectFiat: (fiat: API.List.Fiat) => void;
-  selectCard: (card_id: string) => void;
-  selectedCrypto: API.List.Crypto;
-  selectCrypto: (crypto: API.List.Crypto) => void;
-  fiatList: API.List.Fiat[];
-  cryptoList: API.List.Crypto[];
-  chainList: API.List.Chains[];
-  selectedWallet: API.Wallets.Wallet | null;
   createInternalTopUpOrder: (requestData: API.Orders.VCards.Topup.Internal.Request) => Promise<void | null>;
   externalCalcData: UseExternalCalcData;
 };

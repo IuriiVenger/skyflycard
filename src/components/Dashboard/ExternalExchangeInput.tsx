@@ -20,6 +20,8 @@ type ExchangeFormProps = {
   isWithdraw?: boolean;
   label?: string;
   disableLabel?: boolean;
+  externalLabel?: string;
+  externalLabelClassName?: string;
 };
 
 const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
@@ -34,6 +36,8 @@ const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
     isCalculating,
     label,
     disableLabel,
+    externalLabel,
+    externalLabelClassName,
   } = props;
 
   const buyingValue = useMemo(() => {
@@ -47,10 +51,21 @@ const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
   const prettyBuyingValue = roundToDecimals(buyingValue, 2);
   const prettyFee = roundToDecimals(calcData?.commission || 0, 2);
 
-  const inputLabel = disableLabel ? null : label || `Amount to ${isWithdraw ? 'withdraw' : 'deposit'}`;
+  const getInputLabel = () => {
+    if (disableLabel || externalLabel) {
+      return null;
+    }
+
+    const defaultLabel = `Amount to ${isWithdraw ? 'withdraw' : 'deposit'}`;
+
+    return label || defaultLabel;
+  };
+
+  const inputLabel = getInputLabel();
 
   return (
     <section>
+      {externalLabel && <p className={cn(externalLabelClassName, 'mb-4 text-base font-medium')}>{externalLabel}</p>}
       <Card className={cn(className, 'border-1 shadow-none')}>
         <CardBody className="flex flex-col gap-2">
           <Input
