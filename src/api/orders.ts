@@ -24,4 +24,10 @@ export const orders = {
   status: {
     getByUuid: (uuid: string) => getRequest<API.Orders.Status.Response>(`/orders/status/${uuid}`),
   },
+  vcars: {
+    topup: {
+      internal: (data: API.Orders.VCards.Topup.Internal.Request) =>
+        postRequest<API.Orders.VCards.Topup.Internal.Response>('/orders/vcards/topup/internal', { data }),
+    },
+  },
 };

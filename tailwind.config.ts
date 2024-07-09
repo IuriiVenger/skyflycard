@@ -28,6 +28,8 @@ const config: Config = {
       'max-2xl': { max: '1535px' },
       'sm-height': { raw: '(min-height: 640px)' },
       'md-height': { raw: '(min-height: 768px)' },
+      'sm-only': { min: '640px', max: '767px' },
+      'md-only': { min: '768px', max: '1023px' },
       ...defaultTheme.screens,
     },
     extend: {
@@ -68,9 +70,6 @@ const config: Config = {
       themes: {
         light: {
           colors: {
-            success: {
-              DEFAULT: '#367A53',
-            },
             primary: {
               DEFAULT: tenantMainColor,
             },

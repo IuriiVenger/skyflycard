@@ -10,7 +10,7 @@ import { GoHistory, GoNoEntry, GoVerified } from 'react-icons/go';
 import { API } from '@/api/types';
 import { OrderStatuses, OrderTypes } from '@/constants';
 
-import { getDate } from '@/utils/converters';
+import { getDateAndTime } from '@/utils/converters';
 
 type OrderInfoProps = {
   order: API.Orders.Status.Response;
@@ -86,7 +86,7 @@ const OrderInfo: FC<OrderInfoProps> = ({ order }) => {
       <h1 className={`text-2xl font-bold ${orderStatusInfo.iconColorClassname}`}>{orderStatusInfo.title}</h1>
       <p>{orderStatusInfo.description}</p>
       <div className="mt-8 flex flex-col gap-1 text-start">
-        <p>Date: {getDate(order.created_at)}</p>
+        <p>Date: {getDateAndTime(order.created_at)}</p>
         <p>UUID: {order.order_uuid}</p>
         <p>Type: {orderTypeTitle[order.type]}</p>
         {order.amount && <p>Order amount: {order.amount}</p>}

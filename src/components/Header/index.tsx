@@ -13,26 +13,19 @@ import {
 
 import Image from 'next/image.js';
 import Link from 'next/link';
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 
 import KYCButton from '../KYC/KYCButton';
 
 import AuthButtons from './AuthButtons';
 
 import headerLogo from '@/assets/svg/header_logo.svg';
+import whiteLabelConfig from '@/config/whitelabel';
 import { ModalNames, requestKYCStatuses } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectIsUserLoggedIn, selectUser } from '@/store/selectors';
 import { setModalVisible } from '@/store/slices/ui';
-
-const menuItems = [
-  { title: 'About', href: '/#title' },
-  { title: 'Contacts', href: '/#contacts' },
-  { title: 'Exchange', href: '/#exchange' },
-  { title: 'Features', href: '/#features' },
-  { title: 'OTC', href: '/#otc' },
-];
 
 const authItems = [
   { title: 'Sign up', href: '/auth/login/otp' },
@@ -46,6 +39,19 @@ const Header: FC = () => {
   const { signOut } = useAuth(dispatch);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const menuItems = useMemo(
+    () => [
+      { title: 'About', href: '/#title', enabled: !whiteLabelConfig.disableLanding },
+      { title: 'Contacts', href: '/#contacts', enabled: !whiteLabelConfig.disableLanding },
+      { title: 'Exchange', href: '/#exchange', enabled: !whiteLabelConfig.disableLanding },
+      { title: 'Features', href: '/#features', enabled: !whiteLabelConfig.disableLanding },
+      { title: 'OTC', href: '/#otc', enabled: !whiteLabelConfig.disableLanding },
+    ],
+    [whiteLabelConfig.disableLanding],
+  );
+
+  const filtredMenuItems = menuItems.filter((item) => item.enabled);
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -67,16 +73,16 @@ const Header: FC = () => {
       </NavbarContent>
       <NavbarContent className="pr-3 md:hidden" justify="center">
         <NavbarBrand>
-          <Image src={headerLogo} alt="Logo" />
+          <Image src={headerLogo} alt="Logo" height={24} />
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden flex-grow gap-4 md:flex" justify="center">
         <Link className="flex-shrink-0" href="/">
-          <Image src={headerLogo} alt="Logo" />
+          <Image src={headerLogo} alt="Logo" height={24} />
         </Link>
 
         <div className="flex w-full  justify-center gap-8">
-          {menuItems.map((item, index) => (
+          {filtredMenuItems.map((item, index) => (
             <NavbarItem key={`${item}-${index}`}>
               <Link className="text-sm text-tenant-main hover:underline" href={item.href}>
                 {item.title}
@@ -88,7 +94,7 @@ const Header: FC = () => {
       </NavbarContent>
 
       <NavbarMenu className="gap-8">
-        {menuItems.map((item, index) => (
+        {filtredMenuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
               className="w-full text-tenant-main"

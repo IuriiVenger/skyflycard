@@ -19,19 +19,19 @@ import WalletBalanceList from '../Wallet/WalletBalanceList';
 import { API } from '@/api/types';
 import { RequestStatus } from '@/constants';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
-import { getDate } from '@/utils/converters';
+import { getDateAndTime } from '@/utils/converters';
 
-type TransactionsProps = {
-  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
-  loadMoreTransactions: () => void;
+type TransactionsTabProps = {
+  walletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null>;
+  loadMoreWalletTransactions: () => void;
   selectedWallet: API.Wallets.ExtendWallet | null;
   cryptoList: API.List.Crypto[];
   chainList: API.List.Chains[];
 };
 
-const Transactions: FC<TransactionsProps> = (props) => {
-  const { transactions, loadMoreTransactions, chainList, selectedWallet, cryptoList } = props;
-  const { data, status, meta } = transactions;
+const TransactionsTab: FC<TransactionsTabProps> = (props) => {
+  const { walletTransactions, loadMoreWalletTransactions, chainList, selectedWallet, cryptoList } = props;
+  const { data, status, meta } = walletTransactions;
 
   const [balanceAccordinState, setBalanceAccordionState] = useState<Selection>(new Set(['1']));
 
@@ -42,7 +42,7 @@ const Transactions: FC<TransactionsProps> = (props) => {
   const isLoadMoreAvailible = !meta.isLastPage;
 
   return (
-    <section className="flex flex-col md:mt-6">
+    <section className="flex min-h-96 flex-col overflow-scroll">
       <Accordion
         selectedKeys={balanceAccordinState}
         onSelectionChange={setBalanceAccordionState}
@@ -74,7 +74,7 @@ const Transactions: FC<TransactionsProps> = (props) => {
               {data.map((transaction) => (
                 <TableRow key={transaction.id}>
                   <TableCell>{transaction.id}</TableCell>
-                  <TableCell>{getDate(transaction.created_at)}</TableCell>
+                  <TableCell>{getDateAndTime(transaction.created_at)}</TableCell>
                   <TableCell>{transaction.type}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     {transaction.amount} {transaction.crypto?.symbol}
@@ -90,7 +90,7 @@ const Transactions: FC<TransactionsProps> = (props) => {
               variant="bordered"
               radius="sm"
               className="mt-4 w-full max-w-32 self-center "
-              onClick={loadMoreTransactions}
+              onClick={loadMoreWalletTransactions}
               isLoading={isTransactionsLoading}
             >
               Load more
@@ -104,4 +104,4 @@ const Transactions: FC<TransactionsProps> = (props) => {
   );
 };
 
-export default Transactions;
+export default TransactionsTab;

@@ -11,11 +11,12 @@ import ExternalExhangeInput from './ExternalExchangeInput';
 import SelectPaymentMethod from './SelectPaymentMethod';
 
 import { API } from '@/api/types';
+import whiteLabelConfig from '@/config/whitelabel';
 import { PaymentMethod, ResponseStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isChain, isCrypto, isFiat } from '@/utils/financial';
 
-type DepositFormProps = {
+type DepositTabProps = {
   className?: string;
   selectedChain: API.List.Chains;
   selectChain: (chain: API.List.Chains) => void;
@@ -33,7 +34,7 @@ type DepositFormProps = {
   createWalletAddress: (data: API.Wallets.WalletChain.Request) => Promise<API.Wallets.WalletChain.Response>;
 };
 
-const DepositForm: FC<DepositFormProps> = (props) => {
+const DepositTab: FC<DepositTabProps> = (props) => {
   const {
     selectedWallet,
     className,
@@ -77,7 +78,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
       return_url_fail: return_url,
       return_url_pending: return_url,
       return_url_success: return_url,
-      is_subtract: true,
+      is_subsctract: true,
     });
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
@@ -130,7 +131,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   }, [activePaymentMethod, selectedWallet?.uuid, selectedChain]);
 
   return (
-    <div className={cn('flex flex-col gap-8 md:mt-6', className)}>
+    <div className={cn('flex flex-col gap-8', className)}>
       <SelectPaymentMethod
         label="Choose deposit method"
         className="w-full"
@@ -166,26 +167,28 @@ const DepositForm: FC<DepositFormProps> = (props) => {
         </>
       )}
 
-      <small className="mt-8 text-xs">
-        *Before engaging in digital asset transactions, users must be aware of the high risk of substantial financial
-        loss. Digital assets, including cryptocurrencies, are highly volatile and speculative. Users should exercise
-        caution and conduct thorough research. Transactions involving digital assets may lack consumer protections found
-        in traditional financial transactions. Digital currencies are not backed by central authorities, exposing users
-        to risks such as hacking and fraud. By proceeding with digital asset transactions, users acknowledge the
-        inherent risks and waive any claims against PPrince Ex s.r.o. This notice complies with regulations governing
-        Virtual Asset Service Providers (VASPs) for transparency and legal compliance.
-      </small>
+      {whiteLabelConfig.disableStaticPages && (
+        <small className="mt-8 text-xs">
+          *Before engaging in digital asset transactions, users must be aware of the high risk of substantial financial
+          loss. Digital assets, including cryptocurrencies, are highly volatile and speculative. Users should exercise
+          caution and conduct thorough research. Transactions involving digital assets may lack consumer protections
+          found in traditional financial transactions. Digital currencies are not backed by central authorities,
+          exposing users to risks such as hacking and fraud. By proceeding with digital asset transactions, users
+          acknowledge the inherent risks and waive any claims against PPrince Ex s.r.o. This notice complies with
+          regulations governing Virtual Asset Service Providers (VASPs) for transparency and legal compliance.
+        </small>
+      )}
 
       <CurrencyListModal
         isOpen={isFiatModalOpen}
-        onOpenChange={setIsFiatModalOpen}
+        setIsModalOpen={setIsFiatModalOpen}
         activeCurrency={selectedFiat}
         currencies={fiatList}
         onSelect={selectCurrency}
       />
       <CurrencyListModal
         isOpen={isCryptoModalOpen}
-        onOpenChange={setIsCryptoModalOpen}
+        setIsModalOpen={setIsCryptoModalOpen}
         activeCurrency={selectedCrypto}
         currencies={availableToExchangeCrypto}
         onSelect={selectCurrency}
@@ -193,7 +196,7 @@ const DepositForm: FC<DepositFormProps> = (props) => {
       />
       <CurrencyListModal
         isOpen={isChainModalOpen}
-        onOpenChange={setIsChainModalOpen}
+        setIsModalOpen={setIsChainModalOpen}
         activeCurrency={selectedChain}
         currencies={chainList}
         onSelect={selectCurrency}
@@ -202,4 +205,4 @@ const DepositForm: FC<DepositFormProps> = (props) => {
   );
 };
 
-export default DepositForm;
+export default DepositTab;

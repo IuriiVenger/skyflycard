@@ -16,8 +16,8 @@ import StoreWatchers from '@/store/components/StoreWatchers';
 const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'PPrince',
-  description: 'PPrince. Your Secure Oasis for Global Transactions',
+  title: 'Crypto Wallet',
+  description: 'Crypto Wallet. Your Secure Oasis for Global Transactions',
 };
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
@@ -28,12 +28,12 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => (
       <body className={font.className}>
         <Providers>{children}</Providers>
         <ToastContainer
-          position="bottom-center"
+          position="top-right"
           closeButton={false}
           autoClose={4000}
           transition={Slide}
           progressStyle={{ background: 'white' }}
-          closeOnClick={false}
+          closeOnClick
           pauseOnHover={false}
           toastClassName="py-0 px-4 bg-white border border-beerus rounded-lg shadow-xl"
           bodyClassName="text-sm text-black p-0 font-normal"

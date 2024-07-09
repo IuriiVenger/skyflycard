@@ -1,56 +1,73 @@
-import { useQueryState } from 'nuqs';
-import { FC, useEffect, useState } from 'react';
-import { BsArrowDownLeft, BsArrowLeftRight, BsArrowUpRight } from 'react-icons/bs';
+import { AxiosResponse } from 'axios';
+import cn from 'classnames';
+import { FC } from 'react';
+import { BsArrowDownLeft, BsArrowUpRight, BsCreditCard2Back } from 'react-icons/bs';
 
 import { IoIosList } from 'react-icons/io';
 
-import DepositForm from './DepositForm';
+import { PiSignIn, PiSignOut } from 'react-icons/pi';
+
+import CardsTab from './CardsTab';
+import DepositForm from './DepositTab';
 import MainInformation from './MainInformation';
-import Transactions from './TransactionsTable';
-import WithdrawForm from './WithdrawForm';
+import Transactions from './TransactionsTab';
+import WithdrawForm from './WithdrawTab';
 
 import { API } from '@/api/types';
 import WalletBalanceList from '@/components/Wallet/WalletBalanceList';
 import WalletList from '@/components/Wallet/WalletList';
 import { DashboardTabs, KYCStatuses, WalletTypeValues } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
-import { StoreDataWithStatusAndMeta } from '@/store/types';
+import { StoreDataWithStatus, StoreDataWithStatusAndMeta } from '@/store/types';
 import { ValueWithLabel } from '@/types';
 import { roundToDecimals } from '@/utils/converters';
 
-type DashboardProps = {
-  wallets: API.Wallets.Wallet[];
-  walletTypes: ValueWithLabel[];
-  getWalletAddress: (chain: number, wallet_uuid: string) => Promise<API.Wallets.WalletChain.Response>;
-  createWalletAddress: (data: API.Wallets.WalletChain.Request) => Promise<API.Wallets.WalletChain.Response>;
-  chainList: API.List.Chains[];
-  cryptoList: API.List.Crypto[];
+export type DashboardProps = {
+  activeCardId: string | null;
+  activeDashboardTab: DashboardTabs;
+  allowedCryptoToFiatList: API.List.Crypto[];
   availableToExchangeCrypto: API.List.Crypto[];
-  fiatList: API.List.Fiat[];
-  externalCalcData: UseExternalCalcData;
-  selectChain: (chain: API.List.Chains) => void;
-  selectFiat: (fiat: API.List.Fiat) => void;
-  selectCrypto: (crypto: API.List.Crypto) => void;
-  selectWallet: (wallet_uuid: string) => void;
-  selectedChain: API.List.Chains;
-  selectedFiat: API.List.Fiat;
-  selectedCrypto: API.List.Crypto;
-  selectedWallet: API.Wallets.ExtendWallet | null;
-  exchangeRate: API.Exchange.F2C[];
-  createWallet: (wallet_type: WalletTypeValues) => Promise<void>;
-  createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
-  createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
+  bins: API.Cards.Bin[];
+  cardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null>;
+  cards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
+  chainList: API.List.Chains[];
+  changeActiveCard: (card_id: string | null) => void;
+  changeDashboardTab: (tab: DashboardTabs) => void;
+  createCard: (data: API.Cards.Create.Request) => Promise<AxiosResponse<API.Cards.Create.Response, any>>;
   createCrypto2CryptoOrder: (requestData: API.Orders.Crypto.Withdrawal.Request) => Promise<void | null>;
-  transactions: StoreDataWithStatusAndMeta<API.Transactions.Transaction[] | null>;
-  loadMoreTransactions: () => void;
-  verificationStatus?: KYCStatuses;
+  createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
+  createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
+  createInternalTopUpOrder: (requestData: API.Orders.VCards.Topup.Internal.Request) => Promise<void | null>;
+  createWallet: (wallet_type: WalletTypeValues) => Promise<void>;
+  createWalletAddress: (data: API.Wallets.WalletChain.Request) => Promise<API.Wallets.WalletChain.Response>;
+  cryptoList: API.List.Crypto[];
+  exchangeRate: API.Exchange.F2C[];
+  externalCalcData: UseExternalCalcData;
+  fiatList: API.List.Fiat[];
+  getSensitiveData: (card_id: string) => Promise<API.Cards.SensitiveData>;
+  getWalletAddress: (chain: number, wallet_uuid: string) => Promise<API.Wallets.WalletChain.Response>;
+  loadMoreCardTransactions: () => void;
+  loadMoreWalletTransactions: () => void;
+  loadSelectedWalletCards: () => void;
   openKYC: () => void;
+  selectCard: (card_id: string) => void;
+  selectChain: (chain: API.List.Chains) => void;
+  selectCrypto: (crypto: API.List.Crypto) => void;
+  selectFiat: (fiat: API.List.Fiat) => void;
+  selectWallet: (wallet_uuid: string) => void;
+  selectedCard: StoreDataWithStatus<API.Cards.CardDetailItem | null>;
+  selectedChain: API.List.Chains;
+  selectedCrypto: API.List.Crypto;
+  selectedFiat: API.List.Fiat;
+  selectedWallet: API.Wallets.ExtendWallet | null;
+  updateCard: (card_id: string, data: API.Cards.Update.Request) => Promise<void>;
+  verificationStatus?: KYCStatuses;
+  walletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null>;
+  walletTypes: ValueWithLabel[];
+  wallets: API.Wallets.Wallet[];
 };
 
 const Dashboard: FC<DashboardProps> = (props) => {
-  const [queryTab, setQueryTab] = useQueryState('tab');
-  const initialTab = (queryTab as DashboardTabs) || DashboardTabs.TRANSACTIONS;
-
   const {
     wallets,
     selectWallet,
@@ -61,57 +78,46 @@ const Dashboard: FC<DashboardProps> = (props) => {
     chainList,
     verificationStatus,
     openKYC,
+    activeDashboardTab,
+    changeDashboardTab,
+    activeCardId,
   } = props;
   const currentWalletBalance = roundToDecimals(selectedWallet?.total_amount || 0);
-  const [activeTab, setActiveTab] = useState<DashboardTabs>(initialTab);
+
+  const isTransactionsTab = activeDashboardTab === DashboardTabs.TRANSACTIONS;
+  const isCardDetailMode = activeDashboardTab === DashboardTabs.CARDS && activeCardId;
+  const isMainInformationHidden = isCardDetailMode;
 
   const actionButtons = [
     {
       id: DashboardTabs.TRANSACTIONS,
       title: 'Transactions',
-      icon: IoIosList,
-      onClick: () => {
-        setQueryTab(DashboardTabs.TRANSACTIONS);
-        setActiveTab(DashboardTabs.TRANSACTIONS);
-      },
+      icon: <IoIosList />,
+      onClick: () => changeDashboardTab(DashboardTabs.TRANSACTIONS),
     },
     {
       id: DashboardTabs.DEPOSIT,
       title: 'Deposit',
-      icon: BsArrowDownLeft,
-      onClick: () => {
-        setQueryTab(DashboardTabs.DEPOSIT);
-        setActiveTab(DashboardTabs.DEPOSIT);
-      },
+      icon: <PiSignIn className="rotate-90" />,
+      onClick: () => changeDashboardTab(DashboardTabs.DEPOSIT),
     },
     {
       id: DashboardTabs.WITHDRAW,
       title: 'Withdraw',
-      icon: BsArrowUpRight,
-      onClick: () => {
-        setQueryTab(DashboardTabs.WITHDRAW);
-        setActiveTab(DashboardTabs.WITHDRAW);
-      },
+      icon: <PiSignOut className="rotate-[270deg]" />,
+      onClick: () => changeDashboardTab(DashboardTabs.WITHDRAW),
     },
     {
-      id: DashboardTabs.EXCHANGE,
-      title: 'Exchange',
-      icon: BsArrowLeftRight,
-      onClick: () => {
-        setQueryTab(DashboardTabs.EXCHANGE);
-        setActiveTab(DashboardTabs.EXCHANGE);
-      },
-      disabled: true,
+      id: DashboardTabs.CARDS,
+      title: 'Cards',
+      icon: <BsCreditCard2Back />,
+      onClick: () => changeDashboardTab(DashboardTabs.CARDS),
     },
   ];
 
-  useEffect(() => {
-    queryTab && setActiveTab(queryTab as DashboardTabs);
-  }, [queryTab]);
-
   return (
-    <section className="grid w-full max-w-screen-xl grid-cols-1 gap-x-12  gap-y-4 md:grid-cols-[280px,auto] lg:gap-x-20 xl:gap-x-40">
-      <aside className="row-start-1 row-end-3 hidden w-full flex-shrink-0 flex-col justify-between gap-8 sm:flex-row md:flex  md:max-w-xs md:flex-col md:justify-start ">
+    <section className="grid w-full max-w-screen-xl grid-cols-1 grid-rows-[repeat(3,min-content)] gap-x-12  gap-y-4 md:grid-cols-[280px,auto] lg:gap-x-20 xl:gap-x-40">
+      <aside className="row-start-1 row-end-3 hidden w-full flex-shrink-0  flex-col justify-between gap-8 sm:flex-row  md:flex md:max-w-xs md:flex-col md:justify-start ">
         <WalletList
           createWallet={createWallet}
           wallets={wallets}
@@ -122,28 +128,37 @@ const Dashboard: FC<DashboardProps> = (props) => {
         <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
       </aside>
 
-      <MainInformation
-        className="order-1 md:order-2 md:col-start-2 md:col-end-4"
-        balance={currentWalletBalance}
-        actionButtons={actionButtons}
-        activeTab={activeTab}
-        verificationStatus={verificationStatus}
-        openKYC={openKYC}
-      />
-      <WalletList
-        className="order-2 mt-1 md:hidden"
-        createWallet={createWallet}
-        wallets={wallets}
-        onSelect={selectWallet}
-        activeWallet={selectedWallet}
-        walletTypes={walletTypes}
-      />
+      {!isMainInformationHidden && (
+        <>
+          <MainInformation
+            className="order-1 md:order-2 md:col-start-2 md:col-end-4"
+            balance={currentWalletBalance}
+            actionButtons={actionButtons}
+            activeDashboardTab={activeDashboardTab}
+            verificationStatus={verificationStatus}
+            openKYC={openKYC}
+          />
+          <WalletList
+            className="order-2 mt-1 md:hidden"
+            createWallet={createWallet}
+            wallets={wallets}
+            onSelect={selectWallet}
+            activeWallet={selectedWallet}
+            walletTypes={walletTypes}
+          />
+        </>
+      )}
 
-      <div className="order-4 overflow-scroll md:order-3 md:col-start-2 md:col-end-4 md:mt-4">
-        {activeTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
-        {activeTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
-        {activeTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}
-        {activeTab === DashboardTabs.EXCHANGE && <div>Exchange</div>}
+      <div
+        className={cn(
+          'order-4  md:order-3 md:col-start-2 md:col-end-4 md:mt-4',
+          isTransactionsTab && 'overflow-scroll',
+        )}
+      >
+        {activeDashboardTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
+        {activeDashboardTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
+        {activeDashboardTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}
+        {activeDashboardTab === DashboardTabs.CARDS && <CardsTab {...props} />}
       </div>
     </section>
   );

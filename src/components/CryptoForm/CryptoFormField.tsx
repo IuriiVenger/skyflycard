@@ -53,7 +53,7 @@ const CryptoFormField: FC<CryptoFormFieldProps> = (props) => {
       </div>
       <CurrencyListModal
         isOpen={isModalOpen}
-        onOpenChange={setIsModalOpen}
+        setIsModalOpen={setIsModalOpen}
         activeCurrency={currency}
         currencies={currencies}
         onSelect={onChangeCurrency}

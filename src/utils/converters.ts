@@ -23,8 +23,23 @@ export const separateNumbers = (num: number, separator: string = ',', group_size
   return formattedNumber;
 };
 
-export const getDate = (date: string) => {
+export const getDateAndTime = (date: string) => {
   const dateObj = new Date(date);
 
   return dateObj.toLocaleString('ru-RU');
+};
+
+export const getDate = (date: string) => {
+  const dateObj = new Date(date);
+
+  return dateObj.toLocaleDateString('ru-RU');
+};
+
+export const deleteDash = (str: string) => str.replace(/-/g, '');
+
+export const getCardExpiryRecord = (month: number, year: number) => {
+  const monthStr = month < 10 ? `0${month}` : month;
+  const yearStr = year.toString().slice(2);
+
+  return `${monthStr}/${yearStr}`;
 };

@@ -5,9 +5,11 @@ import useAuth from './useAuth';
 import { exchange } from '@/api/exchange';
 
 import { list } from '@/api/list';
+import { vcards } from '@/api/vcards';
 import { defaultCurrency } from '@/constants';
 import {
   setAppInitialized,
+  setBins,
   setChains,
   setCrypto,
   setFiatExchangeRate,
@@ -21,14 +23,15 @@ const useInitApp = (dispatch: AppDispatch) => {
   const initApp = async () => {
     try {
       const isAuthTokensExist = getCookie('access_token');
-      const [fiats, crypto, chains, fiatExchangeRate] = await Promise.all([
+      const [bins, fiats, crypto, chains, fiatExchangeRate] = await Promise.all([
+        vcards.bins.getAll(),
         list.fiats.getAll(),
         list.crypto.getAll(),
         list.chains.getAll(),
         exchange.fiat2crypto.getByUuid(defaultCurrency.fiat.uuid),
         isAuthTokensExist && initUser(),
       ]);
-
+      dispatch(setBins(bins));
       dispatch(setFiats(fiats));
       dispatch(setCrypto(crypto));
       dispatch(setChains(chains));

@@ -13,10 +13,20 @@ type ExternalWithdrawInputProps = {
   setAmount: (amount: number) => void;
   selectedCrypto: API.List.Crypto;
   isCalculating?: boolean;
+  label?: string;
 };
 
 const ExternalWithdrawInput: FC<ExternalWithdrawInputProps> = (props) => {
-  const { className, amount, setAmount, selectedCrypto, isCalculating, netAmount, commission } = props;
+  const {
+    className,
+    amount,
+    setAmount,
+    selectedCrypto,
+    isCalculating,
+    netAmount,
+    commission,
+    label = 'Amount to withdraw',
+  } = props;
   const handleAmountInput = (e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value));
   const prettyCommission = commission ? commission.toFixed(2) : '';
   return (
@@ -26,7 +36,7 @@ const ExternalWithdrawInput: FC<ExternalWithdrawInputProps> = (props) => {
           className="-mt-4"
           type="number"
           placeholder="Enter amount"
-          label="Amount to withdraw"
+          label={label}
           size="lg"
           labelPlacement="outside"
           endContent={

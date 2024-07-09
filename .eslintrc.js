@@ -35,6 +35,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/no-array-index-key': 'off',
+    'jsx-a11y/control-has-associated-label': 'off',
     'no-unused-vars': 'warn',
     'no-unused-expressions': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',

@@ -1,3 +1,7 @@
+@import './variables.scss';
+@import 'react-credit-cards/lib/styles.scss';
+@import './cards.scss';
+
 .small-fontsize-input {
   input[type='text'] {
     font-size: 15px;
@@ -5,4 +9,8 @@
       font-size: 11px;
     }
   }
+}
+
+.white-mask-filter {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(61deg) brightness(102%) contrast(103%);
 }

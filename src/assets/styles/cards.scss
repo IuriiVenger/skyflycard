@@ -1,0 +1,51 @@
+.dashboard-cards-tab {
+  .rccs,
+  .rccs__card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.6;
+    border-radius: 13px;
+
+    .rccs__number,
+    .rccs__name {
+      @media screen and (max-width: 1023px) {
+        font-size: clamp(0.5rem, 1.7vw, 3rem);
+      }
+
+      @media screen and (max-width: 767px) {
+        font-size: clamp(0.5rem, 3vw, 3rem);
+      }
+
+      font-size: clamp(0.5rem, 1.3vw, 1.2rem);
+    }
+    .rccs__expiry {
+      @media screen and (max-width: 1279px) {
+        display: none;
+      }
+    }
+
+    .rccs__chip {
+      height: 15%;
+      width: 24%;
+    }
+
+    @media screen and (max-width: 1023px) {
+      border-radius: 8px;
+      &--front,
+      &--back {
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
+.dashboard-card-detail {
+  .rccs__card {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.8;
+    min-height: 170px;
+    min-width: 240px;
+    max-width: 300px;
+  }
+}

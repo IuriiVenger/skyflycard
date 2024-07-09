@@ -2,7 +2,12 @@ import { API } from './types';
 
 import { getRequest } from '.';
 
+import { defaultPaginationParams } from '@/constants';
+
 export const transactions = {
-  getByWalletUuid: async (walletUuid: string, limit = 50, offset = 0) =>
-    getRequest<API.Transactions.Transaction[]>(`/transactions/${walletUuid}`, { params: { limit, offset } }),
+  getByWalletUuid: async (
+    walletUuid: string,
+    limit = defaultPaginationParams.limit,
+    offset = defaultPaginationParams.offset,
+  ) => getRequest<API.WalletTransactions.Transaction[]>(`/transactions/${walletUuid}`, { params: { limit, offset } }),
 };

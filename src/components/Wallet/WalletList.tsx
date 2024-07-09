@@ -88,7 +88,7 @@ const WalletList: FC<WalletMenuProps> = ({ wallets, onSelect, activeWallet, clas
       </Button>
       <CreateWalletModal
         isOpen={isCreateWalletModalOpen}
-        onOpenChange={setIsCreateWalletModalOpen}
+        setIsModalOpen={setIsCreateWalletModalOpen}
         onConfirm={createWallet}
         walletTypes={walletTypes}
       />
