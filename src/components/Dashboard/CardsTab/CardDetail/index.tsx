@@ -1,18 +1,16 @@
 import { Button } from '@nextui-org/react';
 import cn from 'classnames';
+import Image from 'next/image';
 import { FC, useState } from 'react';
 import Cards from 'react-credit-cards';
 
-import {
-  FaCircleCheck,
-  FaEye,
-  // FaMoneyBillTrendUp  // hide change limits
-} from 'react-icons/fa6';
+import { isIOS, isAndroid } from 'react-device-detect';
+import { FaCircleCheck, FaEye, FaMoneyBillTrendUp } from 'react-icons/fa6';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
 import { MdCurrencyExchange } from 'react-icons/md';
 
-// import { PiListThin } from 'react-icons/pi'; // hide change limits
+import { PiListThin } from 'react-icons/pi';
 
 import { CardsTabProps } from '..';
 
@@ -23,6 +21,8 @@ import CardTopupModal from './CardTopupModal';
 import CardTransactionTable from './CardTransactionTable';
 
 import { API } from '@/api/types';
+import addToAppleWalletImg from '@/assets/svg/add-to-apple-wallet.svg';
+import addToGoogleWalletImg from '@/assets/svg/add-to-google-wallet.svg';
 import { CardsTabMode } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { useRequestsStatus } from '@/hooks/useRequestStatus';
@@ -44,6 +44,7 @@ const cardDetailRequests = {
 
 const CardDetail: FC<CardDetailProps> = (props) => {
   const { card, setCardTabMode, getSensitiveData } = props;
+  console.log(isIOS, isAndroid);
 
   const [sensitiveData, setSensitiveData] = useState<API.Cards.SensitiveData | null>(null);
   const [isSensitiveDataModalOpen, setIsSensitiveDataModalOpen] = useState(false);
@@ -78,9 +79,9 @@ const CardDetail: FC<CardDetailProps> = (props) => {
     }
   };
 
-  // const showLimitsModal = () => { // hide change limits
-  //   setIsLimitsModalOpen(true);
-  // };
+  const showLimitsModal = () => {
+    setIsLimitsModalOpen(true);
+  };
 
   const showTopupModal = async () => {
     try {
@@ -99,36 +100,49 @@ const CardDetail: FC<CardDetailProps> = (props) => {
       <button type="button" onClick={backToCardsList} className="flex items-center gap-2 text-neutral-500">
         <IoIosArrowRoundBack /> Back to cards list
       </button>
-      <div className="flex items-center gap-2">
-        <h3 className=" text-xl text-black lg:text-2xl">{cardTitle}</h3>
-        <FaCircleCheck className={cn(isActive ? 'text-green-600' : 'text-neutral-500', 'text-sm lg:text-base')} />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <h3 className=" text-xl text-black lg:text-2xl">{cardTitle}</h3>
+          <FaCircleCheck className={cn(isActive ? 'text-green-600' : 'text-neutral-500', 'text-sm lg:text-base')} />
+        </div>
+        {isIOS && <Image src={addToAppleWalletImg} alt="ios" height={24} />}
       </div>
       <div className="mt-2 flex gap-8">
-        <button
-          type="button"
-          className=" h-[85px] w-[130px] origin-top-left scale-50 px-1 xs:h-[128px] xs:w-[195px] xs:scale-75 lg:h-auto lg:w-auto  lg:scale-100"
-          onClick={showSensitiveDataModal}
-        >
-          <Cards
-            name={card.cardName}
-            issuer={card.bin.provider}
-            number={deleteDash(card.maskedPan)}
-            expiry={'**/**'}
-            cvc="***"
-            preview
-          />
-        </button>
-        <div className="flex flex-col text-neutral-500">
-          <p className="text-xs xs:text-base">Balance:</p>
-          <p className="font-medium text-black lg:text-2xl">
-            {card.balance.available} {card.bin.currencyCode}
-          </p>
-          <p className="mt-1 text-xs xs:mt-3 xs:text-base">Blocked:</p>
-          <p className="lg:text-2xl">
-            {card.balance.pending} {card.bin.currencyCode}
-          </p>
+        <div>
+          <div className="h-[85px] w-[130px] xs:h-[128px] xs:w-[195px] lg:h-auto lg:w-auto">
+            <button
+              type="button"
+              className=" origin-top-left scale-50 px-1  xs:scale-75 lg:h-auto lg:w-auto  lg:scale-100"
+              onClick={showSensitiveDataModal}
+            >
+              <Cards
+                name={card.cardName}
+                issuer={card.bin.provider}
+                number={deleteDash(card.maskedPan)}
+                expiry={'**/**'}
+                cvc="***"
+                preview
+              />
+            </button>
+          </div>
+          {isAndroid && (
+            <Image src={addToGoogleWalletImg} alt="android" className="flex-shrink-1 mt-2 w-[135px] xs:w-[200px]" />
+          )}
+        </div>
+        <div className="flex justify-between">
+          <div className="flex flex-col text-neutral-500">
+            <p className="text-xs xs:text-base">Balance:</p>
+            <p className="font-medium text-black lg:text-2xl">
+              {card.balance.available} {card.bin.currencyCode}
+            </p>
+            <p className="mt-1 text-xs xs:mt-3 xs:text-base">Blocked:</p>
+            <p className="lg:text-2xl">
+              {card.balance.pending} {card.bin.currencyCode}
+            </p>
+          </div>
         </div>
       </div>
+
       <div className="mt-6 grid grid-cols-2 gap-4">
         <Button
           color="primary"
@@ -151,7 +165,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           <MdCurrencyExchange />
           Top up
         </Button>
-        {/* <Button // hide change limits
+        <Button
           color="primary"
           variant="flat"
           className=" bg-tenant-main-light text-tenant-main"
@@ -171,7 +185,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
         >
           <PiListThin />
           Other
-        </Button> */}
+        </Button>
       </div>
 
       <CardTransactionTable className="mt-4" {...props} />
