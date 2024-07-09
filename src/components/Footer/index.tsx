@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import logo from '@/assets/svg/footer_logo.svg';
+import whiteLabelConfig from '@/config/whitelabel';
 
 interface ImageProps {
   src: string;
@@ -18,26 +19,30 @@ const Footer: FC = () => (
     <div className="flex w-full max-w-screen-xl flex-col gap-16">
       <div className="flex w-full justify-between gap-5 gap-y-16 max-md:max-w-full max-md:flex-wrap">
         <Image src={logo.src} alt="Company Logo" className="white-mask-filter aspect-[4.55] w-36 max-w-full shrink-0" />
-        <div className="flex gap-4 text-white">
-          <Link className="hover:opacity-80" href="/terms">
-            Terms of Service
-          </Link>
-          <Link className="hover:opacity-80" href="/privacy">
-            Privacy Policy
-          </Link>
-          <Link className="hover:opacity-80" href="/aml">
-            AML/KYC
-          </Link>
-        </div>
+        {!whiteLabelConfig.disableStaticPages && (
+          <div className="flex gap-4 text-white">
+            <Link className="hover:opacity-80" href="/terms">
+              Terms of Service
+            </Link>
+            <Link className="hover:opacity-80" href="/privacy">
+              Privacy Policy
+            </Link>
+            <Link className="hover:opacity-80" href="/aml">
+              AML/KYC
+            </Link>
+          </div>
+        )}
       </div>
-      <section className="text-xs leading-5 text-white max-md:max-w-full">
-        2024 © All rights reserved
-        <div className="mt-2 opacity-60">
-          <p>
-            PPrince s.r.o.– a limited liability company registred in Czech Republic with registration number 21602735
-          </p>
-        </div>
-      </section>
+      {!whiteLabelConfig.disableStaticPages && (
+        <section className="text-xs leading-5 text-white max-md:max-w-full">
+          2024 © All rights reserved
+          <div className="mt-2 opacity-60">
+            <p>
+              PPrince s.r.o.– a limited liability company registred in Czech Republic with registration number 21602735
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   </footer>
 );
