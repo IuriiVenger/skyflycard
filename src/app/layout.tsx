@@ -18,6 +18,9 @@ const font = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Crypto Wallet',
   description: 'Crypto Wallet. Your Secure Oasis for Global Transactions',
+  other: {
+    viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+  },
 };
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;

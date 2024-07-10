@@ -13,18 +13,16 @@ import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import ExternalExhangeInput from '../../ExternalExchangeInput';
+import ExternalExhangeInput from '../ExternalExchangeInput';
 
-import BinInfo from './BinInfo';
-
-import { CardsListProps } from '.';
+import { CardsListProps } from './CardsList';
+import BinInfo from './CardsList/BinInfo';
 
 import { API } from '@/api/types';
 import SelectCurrency from '@/components/Currency/SelectCurrency';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
 import { framerMotionAnimations } from '@/config/animations';
-import { useRequestStatus } from '@/hooks/useRequestStatus';
 import { isCrypto, isFiat } from '@/utils/financial';
 
 type CreateCardModalProps = CardsListProps & {

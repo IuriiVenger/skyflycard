@@ -6,7 +6,7 @@ import { GoPlusCircle } from 'react-icons/go';
 
 import { CardsTabProps } from '..';
 
-import CreateCardModal from './CreateCardModal';
+import CreateCardModal from '../CreateCardModal';
 
 import { API } from '@/api/types';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';

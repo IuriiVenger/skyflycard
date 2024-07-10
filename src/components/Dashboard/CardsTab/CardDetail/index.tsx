@@ -1,6 +1,5 @@
 import { Button } from '@nextui-org/react';
 import cn from 'classnames';
-import Image from 'next/image';
 import { FC, useState } from 'react';
 import Cards from 'react-credit-cards';
 
@@ -14,6 +13,7 @@ import { PiListThin } from 'react-icons/pi';
 
 import { CardsTabProps } from '..';
 
+import AddToWalletModal from './AddToWalletModal';
 import CardLimitsModal from './CardLimitsModal';
 import CardSensitiveDataModal from './CardSensitiveDataModal';
 
@@ -49,6 +49,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
   const [isSensitiveDataModalOpen, setIsSensitiveDataModalOpen] = useState(false);
   const [isLimitsModalOpen, setIsLimitsModalOpen] = useState(false);
   const [isTopupModalOpen, setIsTopupModalOpen] = useState(false);
+  const [isAddToWalletModalOpen, setIsAddToWalletModalOpen] = useState(false);
 
   const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestsStatus(
     Object.values(cardDetailRequests),
@@ -56,6 +57,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
 
   const cardTitle = `${card.bin.provider}, ${card.bin.currencyCode}`;
   const isActive = card.status === 'ACTIVE';
+  const isMobileWalletDevice = isIOS || isAndroid;
 
   const backToCardsList = () => {
     setCardTabMode(CardsTabMode.LIST);
@@ -94,6 +96,10 @@ const CardDetail: FC<CardDetailProps> = (props) => {
     }
   };
 
+  const showAddToWalletModal = () => {
+    setIsAddToWalletModalOpen(true);
+  };
+
   return (
     <section className="dashboard-card-detail flex w-full flex-col gap-4">
       <button type="button" onClick={backToCardsList} className="flex items-center gap-2 text-neutral-500">
@@ -109,8 +115,8 @@ const CardDetail: FC<CardDetailProps> = (props) => {
         </div>
       </div>
       <div className="mt-2 flex gap-4 xs:gap-8">
-        <div>
-          <div className=" lg:h-auto lg:w-auto">
+        <div className={cn(' w-[220px] xs:h-auto xs:w-auto', isMobileWalletDevice ? 'h-[185px]' : 'h-[165px]')}>
+          <div className="flex origin-top-left scale-[85%] flex-col gap-4 xs:scale-100 ">
             <button type="button" className={cn(!isActive && 'grayscale')} onClick={showSensitiveDataModal}>
               <Cards
                 name={card.cardName}
@@ -121,23 +127,27 @@ const CardDetail: FC<CardDetailProps> = (props) => {
                 preview
               />
             </button>
-            {isIOS && <Image src={addToAppleWalletImg} alt="ios" className="mt-2 w-full max-w-[260px]" />}
+            {isMobileWalletDevice && (
+              <button type="button" onClick={showAddToWalletModal}>
+                {isIOS && <img src={addToAppleWalletImg.src} className="max-w-[260px]" alt="ios" />}
+                {isAndroid && <img src={addToGoogleWalletImg.src} className="max-w-[260px]" alt="android" />}
+              </button>
+            )}
           </div>
         </div>
         <div className="flex justify-between">
           <div className="flex flex-col text-neutral-500">
-            <p className="text-xs xs:text-base">Balance:</p>
-            <p className="font-medium text-black lg:text-2xl">
+            <p>Balance:</p>
+            <p className="text-lg font-medium text-black lg:text-2xl">
               {card.balance.available} <small>{card.bin.currencyCode}</small>
             </p>
-            <p className="mt-1 text-xs xs:mt-3 xs:text-base">Blocked:</p>
-            <p className="lg:text-2xl">
+            <p className="mt-1 xs:mt-3">Blocked:</p>
+            <p className="text-lg lg:text-2xl">
               {card.balance.pending} <small>{card.bin.currencyCode}</small>
             </p>
           </div>
         </div>
       </div>
-      {isAndroid && <Image src={addToGoogleWalletImg} alt="android" className="mb-2 w-full max-w-sm" />}
 
       <div className="mt-2 grid grid-cols-2 gap-4">
         <Button
@@ -203,6 +213,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
         setIsModalOpen={setIsTopupModalOpen}
         {...props}
       />
+      <AddToWalletModal isOpen={isAddToWalletModalOpen} setIsModalOpen={setIsAddToWalletModalOpen} />
     </section>
   );
 };
