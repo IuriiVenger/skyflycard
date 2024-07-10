@@ -68,7 +68,7 @@ const DashboardPage = () => {
 
   const [queryDashboardTab, setQueryDashboardTab] = useQueryState('tab');
 
-  const initialDasboardTab = (queryDashboardTab as DashboardTabs) || DashboardTabs.TRANSACTIONS;
+  const initialDasboardTab = (queryDashboardTab as DashboardTabs) || DashboardTabs.CARDS;
   const allowedCryptoToFiatList = crypto.filter((item) => allowedCryptoToFiatUuid.includes(item.uuid));
 
   const [activeDashboardTab, setActiveDashboardTab] = useState<DashboardTabs>(initialDasboardTab);
