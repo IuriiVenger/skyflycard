@@ -121,6 +121,7 @@ const Dashboard: FC<DashboardProps> = (props) => {
   const [miniApp] = initMiniApp();
   miniApp.requestContact().then((contact) => {
     setContacts(contact);
+    console.log(contact);
     // Output:
     // {
     //   authDate: Date(...),
