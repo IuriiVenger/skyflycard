@@ -67,6 +67,9 @@ const useTelegramAuth = (
   };
 
   const telegramSignIn = async () => {
+    console.log('telegramSignIn');
+    console.log(tg_id, hash, init_data_raw);
+
     setLoadingStatus(RequestStatus.PENDING);
 
     if (!tg_id || !hash || !init_data_raw) {
