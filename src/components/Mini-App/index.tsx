@@ -1,5 +1,6 @@
 import { mockTelegramEnv, parseInitData } from '@telegram-apps/sdk';
 import { useInitData, useMiniApp } from '@telegram-apps/sdk-react';
+import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
 const MiniApp = () => {
@@ -63,6 +64,7 @@ const MiniApp = () => {
 
   return (
     <div>
+      <Script src="https://telegram.org/js/telegram-web-app.js" />
       <h1>Mini App</h1>
 
       {/* {initData &&
