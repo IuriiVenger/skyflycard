@@ -11,9 +11,9 @@ import { selectUser } from '@/store/selectors';
 const MiniApp = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-  const { initTelegramAuth } = useTelegramAuth(dispatch);
 
   useEffect(() => {
+    const { initTelegramAuth } = useTelegramAuth(dispatch);
     initTelegramAuth();
   }, []);
 

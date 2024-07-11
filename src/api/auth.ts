@@ -32,7 +32,7 @@ export const auth = {
   telegram: {
     signin: (data: API.Auth.Telegram.Signin) =>
       postRequest<API.Auth.SupabaseGetSessionResponse>('/auth/telegram/signin/tg_id', { data }),
-    signup: (data: InitData) =>
+    signup: (data: API.Auth.Telegram.Signup) =>
       postRequest<API.Auth.SupabaseGetSessionResponse>('/auth/telegram/signup/phone', { data }),
   },
 };
