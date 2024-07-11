@@ -12,14 +12,18 @@ const MiniApp = () => {
     //   setContacts(contact);
     // });
     const launchParams = retrieveLaunchParams();
-    setInitData(launchParams.initData);
+    setInitData(Object.entries(launchParams.initData));
   }, []);
 
   return (
     <div>
       <h1>Mini App</h1>
-      {JSON.stringify(contacts)}
-      {JSON.stringify(initData)}
+
+      {initData.map(([key, value]) => (
+        <div key={key}>
+          <strong>{key}</strong>: {value}
+        </div>
+      ))}
     </div>
   );
 };
