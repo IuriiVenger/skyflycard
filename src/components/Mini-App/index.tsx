@@ -1,4 +1,4 @@
-import { mockTelegramEnv, parseInitData } from '@telegram-apps/sdk';
+import { mockTelegramEnv } from '@telegram-apps/sdk';
 import { useInitData, useInitDataRaw, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
@@ -6,12 +6,15 @@ import { useEffect, useState } from 'react';
 const MiniApp = () => {
   const [contacts, setContacts] = useState<any>();
   const [initialData, setInitialData] = useState<Record<string, string>>();
+  const launchParams = useLaunchParams(true);
+
   useEffect(() => {
     // const [miniApp] = InitData();
     // miniApp.requestContact().then((contact) => {
     //   console.log(contact);
     //   setContacts(contact);
     // });
+    localStorage.setItem('initData', JSON.stringify(launchParams?.initDataRaw));
   }, []);
 
   // const initDataRaw = new URLSearchParams([
@@ -57,14 +60,11 @@ const MiniApp = () => {
   // });
 
   const initData = useInitDataRaw(true);
-  const launchParams = useLaunchParams(true);
 
   const miniApp = useMiniApp(true);
   miniApp && miniApp.requestContact().then((contact) => console.log('contact', contact));
 
-  console.log('initDat', initData);
-  console.log('miniApp', miniApp);
-  console.log('launchParams', launchParams?.initDataRaw);
+  console.log(localStorage.getItem('initData'));
 
   return (
     <div>
