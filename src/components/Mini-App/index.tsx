@@ -1,5 +1,5 @@
 import { mockTelegramEnv, parseInitData } from '@telegram-apps/sdk';
-import { useInitData, useInitDataRaw, useMiniApp } from '@telegram-apps/sdk-react';
+import { useInitData, useInitDataRaw, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
@@ -57,17 +57,19 @@ const MiniApp = () => {
   // });
 
   const initData = useInitDataRaw(true);
+  const launchParams = useLaunchParams(true);
 
   const miniApp = useMiniApp(true);
   miniApp && miniApp.requestContact().then((contact) => console.log('contact', contact));
 
   console.log('initDat', initData);
   console.log('miniApp', miniApp);
+  console.log('launchParams', launchParams);
 
   return (
     <div>
-      <Script src="https://telegram.org/js/telegram-web-app.js" />
-      <h1>{initData && JSON.stringify(initData)}</h1>
+      {/* <Script src="https://telegram.org/js/telegram-web-app.js" /> */}
+      <h1>{launchParams && JSON.stringify(launchParams)}</h1>
 
       {/* {initData &&
         (initData as Array<[string, string]>).map(([key, value]) => (
