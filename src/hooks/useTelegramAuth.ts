@@ -84,7 +84,7 @@ const useTelegramAuth = (
     };
 
     try {
-      const { data } = await auth.telegram.signin(signInData);
+      const { data } = await auth.signin.password('123', '123');
 
       const { error, user, session } = data;
 
