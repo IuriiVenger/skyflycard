@@ -24,7 +24,7 @@ const MiniApp = () => {
     }
     const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, loadUserContent);
     initTelegramAuth();
-  }, [isAppInitialized]);
+  }, [initData, launchParams, miniApp]);
 
   return (
     <div>
