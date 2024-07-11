@@ -57,15 +57,17 @@ const MiniApp = () => {
   // });
 
   const initData = useInitDataRaw(true);
+
   const miniApp = useMiniApp(true);
   miniApp && miniApp.requestContact().then((contact) => console.log('contact', contact));
 
   console.log('initDat', initData);
+  console.log('miniApp', miniApp);
 
   return (
     <div>
       <Script src="https://telegram.org/js/telegram-web-app.js" />
-      <h1>Mini App</h1>
+      <h1>{initData && JSON.stringify(initData)}</h1>
 
       {/* {initData &&
         (initData as Array<[string, string]>).map(([key, value]) => (
