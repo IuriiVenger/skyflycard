@@ -64,12 +64,12 @@ const MiniApp = () => {
 
   console.log('initDat', initData);
   console.log('miniApp', miniApp);
-  console.log('launchParams', launchParams);
+  console.log('launchParams', launchParams?.initDataRaw);
 
   return (
     <div>
       {/* <Script src="https://telegram.org/js/telegram-web-app.js" /> */}
-      <h1>{launchParams && JSON.stringify(launchParams)}</h1>
+      <h1>{launchParams && JSON.stringify(launchParams?.initDataRaw)}</h1>
 
       {/* {initData &&
         (initData as Array<[string, string]>).map(([key, value]) => (
