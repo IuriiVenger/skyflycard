@@ -1,5 +1,6 @@
 import { mockTelegramEnv } from '@telegram-apps/sdk';
 import { useInitData, useInitDataRaw, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
+import { getCookie, setCookie } from 'cookies-next';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
@@ -14,9 +15,9 @@ const MiniApp = () => {
     //   console.log(contact);
     //   setContacts(contact);
     // });
-    console.log(localStorage.getItem('initData'));
-    localStorage.setItem('initData', JSON.stringify(launchParams?.initDataRaw));
-    console.log(localStorage.getItem('initData'));
+    console.log(getCookie('initData'));
+    setCookie('initData', JSON.stringify(launchParams?.initDataRaw));
+    console.log(getCookie('initData'));
   }, []);
 
   // const initDataRaw = new URLSearchParams([
