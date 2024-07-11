@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectUser } from '@/store/selectors';
+import { selectFinanceData, selectUser } from '@/store/selectors';
 
 const MiniApp = () => {
   const user = useAppSelector(selectUser);
@@ -16,14 +16,15 @@ const MiniApp = () => {
   const launchParams = useLaunchParams(true);
   const miniApp = useMiniApp(true);
   const { loadUserContent } = useAuth(dispatch);
+  const { isAppInitialized } = useAppSelector(selectFinanceData);
 
   useEffect(() => {
-    if (!initData || !launchParams || !miniApp) {
+    if (!initData || !launchParams || !miniApp || !isAppInitialized) {
       return;
     }
     const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, loadUserContent);
     initTelegramAuth();
-  }, [launchParams, initData, miniApp]);
+  }, [isAppInitialized]);
 
   return (
     <div>
