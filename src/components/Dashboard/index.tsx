@@ -1,8 +1,7 @@
-import { initMiniApp, RequestedContact } from '@telegram-apps/sdk';
 import { AxiosResponse } from 'axios';
 import cn from 'classnames';
-import { FC, useState } from 'react';
-import { BsArrowDownLeft, BsArrowUpRight, BsCreditCard2Back } from 'react-icons/bs';
+import { FC } from 'react';
+import { BsCreditCard2Back } from 'react-icons/bs';
 
 import { IoIosList } from 'react-icons/io';
 
@@ -116,23 +115,6 @@ const Dashboard: FC<DashboardProps> = (props) => {
     },
   ];
 
-  /// mini-apps
-  const [contacts, setContacts] = useState<RequestedContact | null>(null);
-  const [miniApp] = initMiniApp();
-  miniApp.requestContact().then((contact) => {
-    setContacts(contact);
-    console.log(contact);
-    // Output:
-    // {
-    //   authDate: Date(...),
-    //   hash: '...',
-    //   contact: {
-    //     firstName: '...',
-    //     phoneNumber: '+38291789233',
-    //   },
-    // };
-  });
-
   return (
     <section className="grid w-full max-w-screen-xl grid-cols-1 grid-rows-[repeat(3,min-content)] gap-x-12  gap-y-4 md:grid-cols-[280px,auto] lg:gap-x-20 xl:gap-x-40">
       <aside className="row-start-1 row-end-3 hidden w-full flex-shrink-0  flex-col justify-between gap-8 sm:flex-row  md:flex md:max-w-xs md:flex-col md:justify-start ">
@@ -145,7 +127,6 @@ const Dashboard: FC<DashboardProps> = (props) => {
         />
         <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
       </aside>
-      {JSON.stringify(contacts)}
 
       {!isMainInformationHidden && (
         <>

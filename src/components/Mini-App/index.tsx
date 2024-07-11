@@ -1,8 +1,5 @@
-import { mockTelegramEnv } from '@telegram-apps/sdk';
-import { useInitData, useInitDataRaw, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
-import { getCookie, setCookie } from 'cookies-next';
-import Script from 'next/script';
-import { useEffect, useState } from 'react';
+import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
+import { useEffect } from 'react';
 
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
@@ -19,12 +16,12 @@ const MiniApp = () => {
   const { isAppInitialized } = useAppSelector(selectFinanceData);
 
   useEffect(() => {
-    if (!initData || !launchParams || !miniApp) {
+    if (!initData || !launchParams || !miniApp || !isAppInitialized) {
       return;
     }
     const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, loadUserContent);
     initTelegramAuth();
-  }, [initData, launchParams, miniApp]);
+  }, [isAppInitialized]);
 
   return (
     <div>
