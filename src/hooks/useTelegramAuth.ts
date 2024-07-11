@@ -16,7 +16,7 @@ const useTelegramAuth = (
   launchParams: LaunchParams,
   initData: InitData,
   miniApp: MiniApp,
-  loadUserContent: () => Promise<void>,
+  initUser: () => Promise<void>,
 ) => {
   const tg_id = initData.user?.id;
   const { hash } = initData;
@@ -57,8 +57,7 @@ const useTelegramAuth = (
         return toast.error(error);
       }
       session && setTokens(session);
-      await loadUserContent();
-      dispatch(setUser(user));
+      await initUser();
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
@@ -86,15 +85,17 @@ const useTelegramAuth = (
     try {
       const { data } = await auth.telegram.signin(signInData);
 
-      const { error, user, session } = data;
+      // const { error, user, session } = data;
 
-      if (error) {
-        setLoadingStatus(RequestStatus.REJECTED);
-        return toast.error(error);
-      }
-      session && setTokens(session);
-      await loadUserContent();
-      dispatch(setUser(user));
+      // if (error) {
+      //   setLoadingStatus(RequestStatus.REJECTED);
+      //   return toast.error(error);
+      // }
+      // session && setTokens(session);
+
+      setTokens({ access_token: data.token, refresh_token: '' });
+
+      await initUser();
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);

@@ -12,14 +12,14 @@ const MiniApp = () => {
   const initData = useInitData(true);
   const launchParams = useLaunchParams(true);
   const miniApp = useMiniApp(true);
-  const { loadUserContent } = useAuth(dispatch);
+  const { initUser } = useAuth(dispatch);
   const { isAppInitialized } = useAppSelector(selectFinanceData);
 
   useEffect(() => {
     if (!initData || !launchParams || !miniApp || !isAppInitialized) {
       return;
     }
-    const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, loadUserContent);
+    const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, initUser);
     initTelegramAuth();
   }, [isAppInitialized]);
 
