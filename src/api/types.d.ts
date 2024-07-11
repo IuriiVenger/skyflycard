@@ -16,7 +16,7 @@ export namespace API {
         phone: string;
         tg_id: number;
         first_name: string;
-        last_name: string;
+        last_name?: string;
         hash: string;
         init_data_raw: string;
       }
