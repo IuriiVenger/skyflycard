@@ -18,9 +18,12 @@ const MiniApp = () => {
   const { loadUserContent } = useAuth(dispatch);
 
   useEffect(() => {
+    if (!initData || !launchParams || !miniApp) {
+      return;
+    }
     const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, loadUserContent);
     initTelegramAuth();
-  }, []);
+  }, [launchParams, initData, miniApp]);
 
   return (
     <div>
