@@ -1,4 +1,4 @@
-import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
+import { InitData, LaunchParams, MiniApp, useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
 
 import { toast } from 'react-toastify';
 
@@ -11,19 +11,18 @@ import { setUser, setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { setTokens } from '@/utils/tokensFactory';
 
-const useTelegramAuth = (dispatch: AppDispatch) => {
-  const launchParams = useLaunchParams(true);
-  const rawInitData = launchParams?.initDataRaw;
-  const initData = useInitData(true);
-  const miniApp = useMiniApp();
-
+const useTelegramAuth = (
+  dispatch: AppDispatch,
+  launchParams: LaunchParams | undefined,
+  initData: InitData | undefined,
+  miniApp: MiniApp | undefined,
+  loadUserContent: () => Promise<void>,
+) => {
   const tg_id = initData?.user?.id;
   const hash = initData?.hash;
-  const init_data_raw = rawInitData;
+  const init_data_raw = launchParams?.initDataRaw;
   const first_name = initData?.user?.firstName;
   const last_name = initData?.user?.lastName;
-
-  const { loadUserContent } = useAuth(dispatch);
 
   const setLoadingStatus = (status: RequestStatus) => {
     dispatch(setUserLoadingStatus(status));
@@ -32,7 +31,7 @@ const useTelegramAuth = (dispatch: AppDispatch) => {
   const telegramSignUp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
 
-    if (!tg_id || !hash || !init_data_raw || !first_name || !last_name) {
+    if (!tg_id || !hash || !init_data_raw || !first_name || !last_name || !miniApp) {
       setLoadingStatus(RequestStatus.REJECTED);
       return toast.error('Invalid data');
     }
@@ -115,8 +114,6 @@ const useTelegramAuth = (dispatch: AppDispatch) => {
   return {
     telegramSignIn,
     telegramSignUp,
-    rawInitData,
-    initData,
     initTelegramAuth,
   };
 };
