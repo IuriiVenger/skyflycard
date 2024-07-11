@@ -22,7 +22,7 @@ const MiniApp = () => {
       return;
     }
     const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, loadUserContent);
-    initTelegramAuth();
+    // initTelegramAuth();
   }, [launchParams, initData, miniApp]);
 
   return (

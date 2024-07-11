@@ -13,9 +13,9 @@ import { setTokens } from '@/utils/tokensFactory';
 
 const useTelegramAuth = (
   dispatch: AppDispatch,
-  launchParams: LaunchParams | undefined,
-  initData: InitData | undefined,
-  miniApp: MiniApp | undefined,
+  launchParams: LaunchParams,
+  initData: InitData,
+  miniApp: MiniApp,
   loadUserContent: () => Promise<void>,
 ) => {
   const tg_id = initData?.user?.id;
