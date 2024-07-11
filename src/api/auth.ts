@@ -30,10 +30,8 @@ export const auth = {
   },
   user_data: () => getRequest<API.Auth.UserData>('/auth/user_data'),
   telegram: {
-    signin: (data: API.Auth.Telegram.Signin) =>
-      // postRequest<API.Auth.SupabaseGetSessionResponse >('/auth/telegram/signin/tg_id', { data }),
-      postRequest<{ token: string }>('/auth/telegram/signin/tg_id', { data }),
-    signup: (data: API.Auth.Telegram.Signup) =>
-      postRequest<API.Auth.SupabaseGetSessionResponse>('/auth/telegram/signup/phone', { data }),
+    signin: (data: API.Auth.Telegram.Signin) => postRequest<API.Auth.Tokens>('/auth/telegram/signin/tg_id', { data }),
+
+    signup: (data: API.Auth.Telegram.Signup) => postRequest<API.Auth.Tokens>('/auth/telegram/signup/phone', { data }),
   },
 };

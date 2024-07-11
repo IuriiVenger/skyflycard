@@ -50,13 +50,7 @@ const useTelegramAuth = (
     try {
       const { data } = await auth.telegram.signup(signUpData);
 
-      const { error, user, session } = data;
-
-      if (error) {
-        setLoadingStatus(RequestStatus.REJECTED);
-        return toast.error(error);
-      }
-      session && setTokens(session);
+      setTokens(data);
       await initUser();
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
@@ -66,9 +60,6 @@ const useTelegramAuth = (
   };
 
   const telegramSignIn = async () => {
-    console.log('telegramSignIn');
-    console.log(tg_id, hash, init_data_raw);
-
     setLoadingStatus(RequestStatus.PENDING);
 
     if (!tg_id || !hash || !init_data_raw) {
@@ -85,15 +76,7 @@ const useTelegramAuth = (
     try {
       const { data } = await auth.telegram.signin(signInData);
 
-      // const { error, user, session } = data;
-
-      // if (error) {
-      //   setLoadingStatus(RequestStatus.REJECTED);
-      //   return toast.error(error);
-      // }
-      // session && setTokens(session);
-
-      setTokens({ access_token: data.token, refresh_token: '' });
+      setTokens(data);
 
       await initUser();
       setLoadingStatus(RequestStatus.FULLFILLED);
