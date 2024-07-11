@@ -1,5 +1,5 @@
 import { mockTelegramEnv, parseInitData } from '@telegram-apps/sdk';
-import { useInitData, useMiniApp } from '@telegram-apps/sdk-react';
+import { useInitData, useInitDataRaw, useMiniApp } from '@telegram-apps/sdk-react';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
@@ -56,7 +56,7 @@ const MiniApp = () => {
   //   platform: 'tdesktop',
   // });
 
-  const initData = useInitData(true);
+  const initData = useInitDataRaw(true);
   const miniApp = useMiniApp(true);
   miniApp && miniApp.requestContact().then((contact) => console.log('contact', contact));
 
