@@ -14,7 +14,9 @@ const MiniApp = () => {
     //   console.log(contact);
     //   setContacts(contact);
     // });
+    console.log(localStorage.getItem('initData'));
     localStorage.setItem('initData', JSON.stringify(launchParams?.initDataRaw));
+    console.log(localStorage.getItem('initData'));
   }, []);
 
   // const initDataRaw = new URLSearchParams([
@@ -63,8 +65,6 @@ const MiniApp = () => {
 
   const miniApp = useMiniApp(true);
   miniApp && miniApp.requestContact().then((contact) => console.log('contact', contact));
-
-  console.log(localStorage.getItem('initData'));
 
   return (
     <div>
