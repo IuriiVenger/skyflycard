@@ -18,11 +18,11 @@ const useTelegramAuth = (
   miniApp: MiniApp,
   loadUserContent: () => Promise<void>,
 ) => {
-  const tg_id = initData?.user?.id;
-  const hash = initData?.hash;
-  const init_data_raw = launchParams?.initDataRaw;
-  const first_name = initData?.user?.firstName;
-  const last_name = initData?.user?.lastName;
+  const tg_id = initData.user?.id;
+  const { hash } = initData;
+  const init_data_raw = launchParams.initDataRaw;
+  const first_name = initData.user?.firstName;
+  const last_name = initData.user?.lastName;
 
   const setLoadingStatus = (status: RequestStatus) => {
     dispatch(setUserLoadingStatus(status));
@@ -31,7 +31,7 @@ const useTelegramAuth = (
   const telegramSignUp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
 
-    if (!tg_id || !hash || !init_data_raw || !first_name || !last_name || !miniApp) {
+    if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
       setLoadingStatus(RequestStatus.REJECTED);
       return toast.error('Invalid data');
     }
