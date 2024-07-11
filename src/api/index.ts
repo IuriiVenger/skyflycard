@@ -21,7 +21,6 @@ export const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   const access_token = getCookie('access_token');
-  console.log('access_token', access_token);
 
   if (access_token) {
     return {

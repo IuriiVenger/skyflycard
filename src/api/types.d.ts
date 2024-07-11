@@ -6,6 +6,22 @@ export namespace API {
   export namespace Auth {
     export type Me = User;
 
+    export namespace Telegram {
+      export interface Signin {
+        tg_id: number;
+        hash: string;
+        init_data_raw: string;
+      }
+      export interface Signup {
+        phone: string;
+        tg_id: number;
+        first_name: string;
+        last_name: string;
+        hash: string;
+        init_data_raw: string;
+      }
+    }
+
     export interface Tokens {
       access_token: string;
       refresh_token: string;
