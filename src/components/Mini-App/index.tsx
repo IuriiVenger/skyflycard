@@ -4,16 +4,19 @@ import { useEffect, useState } from 'react';
 const MiniApp = () => {
   const [contacts, setContacts] = useState<any>();
   const [initialData, setInitialData] = useState<Record<string, string>>();
-  useEffect(() => {
-    // const [miniApp] = InitData();
-    // miniApp.requestContact().then((contact) => {
-    //   console.log(contact);
-    //   setContacts(contact);
-    // });
-    const { initData } = retrieveLaunchParams();
-    console.log(initData);
-  }, []);
+  // useEffect(() => {
+  //   // const [miniApp] = InitData();
+  //   // miniApp.requestContact().then((contact) => {
+  //   //   console.log(contact);
+  //   //   setContacts(contact);
+  //   // });
 
+  //   console.log(initData);
+  // }, []);
+
+  const { initData } = retrieveLaunchParams();
+
+  console.log(initData);
   return (
     <div>
       <h1>Mini App</h1>
