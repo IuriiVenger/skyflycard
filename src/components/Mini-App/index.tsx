@@ -19,7 +19,7 @@ const MiniApp = () => {
   const { isAppInitialized } = useAppSelector(selectFinanceData);
 
   useEffect(() => {
-    if (!initData || !launchParams || !miniApp || !isAppInitialized) {
+    if (!initData || !launchParams || !miniApp) {
       return;
     }
     const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, loadUserContent);
