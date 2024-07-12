@@ -4,23 +4,24 @@ import { redirect } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
 import Loader from '@/components/Loader';
-import { RequestStatus } from '@/constants';
+import { AppEnviroment, RequestStatus } from '@/constants';
 import { useAppSelector } from '@/store';
-import { selectFinanceData, selectIsUserLoggedIn, selectUser } from '@/store/selectors';
+import { selectConfig, selectIsUserLoggedIn, selectUser } from '@/store/selectors';
 
 const privateRoute = (Component: FC) => {
   const IsAuth: FC = (props) => {
     const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
     const { userLoadingStatus } = useAppSelector(selectUser);
     const isUserLoading = userLoadingStatus === RequestStatus.PENDING;
-    const { isAppInitialized } = useAppSelector(selectFinanceData);
+    const { isAppFullInitialized, appEnviroment } = useAppSelector(selectConfig);
 
     useEffect(() => {
-      if (!isUserLoggedIn && isAppInitialized && !isUserLoading) {
-        console.log('here');
-        // return redirect('/auth/login');x
+      if (!isUserLoggedIn && isAppFullInitialized && !isUserLoading) {
+        if (appEnviroment === AppEnviroment.WEB) {
+          return redirect('/auth/login');
+        }
       }
-    }, [isAppInitialized, isUserLoggedIn]);
+    }, [isAppFullInitialized, isUserLoggedIn]);
 
     if (!isUserLoggedIn) {
       return <Loader />;

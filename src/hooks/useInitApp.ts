@@ -1,17 +1,16 @@
-import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
 import { getCookie } from 'cookies-next';
 
 import useAuth from './useAuth';
-
-import useTelegramAuth from './useTelegramAuth';
 
 import { exchange } from '@/api/exchange';
 
 import { list } from '@/api/list';
 import { vcards } from '@/api/vcards';
-import { defaultCurrency } from '@/constants';
+import { AppEnviroment, defaultCurrency } from '@/constants';
+import { useAppSelector } from '@/store';
+import { selectConfig } from '@/store/selectors';
+import { setAppFullInitialized, setWebAppInitialized } from '@/store/slices/config';
 import {
-  setAppInitialized,
   setBins,
   setChains,
   setCrypto,
@@ -21,8 +20,9 @@ import {
 } from '@/store/slices/finance';
 import { AppDispatch } from '@/store/types';
 
-const useInitApp = (dispatch: AppDispatch) => {
+const useInitApp = (dispatch: AppDispatch, appEnviroment: AppEnviroment) => {
   const { initUser } = useAuth(dispatch);
+  const isWebEnviroment = appEnviroment === AppEnviroment.WEB;
 
   const initApp = async () => {
     try {
@@ -48,7 +48,8 @@ const useInitApp = (dispatch: AppDispatch) => {
         dispatch(setSelectedCrypto(availableCrypto[0]));
       }
     } finally {
-      dispatch(setAppInitialized(true));
+      dispatch(setWebAppInitialized(true));
+      isWebEnviroment && dispatch(setAppFullInitialized(true));
     }
   };
 

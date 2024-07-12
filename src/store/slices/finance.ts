@@ -41,7 +41,6 @@ type FinanceState = {
   selectedCardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null> & SupabasePaginationParams;
   selectedWalletCards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
   userWallets: API.Wallets.Wallet[];
-  isAppInitialized: boolean;
 };
 
 const initialState: FinanceState = {
@@ -68,7 +67,6 @@ const initialState: FinanceState = {
   },
   selectedWalletCards: emptyStoreDataWithStatus,
   userWallets: [],
-  isAppInitialized: false,
 };
 
 type LoadTransactionsPayload<T> = T & {
@@ -199,9 +197,7 @@ const financeSlice = createSlice({
     setSelectedWallet: (state, action) => {
       state.selectedWallet = action.payload;
     },
-    setAppInitialized: (state, action) => {
-      state.isAppInitialized = action.payload;
-    },
+
     setUserWallets: (state, action) => {
       state.userWallets = action.payload;
     },
@@ -337,7 +333,7 @@ export const {
   setSelectedChain,
   setSelectedCrypto,
   setSelectedFiat,
-  setAppInitialized,
+
   setFiatExchangeRate,
   setUserWallets,
   setSelectedWallet,

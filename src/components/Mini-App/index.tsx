@@ -7,10 +7,10 @@ import DashboardPage from '@/app/(main_layout)/dashboard/page';
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectFinanceData, selectIsUserLoggedIn } from '@/store/selectors';
+import { selectConfig, selectIsUserLoggedIn } from '@/store/selectors';
 
 const MiniApp = () => {
-  const { isAppInitialized } = useAppSelector(selectFinanceData);
+  const { isWebAppInitialized } = useAppSelector(selectConfig);
   const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
 
   const launchParams = useLaunchParams(true);
@@ -25,13 +25,13 @@ const MiniApp = () => {
     initData,
     miniApp,
     initUser,
-    isAppInitialized,
+    isWebAppInitialized,
     isUserLoggedIn,
   );
 
   useEffect(() => {
     initTelegramAuth();
-  }, [isAppInitialized]);
+  }, [isWebAppInitialized]);
 
   return <DashboardPage />;
 };

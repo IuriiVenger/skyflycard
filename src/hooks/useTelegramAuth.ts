@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 
 import { auth } from '@/api/auth';
 import { API } from '@/api/types';
-import { RequestStatus, ResponseStatus } from '@/constants';
+import { AppEnviroment, RequestStatus, ResponseStatus } from '@/constants';
+import { setAppEnviroment, setAppFullInitialized } from '@/store/slices/config';
 import { setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { setTokens } from '@/utils/tokensFactory';
@@ -15,7 +16,7 @@ const useTelegramAuth = (
   initData: InitData | undefined,
   miniApp: MiniApp | undefined,
   initUser: () => Promise<void>,
-  isAppInitialized: boolean,
+  isWebAppInitialized: boolean,
   isUserLoggedIn: boolean,
 ) => {
   const tg_id = initData?.user?.id;
@@ -101,8 +102,10 @@ const useTelegramAuth = (
   };
 
   const initTelegramAuth = async () => {
-    if (isAppInitialized && !isUserLoggedIn) {
+    dispatch(setAppEnviroment(AppEnviroment.TELEGRAM));
+    if (isWebAppInitialized && !isUserLoggedIn) {
       if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
+        dispatch(setAppFullInitialized(true));
         return toast.error('Invalid data');
       }
 
@@ -114,6 +117,8 @@ const useTelegramAuth = (
           return;
         }
         throw e;
+      } finally {
+        dispatch(setAppFullInitialized(true));
       }
     }
   };

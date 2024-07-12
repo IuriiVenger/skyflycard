@@ -22,7 +22,7 @@ import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
 import useWallet from '@/hooks/useWallet';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectActiveFiatAvailableCrypto, selectFinanceData, selectUser } from '@/store/selectors';
+import { selectActiveFiatAvailableCrypto, selectConfig, selectFinanceData, selectUser } from '@/store/selectors';
 import {
   loadCards,
   loadMoreWalletTransactions,
@@ -50,13 +50,15 @@ const DashboardPage = () => {
     chains,
     fiats,
     crypto,
-    isAppInitialized,
+
     userWallets,
     fiatExchangeRate,
     selectedWalletTransactions,
     selectedWalletCards,
     selectedCardTransactions,
   } = useAppSelector(selectFinanceData);
+
+  const { isWebAppInitialized } = useAppSelector(selectConfig);
 
   const { userData } = useAppSelector(selectUser);
   const availableToExchangeCrypto = useAppSelector(selectActiveFiatAvailableCrypto);
@@ -240,7 +242,7 @@ const DashboardPage = () => {
     activeCardId && selectCard(activeCardId);
   }, []);
 
-  if (!isAppInitialized) {
+  if (!isWebAppInitialized) {
     return <Loader />;
   }
 

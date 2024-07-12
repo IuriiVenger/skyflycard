@@ -12,7 +12,7 @@ import KYCButton from '../KYC/KYCButton';
 import { ModalNames, requestKYCStatuses } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { selectFinanceData, selectUser } from '@/store/selectors';
+import { selectConfig, selectUser } from '@/store/selectors';
 import { setModalVisible } from '@/store/slices/ui';
 
 type UserProps = {
@@ -22,7 +22,7 @@ type UserProps = {
 const AuthButtons: FC<UserProps> = ({ className }) => {
   const dispatch = useAppDispatch();
   const { user, userData } = useAppSelector(selectUser);
-  const { isAppInitialized } = useAppSelector(selectFinanceData);
+  const { isWebAppInitialized } = useAppSelector(selectConfig);
   const { signOut } = useAuth(dispatch);
   const pathname = usePathname();
   const isDashboardPage = pathname === '/dashboard';
@@ -32,7 +32,7 @@ const AuthButtons: FC<UserProps> = ({ className }) => {
 
   const userClassNames = cn(
     'transition-opacity duration-300 md:flex hidden text-sm',
-    isAppInitialized ? 'opacity-100' : 'opacity-0',
+    isWebAppInitialized ? 'opacity-100' : 'opacity-0',
     className,
   );
 

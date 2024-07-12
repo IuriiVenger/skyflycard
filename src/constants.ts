@@ -161,3 +161,8 @@ export const allowedCryptoToFiatUuid = [
   'aceafbb8-aca6-44f9-8b12-25560e4e3bb4',
   '509eca03-bc0d-4a38-b7dc-d136d2bdaa43',
 ];
+
+export enum AppEnviroment {
+  WEB = 'web',
+  TELEGRAM = 'telegram',
+}
