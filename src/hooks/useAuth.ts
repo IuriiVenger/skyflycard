@@ -26,19 +26,14 @@ const useAuth = (dispatch: AppDispatch) => {
     dispatch(setUserLoadingStatus(status));
   };
 
+  const getUser = async () => {
+    const { data } = await auth.me();
+    dispatch(setUser(data));
+  };
+
   const loadUserData = async () => {
-    try {
-      setLoadingStatus(RequestStatus.PENDING);
-      console.log('loadUserData, pending');
-      const { data } = await auth.user_data();
-      dispatch(setUserData(data));
-      setLoadingStatus(RequestStatus.FULLFILLED);
-      console.log('loadUserData, fullfilled');
-    } catch (e) {
-      setLoadingStatus(RequestStatus.REJECTED);
-      console.log('loadUserData, rejected');
-      throw e;
-    }
+    const { data } = await auth.user_data();
+    dispatch(setUserData(data));
   };
 
   const loadUserContent = async () => {
@@ -58,27 +53,18 @@ const useAuth = (dispatch: AppDispatch) => {
     setIsOtpRequested(false);
   };
 
-  const getUser = async () => {
-    setLoadingStatus(RequestStatus.PENDING);
-    console.log('getUser, pending');
-    try {
-      const { data } = await auth.me();
-      dispatch(setUser(data));
-      setLoadingStatus(RequestStatus.FULLFILLED);
-      console.log('getUser, fullfilled');
-    } catch (e) {
-      setLoadingStatus(RequestStatus.REJECTED);
-      console.log('getUser, rejected');
-      throw e;
-    }
-  };
-
   const initUser = async () => {
     try {
+      setLoadingStatus(RequestStatus.PENDING);
+      console.log('initUser, pending');
       await getUser();
       await loadUserContent();
+      setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('initUser, fullfilled');
     } catch (e) {
       deleteTokens();
+      setLoadingStatus(RequestStatus.REJECTED);
+      console.log('initUser, rejected');
     }
   };
 
@@ -134,16 +120,20 @@ const useAuth = (dispatch: AppDispatch) => {
 
   const getOtp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('getOtp, pending');
     try {
       const { data } = await auth.signin.email.otp(email);
       if (data.error) {
         setLoadingStatus(RequestStatus.REJECTED);
+        console.log('getOtp, rejected');
         return toast.error(data.error);
       }
       setIsOtpRequested(true);
       setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('getOtp, fullfilled');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('getOtp, rejected');
       throw e;
     }
   };
@@ -210,7 +200,6 @@ const useAuth = (dispatch: AppDispatch) => {
     setOtp,
     getOtp,
     isOtpRequested,
-    loadUserData,
   };
 };
 

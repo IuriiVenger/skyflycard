@@ -68,6 +68,7 @@ const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, setIsModalOpen, user_id,
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,
       }}
+      shouldBlockScroll
     >
       <ModalContent>
         <ModalBody className="p-5">
