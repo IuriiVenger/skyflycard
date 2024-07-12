@@ -27,7 +27,6 @@ const userSlice = createSlice({
       state.user = action.payload;
     },
     setUserLoadingStatus: (state, action) => {
-      console.log('userLoadingStatus', action.payload);
       state.userLoadingStatus = action.payload;
     },
     setUserData: (state, action) => {
