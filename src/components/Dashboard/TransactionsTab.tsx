@@ -16,17 +16,15 @@ import Loader from '../Loader';
 
 import WalletBalanceList from '../Wallet/WalletBalanceList';
 
+import { DashboardProps } from '.';
+
 import { API } from '@/api/types';
 import { RequestStatus } from '@/constants';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { getDateAndTime } from '@/utils/converters';
 
-type TransactionsTabProps = {
+type TransactionsTabProps = DashboardProps & {
   walletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null>;
-  loadMoreWalletTransactions: () => void;
-  selectedWallet: API.Wallets.ExtendWallet | null;
-  cryptoList: API.List.Crypto[];
-  chainList: API.List.Chains[];
 };
 
 const TransactionsTab: FC<TransactionsTabProps> = (props) => {
@@ -55,7 +53,7 @@ const TransactionsTab: FC<TransactionsTabProps> = (props) => {
           className="p-0"
           title={<h3 className="text-xl font-bold">Wallet crypto balance</h3>}
         >
-          <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
+          <WalletBalanceList chains={chainList} wallet={selectedWallet.data} cryptoList={cryptoList} />
         </AccordionItem>
       </Accordion>
 

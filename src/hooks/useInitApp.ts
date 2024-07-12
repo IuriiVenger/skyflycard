@@ -6,9 +6,12 @@ import { exchange } from '@/api/exchange';
 
 import { list } from '@/api/list';
 import { vcards } from '@/api/vcards';
-import { defaultCurrency } from '@/constants';
+import { AppEnviroment, defaultCurrency } from '@/constants';
+
+import { useAppSelector } from '@/store';
+import { selectConfig } from '@/store/selectors';
+import { setAppFullInitialized, setWebAppInitialized } from '@/store/slices/config';
 import {
-  setAppInitialized,
   setBins,
   setChains,
   setCrypto,
@@ -20,6 +23,9 @@ import { AppDispatch } from '@/store/types';
 
 const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
+  const { appEnviroment } = useAppSelector(selectConfig);
+  const isWebEnviroment = appEnviroment === AppEnviroment.WEB;
+
   const initApp = async () => {
     try {
       const isAuthTokensExist = getCookie('access_token');
@@ -44,7 +50,8 @@ const useInitApp = (dispatch: AppDispatch) => {
         dispatch(setSelectedCrypto(availableCrypto[0]));
       }
     } finally {
-      dispatch(setAppInitialized(true));
+      dispatch(setWebAppInitialized(true));
+      isWebEnviroment && dispatch(setAppFullInitialized(true));
     }
   };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { NextUIProvider } from '@nextui-org/react';
+
 import { AppProgressBar } from 'next-nprogress-bar';
 import { Suspense } from 'react';
 

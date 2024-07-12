@@ -6,6 +6,10 @@
     aspect-ratio: 1.6;
     border-radius: 13px;
 
+    .rccs__name {
+      width: 80%;
+    }
+
     .rccs__number,
     .rccs__name {
       @media screen and (max-width: 1023px) {
@@ -19,9 +23,7 @@
       font-size: clamp(0.5rem, 1.3vw, 1.2rem);
     }
     .rccs__expiry {
-      @media screen and (max-width: 1279px) {
-        display: none;
-      }
+      display: none;
     }
 
     .rccs__chip {

@@ -1,12 +1,10 @@
 import { Button, Card } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC } from 'react';
-import { IconType } from 'react-icons';
 
 import VerificationStatus from '../KYC/VerificationStatus';
 
 import { DashboardTabs, KYCStatuses } from '@/constants';
-import { separateNumbers } from '@/utils/converters';
 
 type ButtonAction = {
   id: DashboardTabs | null;
@@ -19,7 +17,7 @@ type ButtonAction = {
 type MainInformationProps = {
   className?: string;
   actionButtons: ButtonAction[];
-  balance: number;
+  balance: string;
   activeDashboardTab: DashboardTabs | null;
   verificationStatus?: KYCStatuses;
   openKYC: () => void;
@@ -35,7 +33,7 @@ const MainInformation: FC<MainInformationProps> = (props) => {
         <div className="flex flex-col gap-2 xs:gap-6">
           <div className="self-center text-center xs:text-start lg:self-start">
             <p className="whitespace-nowrap text-xl">Total balance</p>
-            <p className="whitespace-nowrap  text-4xl font-medium">€ {separateNumbers(balance)}</p>
+            <p className="whitespace-nowrap  text-4xl font-medium">{balance}</p>
           </div>
         </div>
         {verificationStatus && <VerificationStatus openKYC={openKYC} verifyStatus={verificationStatus} />}

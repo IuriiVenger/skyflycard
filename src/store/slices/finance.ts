@@ -17,6 +17,7 @@ import { wallets } from '@/api/wallets';
 import {
   CalcType,
   RequestStatus,
+  cardInitialPaginationParams,
   defaultCurrency,
   defaultPaginationParams,
   emptyStoreDataWithStatus,
@@ -35,13 +36,12 @@ type FinanceState = {
   selectedCrypto: API.List.Crypto;
   selectedCard: StoreDataWithStatus<API.Cards.CardDetailItem | null>;
   selectedFiat: API.List.Fiat;
-  selectedWallet: API.Wallets.ExtendWallet | null;
+  selectedWallet: StoreDataWithStatus<API.Wallets.ExtendWallet | null>;
   selectedWalletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null> &
     SupabasePaginationParams;
   selectedCardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null> & SupabasePaginationParams;
-  selectedWalletCards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
+  selectedWalletCards: StoreDataWithStatusAndMeta<API.Cards.CardDetailItem[] | null> & SupabasePaginationParams;
   userWallets: API.Wallets.Wallet[];
-  isAppInitialized: boolean;
 };
 
 const initialState: FinanceState = {
@@ -56,7 +56,7 @@ const initialState: FinanceState = {
   selectedChain: defaultCurrency.chain,
   selectedCrypto: defaultCurrency.crypto,
   selectedFiat: defaultCurrency.fiat,
-  selectedWallet: null,
+  selectedWallet: emptyStoreDataWithStatus,
   selectedCard: emptyStoreDataWithStatus,
   selectedCardTransactions: {
     ...emptyStoreDataWithStatus,
@@ -66,14 +66,21 @@ const initialState: FinanceState = {
     ...emptyStoreDataWithStatus,
     meta: defaultPaginationParams,
   },
-  selectedWalletCards: emptyStoreDataWithStatus,
+  selectedWalletCards: {
+    ...emptyStoreDataWithStatus,
+    meta: cardInitialPaginationParams,
+  },
   userWallets: [],
-  isAppInitialized: false,
 };
 
-type LoadTransactionsPayload<T> = T & {
+type LoadWithLimit<T> = T & {
   limit?: number;
   offset?: number;
+};
+
+type RequiredLoadWithLimit<T> = T & {
+  limit: number;
+  offset: number;
 };
 
 export const loadSelectedWallet = createAsyncThunk('finanse/selectedWallet', async (wallet_uuid: string) => {
@@ -93,7 +100,7 @@ export const loadSelectedCard = createAsyncThunk('finanse/selectedCard', async (
 
 export const loadWalletTransactions = createAsyncThunk(
   'finanse/walletTransactions',
-  async ({ wallet_uuid, limit, offset }: LoadTransactionsPayload<{ wallet_uuid: string }>) => {
+  async ({ wallet_uuid, limit, offset }: LoadWithLimit<{ wallet_uuid: string }>) => {
     const requestData = {
       wallet_uuid,
       limit: limit || initialState.selectedWalletTransactions.meta.limit,
@@ -108,7 +115,7 @@ export const loadWalletTransactions = createAsyncThunk(
 
 export const loadMoreWalletTransactions = createAsyncThunk(
   'finanse/moreTransactions',
-  async (props: LoadTransactionsPayload<{ wallet_uuid: string }> & SupabasePaginationParams['meta']) => {
+  async (props: LoadWithLimit<{ wallet_uuid: string }> & SupabasePaginationParams['meta']) => {
     const { wallet_uuid, limit, offset } = props;
     const { data } = await transactions.getByWalletUuid(wallet_uuid, limit, offset);
 
@@ -118,7 +125,7 @@ export const loadMoreWalletTransactions = createAsyncThunk(
 
 export const loadCardTransactions = createAsyncThunk(
   'finanse/cardTransactions',
-  async ({ card_id, limit, offset }: LoadTransactionsPayload<{ card_id: string }>) => {
+  async ({ card_id, limit, offset }: LoadWithLimit<{ card_id: string }>) => {
     const { data } = await vcards.transactions.getByCardId(card_id, limit, offset);
 
     return data;
@@ -127,7 +134,7 @@ export const loadCardTransactions = createAsyncThunk(
 
 export const loadMoreCardTransactions = createAsyncThunk(
   'finanse/moreCardTransactions',
-  async (props: LoadTransactionsPayload<{ card_id: string }> & SupabasePaginationParams['meta']) => {
+  async (props: LoadWithLimit<{ card_id: string }> & SupabasePaginationParams['meta']) => {
     const { card_id, limit, offset } = props;
     const { data } = await vcards.transactions.getByCardId(card_id, limit, offset);
 
@@ -135,11 +142,24 @@ export const loadMoreCardTransactions = createAsyncThunk(
   },
 );
 
-export const loadCards = createAsyncThunk('finanse/cards', async (wallet_uuid: string) => {
-  const { data } = await vcards.cards.getAll(wallet_uuid);
+export const loadCards = createAsyncThunk(
+  'finanse/cards',
+  async ({ wallet_uuid, limit, offset }: RequiredLoadWithLimit<{ wallet_uuid: string }>) => {
+    const { data } = await vcards.cards.getAll(wallet_uuid, limit, offset);
 
-  return data;
-});
+    return data;
+  },
+);
+
+export const loadMoreCards = createAsyncThunk(
+  'finanse/moreCards',
+  async (props: RequiredLoadWithLimit<{ wallet_uuid: string }> & SupabasePaginationParams['meta']) => {
+    const { wallet_uuid, limit, offset } = props;
+    const { data } = await vcards.cards.getAll(wallet_uuid, limit, offset);
+
+    return data;
+  },
+);
 
 export const loadOnrampCalc = createAsyncThunk(
   'finanse/onrampCalc',
@@ -197,11 +217,9 @@ const financeSlice = createSlice({
       state.selectedFiat = action.payload;
     },
     setSelectedWallet: (state, action) => {
-      state.selectedWallet = action.payload;
+      state.selectedWallet.data = action.payload;
     },
-    setAppInitialized: (state, action) => {
-      state.isAppInitialized = action.payload;
-    },
+
     setUserWallets: (state, action) => {
       state.userWallets = action.payload;
     },
@@ -214,8 +232,15 @@ const financeSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(loadSelectedWallet.pending, (state) => {
+      state.selectedWallet.status = RequestStatus.PENDING;
+    });
     builder.addCase(loadSelectedWallet.fulfilled, (state, action) => {
-      state.selectedWallet = action.payload;
+      state.selectedWallet.data = action.payload;
+      state.selectedWallet.status = RequestStatus.FULLFILLED;
+    });
+    builder.addCase(loadSelectedWallet.rejected, (state) => {
+      state.selectedWallet.status = RequestStatus.REJECTED;
     });
     builder.addCase(loadSelectedCard.pending, (state) => {
       state.selectedCard.status = RequestStatus.PENDING;
@@ -292,8 +317,26 @@ const financeSlice = createSlice({
     builder.addCase(loadCards.fulfilled, (state, action) => {
       state.selectedWalletCards.status = RequestStatus.FULLFILLED;
       state.selectedWalletCards.data = action.payload.items;
+      state.selectedWalletCards.meta.offset = action.payload.items.length;
+      state.selectedWalletCards.meta.isLastPage = action.payload.items.length < state.selectedWalletCards.meta.limit;
     });
     builder.addCase(loadCards.rejected, (state) => {
+      state.selectedWalletCards.status = RequestStatus.REJECTED;
+    });
+    builder.addCase(loadMoreCards.pending, (state) => {
+      state.selectedWalletCards.status = RequestStatus.PENDING;
+    });
+    builder.addCase(loadMoreCards.fulfilled, (state, action) => {
+      state.selectedWalletCards.status = RequestStatus.FULLFILLED;
+      state.selectedWalletCards.data = state.selectedWalletCards.data
+        ? [...state.selectedWalletCards.data, ...action.payload.items]
+        : action.payload.items;
+      state.selectedWalletCards.meta.offset += action.payload.items.length;
+      if (action.payload.items.length < state.selectedWalletCards.meta.limit) {
+        state.selectedWalletCards.meta.isLastPage = true;
+      }
+    });
+    builder.addCase(loadMoreCards.rejected, (state) => {
       state.selectedWalletCards.status = RequestStatus.REJECTED;
     });
     builder.addCase(loadOnrampCalc.pending, (state) => {
@@ -337,7 +380,7 @@ export const {
   setSelectedChain,
   setSelectedCrypto,
   setSelectedFiat,
-  setAppInitialized,
+
   setFiatExchangeRate,
   setUserWallets,
   setSelectedWallet,

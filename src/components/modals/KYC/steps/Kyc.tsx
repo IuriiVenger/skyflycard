@@ -16,7 +16,7 @@ const Kyc: FC<KycProps> = ({ accessToken }: KycProps) => {
   };
 
   return (
-    <div className="flex min-h-96 items-center justify-center">
+    <div className="sumsub-modal flex min-h-96 items-center justify-center">
       <SumsubWebSdk
         accessToken={accessToken}
         expirationHandler={() => Promise.resolve(accessToken)}
@@ -30,7 +30,7 @@ const Kyc: FC<KycProps> = ({ accessToken }: KycProps) => {
             },
           },
         }}
-        options={{ addViewportTag: false, adaptIframeHeight: true, theme: 'light' }}
+        options={{ addViewportTag: true, adaptIframeHeight: true, theme: 'light' }}
         onMessage={messageHandler}
         onError={errorHandler}
       />

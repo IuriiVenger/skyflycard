@@ -27,4 +27,9 @@ export const auth = {
       postRequest<API.Auth.Tokens>('/auth/refresh/refresh_token', { data: { refresh_token } }),
   },
   user_data: () => getRequest<API.Auth.UserData>('/auth/user_data'),
+  telegram: {
+    signin: (data: API.Auth.Telegram.Signin) => postRequest<API.Auth.Tokens>('/auth/telegram/signin/tg_id', { data }),
+
+    signup: (data: API.Auth.Telegram.Signup) => postRequest<API.Auth.Tokens>('/auth/telegram/signup/phone', { data }),
+  },
 };

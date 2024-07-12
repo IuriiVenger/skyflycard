@@ -49,14 +49,15 @@ const CardTopupModal: FC<CardTopupModalProps> = (props) => {
 
   const [topUpConfirmationText, setTopUpConfirmationText] = useState<string | null>(null);
 
-  const selectedWalletBalance = selectedWallet?.balance;
+  const selectedWalletBalance = selectedWallet.data?.balance;
   const selectedCryptoWalletBalance =
     selectedWalletBalance?.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount || 0;
   const selectedCryptoAvavilibleToWithdraw =
-    selectedWallet && selectedWallet.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
+    selectedWallet.data &&
+    selectedWallet.data.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
 
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
-  const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet && !!amount && isAmountEnough;
+  const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!amount && isAmountEnough;
 
   const cardholderName = sensitiveData?.name_on_card || card.cardName;
   const cardNumber = sensitiveData?.card_number || deleteDash(card.maskedPan);
@@ -84,12 +85,12 @@ const CardTopupModal: FC<CardTopupModalProps> = (props) => {
   };
 
   const topUpCard = async () => {
-    if (!selectedWallet) return;
+    if (!selectedWallet.data) return;
     await createInternalTopUpOrder({
       amount,
       crypto_uuid: selectedCrypto.uuid,
       fiat_uuid: selectedFiat.uuid,
-      wallet_uuid: selectedWallet.uuid,
+      wallet_uuid: selectedWallet.data.uuid,
       is_subsctract: true,
       card_id: card.id,
     });

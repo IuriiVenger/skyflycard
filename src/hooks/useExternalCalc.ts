@@ -40,11 +40,11 @@ const useExternalCalc: UseExternalCalc = () => {
   const [lastSelectedWallet, setLastSelectedWallet] = useState(selectedWallet);
 
   const updateCalculations = () => {
-    if (selectedWallet) {
+    if (selectedWallet.data) {
       const onRampCalcParams = {
         crypto_uuid: selectedCrypto.uuid,
         fiat_uuid: selectedFiat.uuid,
-        wallet_uuid: selectedWallet.uuid,
+        wallet_uuid: selectedWallet.data.uuid,
         amount,
         is_subsctract: true,
       };
@@ -52,13 +52,13 @@ const useExternalCalc: UseExternalCalc = () => {
       const offRampCalcParams = {
         crypto_uuid: selectedCrypto.uuid,
         fiat_uuid: selectedFiat.uuid,
-        wallet_uuid: selectedWallet.uuid,
+        wallet_uuid: selectedWallet.data.uuid,
         amount,
         is_subsctract: true,
       };
       const withdrawCalcParams = {
         crypto_uuid: selectedCrypto.uuid,
-        wallet_uuid: selectedWallet.uuid,
+        wallet_uuid: selectedWallet.data.uuid,
         is_subsctract: true,
         amount,
       };
@@ -72,7 +72,7 @@ const useExternalCalc: UseExternalCalc = () => {
   const delayedUpdateCalculations = debounce(updateCalculations, 200);
 
   useEffect(() => {
-    if (lastSelectedWallet?.uuid !== selectedWallet?.uuid) {
+    if (lastSelectedWallet.data?.uuid !== selectedWallet.data?.uuid) {
       setLastSelectedWallet(selectedWallet);
       updateCalculations();
     }

@@ -7,7 +7,8 @@ import { defaultPaginationParams } from '@/constants';
 export const vcards = {
   cards: {
     create: (data: API.Cards.Create.Request) => postRequest<API.Cards.Create.Response>('/vcards/cards', { data }),
-    getAll: (wallet_uuid: string) => getRequest<API.Cards.CardsList>('/vcards/cards', { params: { wallet_uuid } }),
+    getAll: (wallet_uuid: string, limit: number, offset: number) =>
+      getRequest<API.Cards.CardsList>('/vcards/cards', { params: { wallet_uuid, limit, offset } }),
     getById: (card_id: string) => getRequest<API.Cards.CardDetailItem>(`/vcards/cards/${card_id}`),
     getSensitiveData: (card_id: string) => getRequest<API.Cards.SensitiveData>(`/vcards/cards/${card_id}/sensitive`),
     update: (card_id: string, data: API.Cards.Update.Request) =>

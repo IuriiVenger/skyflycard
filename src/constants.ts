@@ -26,9 +26,9 @@ export const defaultCurrency = {
     symbol: 'TRON',
   },
   fiat: {
-    uuid: 'bcbbc8a7-e02e-45f6-8a9a-90a7c9bab7c9',
-    symbol: '€',
-    code: 'EUR',
+    uuid: 'bf229baf-8514-4ca7-b74e-239ffd333868',
+    symbol: '$',
+    code: 'USD',
     enabled: true,
   },
   crypto: {
@@ -88,10 +88,18 @@ export const walletType: WalletType = {
 export const defaultUpdateInterval = 10000;
 
 export const defaultPaginationParams = {
-  limit: 20,
+  limit: 10,
   offset: 0,
   isLastPage: false,
 };
+
+export const cardInitialPaginationParams = {
+  limit: 11,
+  offset: 0,
+  isLastPage: false,
+};
+
+export const cardLoadMoreDefaultLimit = 12;
 
 export const emptyStoreDataWithStatus = {
   status: RequestStatus.NONE,
@@ -161,3 +169,8 @@ export const allowedCryptoToFiatUuid = [
   'aceafbb8-aca6-44f9-8b12-25560e4e3bb4',
   '509eca03-bc0d-4a38-b7dc-d136d2bdaa43',
 ];
+
+export enum AppEnviroment {
+  WEB = 'web',
+  TELEGRAM = 'telegram',
+}
