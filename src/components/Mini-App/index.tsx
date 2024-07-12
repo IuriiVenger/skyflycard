@@ -31,6 +31,10 @@ const MiniApp = () => {
     if (isAppInitialized && (!launchParams || !initData || !miniApp)) {
       dispatch(setUserLoadingStatus(RequestStatus.REJECTED));
     }
+
+    if (isUserLoggedIn && isAppInitialized) {
+      dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
+    }
   }, [isAppInitialized]);
 
   return <DashboardPage />;
