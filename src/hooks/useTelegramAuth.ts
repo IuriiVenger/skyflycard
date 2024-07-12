@@ -105,7 +105,7 @@ const useTelegramAuth = (
     dispatch(setAppEnviroment(AppEnviroment.TELEGRAM));
     if (isWebAppInitialized && !isUserLoggedIn) {
       if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
-        dispatch(setAppFullInitialized(true));
+        // dispatch(setAppFullInitialized(true));
         return toast.error('Invalid data');
       }
 
@@ -118,7 +118,7 @@ const useTelegramAuth = (
         }
         throw e;
       } finally {
-        dispatch(setAppFullInitialized(true));
+        // dispatch(setAppFullInitialized(true));
       }
     }
   };
