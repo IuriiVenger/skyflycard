@@ -92,7 +92,7 @@ const useTelegramAuth = (
   };
 
   const initTelegramAuth = async () => {
-    if (isAppInitialized) {
+    if (isAppInitialized && !isUserLoggedIn) {
       dispatch(setUserLoadingStatus(RequestStatus.PENDING));
 
       if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
