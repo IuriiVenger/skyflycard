@@ -9,7 +9,6 @@ import { CardsTabProps } from '..';
 
 import CreateCardModal from '../CreateCardModal';
 
-import { API } from '@/api/types';
 import Loader from '@/components/Loader';
 import { RequestStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
@@ -17,7 +16,6 @@ import { deleteDash } from '@/utils/converters';
 
 export type CardsListProps = CardsTabProps & {
   onCardClick: (card_id: string) => void;
-  selectedWallet: API.Wallets.Wallet | null;
   externalCalcData: UseExternalCalcData;
 };
 
