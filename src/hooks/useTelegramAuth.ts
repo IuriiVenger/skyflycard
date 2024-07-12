@@ -100,7 +100,7 @@ const useTelegramAuth = (
         return toast.error('Invalid data');
       }
 
-      if (launchParams && initData && miniApp && !isUserLoggedIn) {
+      if (!isUserLoggedIn) {
         try {
           await telegramSignIn();
         } catch (e: any) {
