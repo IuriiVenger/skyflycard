@@ -92,31 +92,30 @@ const useTelegramAuth = (
   };
 
   const initTelegramAuth = async () => {
-    dispatch(setUserLoadingStatus(RequestStatus.PENDING));
+    if (isAppInitialized) {
+      dispatch(setUserLoadingStatus(RequestStatus.PENDING));
 
-    if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
-      setLoadingStatus(RequestStatus.REJECTED);
-      return toast.error('Invalid data');
-    }
-
-    if (launchParams && initData && miniApp && isAppInitialized && !isUserLoggedIn) {
-      try {
-        await telegramSignIn();
-      } catch (e: any) {
-        if (e.response?.status === ResponseStatus.NOT_FOUND) {
-          await telegramSignUp();
-          return;
-        }
-        throw e;
+      if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
+        setLoadingStatus(RequestStatus.REJECTED);
+        return toast.error('Invalid data');
       }
-    }
 
-    if (isAppInitialized && (!launchParams || !initData || !miniApp)) {
-      dispatch(setUserLoadingStatus(RequestStatus.REJECTED));
-    }
+      if (launchParams && initData && miniApp && !isUserLoggedIn) {
+        try {
+          await telegramSignIn();
+        } catch (e: any) {
+          if (e.response?.status === ResponseStatus.NOT_FOUND) {
+            await telegramSignUp();
+            return;
+          }
+          setLoadingStatus(RequestStatus.REJECTED);
+          throw e;
+        }
+      }
 
-    if (isUserLoggedIn && isAppInitialized) {
-      dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
+      if (isUserLoggedIn && isAppInitialized) {
+        dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
+      }
     }
   };
 
