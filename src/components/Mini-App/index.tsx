@@ -1,5 +1,5 @@
 import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
@@ -14,8 +14,10 @@ const MiniApp = () => {
   const miniApp = useMiniApp(true);
   const { initUser } = useAuth(dispatch);
   const { isAppInitialized } = useAppSelector(selectFinanceData);
+  const [nav, setNav] = useState('');
 
   useEffect(() => {
+    setNav(navigator.userAgent);
     if (!initData || !launchParams || !miniApp || !isAppInitialized) {
       return;
     }
@@ -27,7 +29,8 @@ const MiniApp = () => {
     <div>
       <h1>Mini app</h1>
       <p>user: {user.userData?.id}</p>
-      <p>{navigator.userAgent}</p>
+
+      <p>{nav}</p>
     </div>
   );
 };
