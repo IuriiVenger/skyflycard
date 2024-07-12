@@ -11,16 +11,18 @@ import { setTokens } from '@/utils/tokensFactory';
 
 const useTelegramAuth = (
   dispatch: AppDispatch,
-  launchParams: LaunchParams,
-  initData: InitData,
-  miniApp: MiniApp,
+  launchParams: LaunchParams | undefined,
+  initData: InitData | undefined,
+  miniApp: MiniApp | undefined,
   initUser: () => Promise<void>,
+  isAppInitialized: boolean,
+  isUserLoggedIn: boolean,
 ) => {
-  const tg_id = initData.user?.id;
-  const { hash } = initData;
-  const init_data_raw = launchParams.initDataRaw;
-  const first_name = initData.user?.firstName;
-  const last_name = initData.user?.lastName;
+  const tg_id = initData?.user?.id;
+  const hash = initData?.hash;
+  const init_data_raw = launchParams?.initDataRaw;
+  const first_name = initData?.user?.firstName;
+  const last_name = initData?.user?.lastName;
 
   const setLoadingStatus = (status: RequestStatus) => {
     dispatch(setUserLoadingStatus(status));
@@ -50,8 +52,6 @@ const useTelegramAuth = (
       setLoadingStatus(RequestStatus.REJECTED);
       throw e;
     }
-
-    console.log('signUpData', signUpData);
 
     try {
       const { data } = await auth.telegram.signup(signUpData);
@@ -92,14 +92,31 @@ const useTelegramAuth = (
   };
 
   const initTelegramAuth = async () => {
-    try {
-      await telegramSignIn();
-    } catch (e: any) {
-      if (e.response?.status === ResponseStatus.NOT_FOUND) {
-        await telegramSignUp();
-        return;
+    dispatch(setUserLoadingStatus(RequestStatus.PENDING));
+
+    if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
+      setLoadingStatus(RequestStatus.REJECTED);
+      return toast.error('Invalid data');
+    }
+
+    if (launchParams && initData && miniApp && isAppInitialized && !isUserLoggedIn) {
+      try {
+        await telegramSignIn();
+      } catch (e: any) {
+        if (e.response?.status === ResponseStatus.NOT_FOUND) {
+          await telegramSignUp();
+          return;
+        }
+        throw e;
       }
-      throw e;
+    }
+
+    if (isAppInitialized && (!launchParams || !initData || !miniApp)) {
+      dispatch(setUserLoadingStatus(RequestStatus.REJECTED));
+    }
+
+    if (isUserLoggedIn && isAppInitialized) {
+      dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
     }
   };
 

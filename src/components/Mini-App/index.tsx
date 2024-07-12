@@ -18,23 +18,20 @@ const MiniApp = () => {
   const miniApp = useMiniApp(true);
   const initData = useInitData(true);
   const dispatch = useAppDispatch();
-
   const { initUser } = useAuth(dispatch);
 
+  const { initTelegramAuth } = useTelegramAuth(
+    dispatch,
+    launchParams,
+    initData,
+    miniApp,
+    initUser,
+    isAppInitialized,
+    isUserLoggedIn,
+  );
+
   useEffect(() => {
-    dispatch(setUserLoadingStatus(RequestStatus.PENDING));
-    if (launchParams && initData && miniApp && isAppInitialized && !isUserLoggedIn) {
-      const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, initUser);
-      initTelegramAuth();
-    }
-
-    if (isAppInitialized && (!launchParams || !initData || !miniApp)) {
-      dispatch(setUserLoadingStatus(RequestStatus.REJECTED));
-    }
-
-    if (isUserLoggedIn && isAppInitialized) {
-      dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
-    }
+    initTelegramAuth();
   }, [isAppInitialized]);
 
   return <DashboardPage />;
