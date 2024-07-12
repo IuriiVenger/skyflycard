@@ -13,6 +13,7 @@ import useInitApp from '@/hooks/useInitApp';
 const StoreWatchers = () => {
   const dispatch = useAppDispatch();
   const { selectedFiat } = useAppSelector(selectFinanceData);
+
   const { initApp } = useInitApp(dispatch);
 
   const loadFiatExchangeRate = async () => {

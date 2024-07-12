@@ -25,18 +25,17 @@ const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
   const { appEnviroment } = useAppSelector(selectConfig);
   const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
+
   const isWebEnviroment = appEnviroment === AppEnviroment.WEB;
 
-  const initApp = async () => {
+  const initWebApp = async () => {
     try {
-      const isAuthTokensExist = getCookie('access_token');
       const [bins, fiats, crypto, chains, fiatExchangeRate] = await Promise.all([
         vcards.bins.getAll(),
         list.fiats.getAll(),
         list.crypto.getAll(),
         list.chains.getAll(),
         exchange.fiat2crypto.getByUuid(defaultCurrency.fiat.uuid),
-        isAuthTokensExist && initUser(),
       ]);
       dispatch(setBins(bins));
       dispatch(setFiats(fiats));
@@ -52,8 +51,14 @@ const useInitApp = (dispatch: AppDispatch) => {
       }
     } finally {
       dispatch(setWebAppInitialized(true));
-      (isWebEnviroment || isUserLoggedIn) && dispatch(setAppFullInitialized(true));
     }
+  };
+
+  const initApp = async () => {
+    const isAuthTokensExist = getCookie('access_token');
+    await initWebApp();
+    isAuthTokensExist && (await initUser());
+    isWebEnviroment && dispatch(setAppFullInitialized(true));
   };
 
   return { initApp };

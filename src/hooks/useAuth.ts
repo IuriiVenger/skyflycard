@@ -9,6 +9,7 @@ import useWallet from './useWallet';
 import { auth } from '@/api/auth';
 
 import { RequestStatus } from '@/constants';
+import { setAppFullInitialized } from '@/store/slices/config';
 import { setUser, setUserData, setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { deleteTokens, setTokens } from '@/utils/tokensFactory';
@@ -56,13 +57,14 @@ const useAuth = (dispatch: AppDispatch) => {
   const initUser = async () => {
     try {
       setLoadingStatus(RequestStatus.PENDING);
-
       await getUser();
       await loadUserContent();
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       deleteTokens();
       setLoadingStatus(RequestStatus.REJECTED);
+    } finally {
+      dispatch(setAppFullInitialized(true));
     }
   };
 
