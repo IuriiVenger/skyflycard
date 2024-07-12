@@ -112,10 +112,6 @@ const useTelegramAuth = (
           throw e;
         }
       }
-
-      if (isUserLoggedIn && isAppInitialized) {
-        dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
-      }
     }
   };
 
