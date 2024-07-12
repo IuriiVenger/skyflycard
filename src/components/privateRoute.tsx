@@ -23,11 +23,15 @@ const privateRoute = (Component: FC) => {
       }
     }, [isAppFullInitialized, isUserLoggedIn]);
 
-    if (!isUserLoggedIn) {
+    if (!isAppFullInitialized) {
       return <Loader />;
     }
 
-    return <Component {...props} />;
+    if (isUserLoading) {
+      return <Component {...props} />;
+    }
+
+    return 'Something went wrong';
   };
 
   return IsAuth;
