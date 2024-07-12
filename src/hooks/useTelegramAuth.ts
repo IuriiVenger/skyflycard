@@ -80,7 +80,7 @@ const useTelegramAuth = (
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
-      throw e;
+      // throw e;
     }
   };
 
