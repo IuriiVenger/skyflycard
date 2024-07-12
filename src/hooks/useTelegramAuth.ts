@@ -83,8 +83,8 @@ const useTelegramAuth = (
 
     const signInData: API.Auth.Telegram.Signin = {
       tg_id,
-      hash: 'jopa',
-      init_data_raw,
+      hash,
+      init_data_raw: 'jopa',
     };
 
     try {
