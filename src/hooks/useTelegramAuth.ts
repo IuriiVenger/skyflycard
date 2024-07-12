@@ -16,8 +16,7 @@ const useTelegramAuth = (
   miniApp: MiniApp,
   initUser: () => Promise<void>,
 ) => {
-  const tg_id = 123;
-  // const tg_id = initData.user?.id;
+  const tg_id = initData.user?.id;
   const { hash } = initData;
   const init_data_raw = launchParams.initDataRaw;
   const first_name = initData.user?.firstName;
@@ -35,16 +34,24 @@ const useTelegramAuth = (
       return toast.error('Invalid data');
     }
 
-    const { contact } = await miniApp.requestContact();
-
     const signUpData: API.Auth.Telegram.Signup = {
       tg_id,
       hash,
       init_data_raw,
       first_name,
       last_name,
-      phone: contact.phoneNumber,
+      phone: '',
     };
+
+    try {
+      const { contact } = await miniApp.requestContact();
+      signUpData.phone = contact.phoneNumber;
+    } catch (e) {
+      setLoadingStatus(RequestStatus.REJECTED);
+      throw e;
+    }
+
+    console.log('signUpData', signUpData);
 
     try {
       const { data } = await auth.telegram.signup(signUpData);
@@ -80,7 +87,7 @@ const useTelegramAuth = (
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
-      // throw e;
+      throw e;
     }
   };
 
@@ -88,12 +95,11 @@ const useTelegramAuth = (
     try {
       await telegramSignIn();
     } catch (e: any) {
-      console.log(e);
       if (e.response?.status === ResponseStatus.NOT_FOUND) {
         await telegramSignUp();
-        // return;
+        return;
       }
-      // throw e;
+      throw e;
     }
   };
 
