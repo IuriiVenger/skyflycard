@@ -2,6 +2,7 @@ import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-rea
 
 import { useEffect } from 'react';
 
+import DashboardPage from '@/app/(main_layout)/dashboard/page';
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
@@ -26,12 +27,7 @@ const MiniApp = () => {
     }
   }, [isAppInitialized]);
 
-  return (
-    <div>
-      <h1>Mini app</h1>
-      <p>user: {user?.userData?.id}</p>
-    </div>
-  );
+  return <DashboardPage />;
 };
 
 export default MiniApp;
