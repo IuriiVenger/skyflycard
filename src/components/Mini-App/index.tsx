@@ -26,7 +26,8 @@ const MiniApp = () => {
   return (
     <div>
       <h1>Mini app</h1>
-      <p>{user.userData?.id}</p>
+      <p>user: {user.userData?.id}</p>
+      <p>{navigator.userAgent}</p>
     </div>
   );
 };

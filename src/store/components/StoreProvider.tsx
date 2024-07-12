@@ -13,7 +13,7 @@ const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     initApp();
-    console.log(navigator.userAgent, 'navigator.userAgent');
+    console.log(navigator, 'navigator');
   }, []);
 
   return <Provider store={store}>{children}</Provider>;
