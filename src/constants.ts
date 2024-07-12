@@ -26,9 +26,9 @@ export const defaultCurrency = {
     symbol: 'TRON',
   },
   fiat: {
-    uuid: 'bcbbc8a7-e02e-45f6-8a9a-90a7c9bab7c9',
-    symbol: '€',
-    code: 'EUR',
+    uuid: 'bf229baf-8514-4ca7-b74e-239ffd333868',
+    symbol: '$',
+    code: 'USD',
     enabled: true,
   },
   crypto: {
@@ -88,10 +88,18 @@ export const walletType: WalletType = {
 export const defaultUpdateInterval = 10000;
 
 export const defaultPaginationParams = {
-  limit: 20,
+  limit: 10,
   offset: 0,
   isLastPage: false,
 };
+
+export const cardInitialPaginationParams = {
+  limit: 11,
+  offset: 0,
+  isLastPage: false,
+};
+
+export const cardLoadMoreDefaultLimit = 12;
 
 export const emptyStoreDataWithStatus = {
   status: RequestStatus.NONE,

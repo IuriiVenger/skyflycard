@@ -58,14 +58,15 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
 
   const { setAmount, amount, offrampCalcData, isOfframpCalcPending } = externalCalcData;
 
-  const selectedWalletBalance = selectedWallet?.balance;
+  const selectedWalletBalance = selectedWallet.data?.balance;
   const selectedCryptoWalletBalance =
     selectedWalletBalance?.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount || 0;
   const selectedCryptoAvavilibleToWithdraw =
-    selectedWallet && selectedWallet.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
+    selectedWallet.data &&
+    selectedWallet.data.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
 
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
-  const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet && !!amount && isAmountEnough;
+  const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!amount && isAmountEnough;
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
     if (isFiat(currency)) {
@@ -86,14 +87,14 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   };
 
   const createCardHandler = async () => {
-    if (!selectedWallet) {
+    if (!selectedWallet.data) {
       return;
     }
 
     const requestData: API.Cards.Create.Request = {
       binCode: activeBin.code,
       cardName,
-      wallet_uuid: selectedWallet.uuid,
+      wallet_uuid: selectedWallet.data.uuid,
       cardBalance: amount,
     };
 

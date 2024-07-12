@@ -37,7 +37,9 @@ const CardsTab: FC<CardsTabProps> = (props) => {
     {} as ActiveCardMode,
   );
 
-  const isPending = cards.status === RequestStatus.PENDING || selectedCard.status === RequestStatus.PENDING;
+  const isFirstCardsListLoading = cards.status === RequestStatus.PENDING && !cards.data?.length;
+
+  const isPending = isFirstCardsListLoading || selectedCard.status === RequestStatus.PENDING;
 
   const setActiveCard = (card_id: string | null) => {
     changeActiveCard(card_id);

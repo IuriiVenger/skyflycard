@@ -10,27 +10,17 @@ import ChainInfo from './ChainInfo';
 import ExternalExhangeInput from './ExternalExchangeInput';
 import SelectPaymentMethod from './SelectPaymentMethod';
 
+import { DashboardProps } from '.';
+
 import { API } from '@/api/types';
 import whiteLabelConfig from '@/config/whitelabel';
 import { PaymentMethod, ResponseStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isChain, isCrypto, isFiat } from '@/utils/financial';
 
-type DepositTabProps = {
+type DepositTabProps = DashboardProps & {
   className?: string;
-  selectedChain: API.List.Chains;
-  selectChain: (chain: API.List.Chains) => void;
-  selectedFiat: API.List.Fiat;
-  selectFiat: (fiat: API.List.Fiat) => void;
-  selectedCrypto: API.List.Crypto;
-  selectCrypto: (crypto: API.List.Crypto) => void;
-  fiatList: API.List.Fiat[];
-  availableToExchangeCrypto: API.List.Crypto[];
-  chainList: API.List.Chains[];
   externalCalcData: UseExternalCalcData;
-  selectedWallet: API.Wallets.Wallet | null;
-  getWalletAddress: (chain: number, wallet_uuid: string) => Promise<API.Wallets.WalletChain.Response>;
-  createFiat2CryptoOrder: (requestData: API.Orders.OnRamp.Request) => Promise<void | null>;
   createWalletAddress: (data: API.Wallets.WalletChain.Request) => Promise<API.Wallets.WalletChain.Response>;
 };
 
@@ -69,12 +59,12 @@ const DepositTab: FC<DepositTabProps> = (props) => {
   const return_url = `${window.location.origin}/order/`;
 
   const clickButtonHandler = () =>
-    selectedWallet &&
+    selectedWallet.data &&
     createFiat2CryptoOrder({
       amount,
       fiat_uuid: selectedFiat?.uuid,
       crypto_uuid: selectedCrypto?.uuid,
-      wallet_uuid: selectedWallet?.uuid,
+      wallet_uuid: selectedWallet.data?.uuid,
       return_url_fail: return_url,
       return_url_pending: return_url,
       return_url_success: return_url,
@@ -94,11 +84,11 @@ const DepositTab: FC<DepositTabProps> = (props) => {
   };
 
   const loadChain = async () => {
-    if (selectedWallet) {
+    if (selectedWallet.data) {
       try {
         setActiveWalletAddress(null);
         setIsWalletAdressLoading(true);
-        const walletChain = await getWalletAddress(selectedChain.id, selectedWallet.uuid);
+        const walletChain = await getWalletAddress(selectedChain.id, selectedWallet.data.uuid);
         setActiveWalletAddress(walletChain);
       } catch (error) {
         if ((error as any).response?.status === ResponseStatus.NOT_FOUND) {
@@ -113,10 +103,10 @@ const DepositTab: FC<DepositTabProps> = (props) => {
   };
 
   const createWalletAddressHandler = async () => {
-    if (selectedWallet) {
+    if (selectedWallet.data) {
       try {
         setIsWalletAdressLoading(true);
-        await createWalletAddress({ chain: selectedChain.id, wallet_uuid: selectedWallet.uuid, label: 'default' });
+        await createWalletAddress({ chain: selectedChain.id, wallet_uuid: selectedWallet.data.uuid, label: 'default' });
         await loadChain();
       } finally {
         setIsWalletAdressLoading(false);
@@ -128,7 +118,7 @@ const DepositTab: FC<DepositTabProps> = (props) => {
     if (activePaymentMethod === PaymentMethod.CRYPTO) {
       loadChain();
     }
-  }, [activePaymentMethod, selectedWallet?.uuid, selectedChain]);
+  }, [activePaymentMethod, selectedWallet.data?.uuid, selectedChain]);
 
   return (
     <div className={cn('flex flex-col gap-8', className)}>

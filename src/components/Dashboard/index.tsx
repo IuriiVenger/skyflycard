@@ -7,6 +7,8 @@ import { IoIosList } from 'react-icons/io';
 
 import { PiSignIn, PiSignOut } from 'react-icons/pi';
 
+import Loader from '../Loader';
+
 import CardsTab from './CardsTab';
 import DepositForm from './DepositTab';
 import MainInformation from './MainInformation';
@@ -16,11 +18,11 @@ import WithdrawForm from './WithdrawTab';
 import { API } from '@/api/types';
 import WalletBalanceList from '@/components/Wallet/WalletBalanceList';
 import WalletList from '@/components/Wallet/WalletList';
-import { DashboardTabs, KYCStatuses, WalletTypeValues } from '@/constants';
+import { DashboardTabs, KYCStatuses, RequestStatus, WalletTypeValues } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { StoreDataWithStatus, StoreDataWithStatusAndMeta } from '@/store/types';
 import { ValueWithLabel } from '@/types';
-import { roundToDecimals } from '@/utils/converters';
+import { roundToDecimals, separateNumbers } from '@/utils/converters';
 
 export type DashboardProps = {
   activeCardId: string | null;
@@ -29,7 +31,7 @@ export type DashboardProps = {
   availableToExchangeCrypto: API.List.Crypto[];
   bins: API.Cards.Bin[];
   cardTransactions: StoreDataWithStatusAndMeta<API.Cards.TransactionItem[] | null>;
-  cards: StoreDataWithStatus<API.Cards.CardDetailItem[] | null>;
+  cards: StoreDataWithStatusAndMeta<API.Cards.CardDetailItem[] | null>;
   chainList: API.List.Chains[];
   changeActiveCard: (card_id: string | null) => void;
   changeDashboardTab: (tab: DashboardTabs) => void;
@@ -46,6 +48,7 @@ export type DashboardProps = {
   fiatList: API.List.Fiat[];
   getSensitiveData: (card_id: string) => Promise<API.Cards.SensitiveData>;
   getWalletAddress: (chain: number, wallet_uuid: string) => Promise<API.Wallets.WalletChain.Response>;
+  loadMoreCards: () => void;
   loadMoreCardTransactions: () => void;
   loadMoreWalletTransactions: () => void;
   loadSelectedWalletCards: () => void;
@@ -59,7 +62,7 @@ export type DashboardProps = {
   selectedChain: API.List.Chains;
   selectedCrypto: API.List.Crypto;
   selectedFiat: API.List.Fiat;
-  selectedWallet: API.Wallets.ExtendWallet | null;
+  selectedWallet: StoreDataWithStatus<API.Wallets.ExtendWallet | null>;
   updateCard: (card_id: string, data: API.Cards.Update.Request) => Promise<void>;
   verificationStatus?: KYCStatuses;
   walletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null>;
@@ -81,12 +84,17 @@ const Dashboard: FC<DashboardProps> = (props) => {
     activeDashboardTab,
     changeDashboardTab,
     activeCardId,
+    fiatList,
   } = props;
-  const currentWalletBalance = roundToDecimals(selectedWallet?.total_amount || 0);
+  const currentWalletBalanceAmount = separateNumbers(roundToDecimals(selectedWallet.data?.total_amount || 0));
+  const currentWalletBalanceCurrency =
+    fiatList.find((item) => item.uuid === selectedWallet.data?.base_fiat)?.symbol || '€';
+  const currentWalletBalance = `${currentWalletBalanceCurrency} ${currentWalletBalanceAmount}`;
 
   const isTransactionsTab = activeDashboardTab === DashboardTabs.TRANSACTIONS;
   const isCardDetailMode = activeDashboardTab === DashboardTabs.CARDS && activeCardId;
   const isMainInformationHidden = isCardDetailMode;
+  const isWalletPending = selectedWallet.status === RequestStatus.PENDING;
 
   const actionButtons = [
     {
@@ -122,10 +130,10 @@ const Dashboard: FC<DashboardProps> = (props) => {
           createWallet={createWallet}
           wallets={wallets}
           onSelect={selectWallet}
-          activeWallet={selectedWallet}
+          activeWallet={selectedWallet.data}
           walletTypes={walletTypes}
         />
-        <WalletBalanceList chains={chainList} wallet={selectedWallet} cryptoList={cryptoList} />
+        <WalletBalanceList chains={chainList} wallet={selectedWallet.data} cryptoList={cryptoList} />
       </aside>
 
       {!isMainInformationHidden && (
@@ -143,7 +151,7 @@ const Dashboard: FC<DashboardProps> = (props) => {
             createWallet={createWallet}
             wallets={wallets}
             onSelect={selectWallet}
-            activeWallet={selectedWallet}
+            activeWallet={selectedWallet.data}
             walletTypes={walletTypes}
           />
         </>
@@ -155,10 +163,16 @@ const Dashboard: FC<DashboardProps> = (props) => {
           isTransactionsTab && 'overflow-scroll',
         )}
       >
-        {activeDashboardTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
-        {activeDashboardTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
-        {activeDashboardTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}
-        {activeDashboardTab === DashboardTabs.CARDS && <CardsTab {...props} />}
+        {isWalletPending ? (
+          <Loader />
+        ) : (
+          <>
+            {activeDashboardTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
+            {activeDashboardTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
+            {activeDashboardTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}
+            {activeDashboardTab === DashboardTabs.CARDS && <CardsTab {...props} />}
+          </>
+        )}
       </div>
     </section>
   );

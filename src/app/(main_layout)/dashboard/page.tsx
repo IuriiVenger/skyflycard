@@ -17,6 +17,8 @@ import {
   ModalNames,
   DashboardTabs,
   allowedCryptoToFiatUuid,
+  cardInitialPaginationParams,
+  cardLoadMoreDefaultLimit,
 } from '@/constants';
 import useExternalCalc from '@/hooks/useExternalCalc';
 import useOrder from '@/hooks/useOrder';
@@ -36,6 +38,7 @@ import {
   setSelectedFiat,
   setUserWallets,
   clearSelectedCard,
+  loadMoreCards,
 } from '@/store/slices/finance';
 import { setModalVisible } from '@/store/slices/ui';
 
@@ -103,14 +106,26 @@ const DashboardPage = () => {
   };
 
   const loadSelectedWalletCards = async () => {
-    selectedWallet && dispatch(loadCards(selectedWallet.uuid));
+    const { limit, offset } = cardInitialPaginationParams;
+    selectedWallet.data && dispatch(loadCards({ wallet_uuid: selectedWallet.data.uuid, limit, offset }));
+  };
+
+  const loadMoreCardsHandler = async () => {
+    selectedWallet.data &&
+      dispatch(
+        loadMoreCards({
+          wallet_uuid: selectedWallet.data.uuid,
+          limit: cardLoadMoreDefaultLimit,
+          offset: selectedWalletCards.meta.offset,
+        }),
+      );
   };
 
   const loadMoreWalletTransactionsHandler = () =>
-    selectedWallet &&
+    selectedWallet.data &&
     dispatch(
       loadMoreWalletTransactions({
-        wallet_uuid: selectedWallet.uuid,
+        wallet_uuid: selectedWallet.data.uuid,
         limit: selectedWalletTransactions.meta.limit,
         offset: selectedWalletTransactions.meta.offset,
       }),
@@ -148,7 +163,13 @@ const DashboardPage = () => {
   const onWalletChange = async (wallet: API.Wallets.ExtendWallet) => {
     setLastActiveWallet(wallet);
     dispatch(loadWalletTransactions({ wallet_uuid: wallet.uuid }));
-    dispatch(loadCards(wallet.uuid));
+    dispatch(
+      loadCards({
+        wallet_uuid: wallet.uuid,
+        limit: cardInitialPaginationParams.limit,
+        offset: cardInitialPaginationParams.offset,
+      }),
+    );
     changeActiveCard(null);
   };
 
@@ -164,12 +185,13 @@ const DashboardPage = () => {
   };
 
   const checkWalletUpdates = async () => {
-    if (!selectedWallet) {
+    if (!selectedWallet.data) {
       return;
     }
 
-    selectedWallet.uuid !== lastActiveWallet?.uuid && onWalletChange(selectedWallet);
-    selectedWallet.total_amount !== lastActiveWallet?.total_amount && onWalletTotalAmountUpdate(selectedWallet);
+    selectedWallet.data.uuid !== lastActiveWallet?.uuid && onWalletChange(selectedWallet.data);
+    selectedWallet.data.total_amount !== lastActiveWallet?.total_amount &&
+      onWalletTotalAmountUpdate(selectedWallet.data);
   };
 
   const createCard = async (data: API.Cards.Create.Request) => vcards.cards.create(data);
@@ -203,6 +225,7 @@ const DashboardPage = () => {
     exchangeRate: fiatExchangeRate,
     getSensitiveData,
     getWalletAddress,
+    loadMoreCards: loadMoreCardsHandler,
     loadMoreCardTransactions: loadMoreCardTransactionsHandler,
     loadMoreWalletTransactions: loadMoreWalletTransactionsHandler,
     loadSelectedWalletCards,
@@ -228,7 +251,7 @@ const DashboardPage = () => {
     checkWalletUpdates();
 
     const intervalLoadSelectedWallet = setInterval(() => {
-      selectedWallet && dispatch(loadSelectedWallet(selectedWallet.uuid));
+      selectedWallet.data && dispatch(loadSelectedWallet(selectedWallet.data.uuid));
     }, defaultUpdateInterval);
 
     return () => clearInterval(intervalLoadSelectedWallet);

@@ -12,6 +12,8 @@ import ExternalExhangeInput from './ExternalExchangeInput';
 import ExternalWithdrawInput from './ExternalWithdrawIpnut';
 import SelectPaymentMethod from './SelectPaymentMethod';
 
+import { DashboardProps } from '.';
+
 import { API } from '@/api/types';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
@@ -19,18 +21,8 @@ import { PaymentMethod } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isCrypto, isFiat } from '@/utils/financial';
 
-type WithdrawTabProps = {
-  allowedCryptoToFiatList: API.List.Crypto[];
+type WithdrawTabProps = DashboardProps & {
   className?: string;
-  selectedFiat: API.List.Fiat;
-  selectFiat: (fiat: API.List.Fiat) => void;
-  selectedCrypto: API.List.Crypto;
-  selectCrypto: (crypto: API.List.Crypto) => void;
-  fiatList: API.List.Fiat[];
-  chainList: API.List.Chains[];
-  selectedWallet: API.Wallets.Wallet | null;
-  createCrypto2FiatOrder: (requestData: API.Orders.OffRamp.Request) => Promise<void | null>;
-  createCrypto2CryptoOrder: (requestData: API.Orders.Crypto.Withdrawal.Request) => Promise<void | null>;
   externalCalcData: UseExternalCalcData;
 };
 
@@ -63,16 +55,17 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
 
   const isFiatPayment = activePaymentMethod === PaymentMethod.FIAT;
 
-  const selectedWalletBalance = selectedWallet?.balance;
+  const selectedWalletBalance = selectedWallet.data?.balance;
   const selectedCryptoWalletBalance =
     selectedWalletBalance?.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount || 0;
 
   const selectedCryptoAvavilibleToWithdraw =
-    selectedWallet && selectedWallet.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
+    selectedWallet.data &&
+    selectedWallet.data.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
 
   const isWIthdrawAvailible =
-    !!selectedCrypto && !!selectedFiat && !!selectedWallet && !!withdrawTarget && !!amount && isAmountEnough;
+    !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!withdrawTarget && !!amount && isAmountEnough;
 
   const openCryptoModal = () => setIsCryptoModalOpen(true);
   const openFiatModal = () => setIsFiatModalOpen(true);
@@ -95,14 +88,14 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
   };
 
   const clickButtonHandler = () => {
-    if (!selectedWallet) return;
+    if (!selectedWallet.data) return;
 
     if (isFiatPayment) {
       return createCrypto2FiatOrder({
         amount,
         fiat_uuid: selectedFiat?.uuid,
         crypto_uuid: selectedCrypto?.uuid,
-        wallet_uuid: selectedWallet?.uuid,
+        wallet_uuid: selectedWallet.data.uuid,
         card_number: withdrawTargetWithoutSpaces,
         is_subsctract: true,
       });
@@ -111,7 +104,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
     return createCrypto2CryptoOrder({
       amount,
       crypto_uuid: selectedCrypto.uuid,
-      wallet_uuid: selectedWallet.uuid,
+      wallet_uuid: selectedWallet.data.uuid,
       to_address: withdrawTarget,
       is_subsctract: true,
     });
