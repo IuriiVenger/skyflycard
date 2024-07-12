@@ -93,24 +93,18 @@ const useTelegramAuth = (
 
   const initTelegramAuth = async () => {
     if (isAppInitialized && !isUserLoggedIn) {
-      dispatch(setUserLoadingStatus(RequestStatus.PENDING));
-
       if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
-        setLoadingStatus(RequestStatus.REJECTED);
         return toast.error('Invalid data');
       }
 
-      if (!isUserLoggedIn) {
-        try {
-          await telegramSignIn();
-        } catch (e: any) {
-          if (e.response?.status === ResponseStatus.NOT_FOUND) {
-            await telegramSignUp();
-            return;
-          }
-          setLoadingStatus(RequestStatus.REJECTED);
-          throw e;
+      try {
+        await telegramSignIn();
+      } catch (e: any) {
+        if (e.response?.status === ResponseStatus.NOT_FOUND) {
+          await telegramSignUp();
+          return;
         }
+        throw e;
       }
     }
   };
