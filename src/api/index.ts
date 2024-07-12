@@ -47,7 +47,7 @@ instance.interceptors.response.use(
         if (typeof window !== 'undefined') {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
 
-          // navigate('/auth/login');
+          navigate('/auth/login');
         }
         deleteTokens();
         requestQueue = [];
