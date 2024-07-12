@@ -1,13 +1,11 @@
-import { InitData, LaunchParams, MiniApp, useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
+import { InitData, LaunchParams, MiniApp } from '@telegram-apps/sdk-react';
 
 import { toast } from 'react-toastify';
 
-import useAuth from './useAuth';
-
 import { auth } from '@/api/auth';
 import { API } from '@/api/types';
-import { RequestStatus } from '@/constants';
-import { setUser, setUserLoadingStatus } from '@/store/slices/user';
+import { RequestStatus, ResponseStatus } from '@/constants';
+import { setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { setTokens } from '@/utils/tokensFactory';
 
@@ -77,7 +75,6 @@ const useTelegramAuth = (
       const { data } = await auth.telegram.signin(signInData);
 
       setTokens(data);
-
       await initUser();
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
@@ -89,12 +86,12 @@ const useTelegramAuth = (
   const initTelegramAuth = async () => {
     try {
       await telegramSignIn();
-    } catch (e) {
-      try {
+    } catch (e: any) {
+      if (e.response?.status === ResponseStatus.NOT_FOUND) {
         await telegramSignUp();
-      } catch (err) {
-        toast.error('Auth error');
+        return;
       }
+      throw e;
     }
   };
 
