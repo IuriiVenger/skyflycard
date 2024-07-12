@@ -16,7 +16,8 @@ const useTelegramAuth = (
   miniApp: MiniApp,
   initUser: () => Promise<void>,
 ) => {
-  const tg_id = initData.user?.id;
+  const tg_id = 123;
+  // const tg_id = initData.user?.id;
   const { hash } = initData;
   const init_data_raw = launchParams.initDataRaw;
   const first_name = initData.user?.firstName;
@@ -87,6 +88,7 @@ const useTelegramAuth = (
     try {
       await telegramSignIn();
     } catch (e: any) {
+      console.log(e);
       if (e.response?.status === ResponseStatus.NOT_FOUND) {
         await telegramSignUp();
         return;
