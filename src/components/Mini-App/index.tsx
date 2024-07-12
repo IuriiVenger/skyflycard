@@ -3,12 +3,11 @@ import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-rea
 import { useEffect } from 'react';
 
 import DashboardPage from '@/app/(main_layout)/dashboard/page';
-import { RequestStatus } from '@/constants';
+
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectFinanceData, selectIsUserLoggedIn } from '@/store/selectors';
-import { setUserLoadingStatus } from '@/store/slices/user';
 
 const MiniApp = () => {
   const { isAppInitialized } = useAppSelector(selectFinanceData);

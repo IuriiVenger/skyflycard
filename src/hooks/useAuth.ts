@@ -28,12 +28,15 @@ const useAuth = (dispatch: AppDispatch) => {
 
   const loadUserData = async () => {
     try {
-      dispatch(setUserLoadingStatus(RequestStatus.PENDING));
+      setLoadingStatus(RequestStatus.PENDING);
+      console.log('loadUserData, pending');
       const { data } = await auth.user_data();
       dispatch(setUserData(data));
-      dispatch(setUserLoadingStatus(RequestStatus.FULLFILLED));
+      setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('loadUserData, fullfilled');
     } catch (e) {
-      dispatch(setUserLoadingStatus(RequestStatus.REJECTED));
+      setLoadingStatus(RequestStatus.REJECTED);
+      console.log('loadUserData, rejected');
       throw e;
     }
   };
@@ -57,12 +60,15 @@ const useAuth = (dispatch: AppDispatch) => {
 
   const getUser = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('getUser, pending');
     try {
       const { data } = await auth.me();
       dispatch(setUser(data));
       setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('getUser, fullfilled');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('getUser, rejected');
       throw e;
     }
   };
@@ -78,11 +84,13 @@ const useAuth = (dispatch: AppDispatch) => {
 
   const signUp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('signUp, pending');
     try {
       const { data } = await auth.signUp.password(email, password);
       const { error, user, session } = data;
       if (error) {
         setLoadingStatus(RequestStatus.REJECTED);
+        console.log('signUp, rejected');
         return toast.error(error);
       }
       session && setTokens(session);
@@ -90,14 +98,17 @@ const useAuth = (dispatch: AppDispatch) => {
       dispatch(setUser(user));
       router.push('/dashboard');
       setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('signUp, fullfilled');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('signUp, rejected');
       throw e;
     }
   };
 
   const signIn = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('signIn, pending');
     try {
       const { data } = await auth.signin.password(email, password);
 
@@ -105,6 +116,7 @@ const useAuth = (dispatch: AppDispatch) => {
 
       if (error) {
         setLoadingStatus(RequestStatus.REJECTED);
+        console.log('signIn, rejected');
         return toast.error(error);
       }
       session && setTokens(session);
@@ -112,8 +124,10 @@ const useAuth = (dispatch: AppDispatch) => {
       dispatch(setUser(user));
       router.push('/dashboard');
       setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('signIn, fullfilled');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('signIn, rejected');
       throw e;
     }
   };
@@ -136,12 +150,14 @@ const useAuth = (dispatch: AppDispatch) => {
 
   const signInByOtp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('signInByOtp, pending');
 
     try {
       const { data } = await auth.verify.email.otp(email, otp);
 
       if (data.error) {
         setLoadingStatus(RequestStatus.REJECTED);
+        console.log('signInByOtp, rejected');
         return toast.error(data.error);
       }
 
@@ -158,20 +174,24 @@ const useAuth = (dispatch: AppDispatch) => {
       router.push('/dashboard');
       toast.success('You have successfully logged in');
       setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('signInByOtp, fullfilled');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('signInByOtp, rejected');
       throw e;
     }
   };
 
   const signOut = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('signOut, pending');
     try {
       clearUserContent();
       deleteTokens();
       router.push('/');
     } finally {
       setLoadingStatus(RequestStatus.NONE);
+      console.log('signOut, none');
     }
   };
 

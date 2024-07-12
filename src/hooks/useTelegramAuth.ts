@@ -30,9 +30,11 @@ const useTelegramAuth = (
 
   const telegramSignUp = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('telegramSignUp, pending');
 
     if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('telegramSignUp, rejected');
       return toast.error('Invalid data');
     }
 
@@ -50,6 +52,7 @@ const useTelegramAuth = (
       signUpData.phone = contact.phoneNumber;
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('telegramSignUp, rejected');
       throw e;
     }
 
@@ -59,17 +62,21 @@ const useTelegramAuth = (
       setTokens(data);
       await initUser();
       setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('telegramSignUp, fullfilled');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('telegramSignUp, rejected');
       throw e;
     }
   };
 
   const telegramSignIn = async () => {
     setLoadingStatus(RequestStatus.PENDING);
+    console.log('telegramSignIn, pending');
 
     if (!tg_id || !hash || !init_data_raw) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('telegramSignIn, rejected');
       return toast.error('Invalid data');
     }
 
@@ -85,8 +92,10 @@ const useTelegramAuth = (
       setTokens(data);
       await initUser();
       setLoadingStatus(RequestStatus.FULLFILLED);
+      console.log('telegramSignIn, fullfilled');
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
+      console.log('telegramSignIn, rejected');
       throw e;
     }
   };
