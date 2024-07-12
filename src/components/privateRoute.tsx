@@ -17,7 +17,7 @@ const privateRoute = (Component: FC) => {
 
     useEffect(() => {
       if (!isUserLoggedIn && isAppInitialized && !isUserLoading) {
-        return redirect('/auth/login');
+        // return redirect('/auth/login');
       }
     }, [isAppInitialized, isUserLoggedIn]);
 
