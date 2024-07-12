@@ -27,7 +27,7 @@ const privateRoute = (Component: FC) => {
       return <Loader />;
     }
 
-    if (isUserLoading) {
+    if (isUserLoggedIn) {
       return <Component {...props} />;
     }
 
