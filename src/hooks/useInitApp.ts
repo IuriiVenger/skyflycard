@@ -1,7 +1,5 @@
 import { getCookie } from 'cookies-next';
 
-import { useSelector } from 'react-redux';
-
 import useAuth from './useAuth';
 
 import { exchange } from '@/api/exchange';
@@ -21,7 +19,7 @@ import {
   setFiats,
   setSelectedCrypto,
 } from '@/store/slices/finance';
-import { AppDispatch, RootState } from '@/store/types';
+import { AppDispatch } from '@/store/types';
 
 const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);

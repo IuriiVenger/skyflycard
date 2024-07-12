@@ -1,5 +1,3 @@
-import { InitData } from '@telegram-apps/sdk-react';
-
 import { API } from './types';
 
 import { getRequest, postRequest } from '.';

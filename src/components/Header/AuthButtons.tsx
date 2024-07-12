@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, NavbarContent, NavbarItem } from '@nextui-org/react';
+import { NavbarContent, NavbarItem } from '@nextui-org/react';
 import cn from 'classnames';
 import Link from 'next/link';
 

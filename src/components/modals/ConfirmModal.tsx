@@ -16,6 +16,7 @@ const ConfirmModal: FC<ConfirmModalProps> = (props) => {
   const { setIsModalOpen, onConfirm, isOpen, title, confirmText } = props;
 
   const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestStatus();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lastRequestStatus, _, setLastRequestFullfilled, setLastRequestRejected] = useRequestStatus();
 
   const [delay, setDelay] = useState(5);

@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 
 import { auth } from '@/api/auth';
 import { API } from '@/api/types';
-import { AppEnviroment, RequestStatus, ResponseStatus } from '@/constants';
-import { setAppEnviroment, setAppFullInitialized } from '@/store/slices/config';
+import { RequestStatus, ResponseStatus } from '@/constants';
+import { setAppFullInitialized } from '@/store/slices/config';
 import { setUserLoadingStatus } from '@/store/slices/user';
 import { AppDispatch } from '@/store/types';
 import { setTokens } from '@/utils/tokensFactory';

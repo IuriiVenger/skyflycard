@@ -30,7 +30,6 @@ const CardsList: FC<CardsListProps> = (props) => {
   const isFirstItemsLoading = isRequestPending && !data?.length;
   const isLoadMoreAvailible = !meta.isLastPage;
 
-  console.log(isFirstItemsLoading);
   const openCreateCardModal = () => {
     setIsCreateCardModalOpen(true);
   };

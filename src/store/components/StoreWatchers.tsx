@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '..';
-import { selectConfig, selectFinanceData } from '../selectors';
+import { selectFinanceData } from '../selectors';
 
 import { setFiatExchangeRate } from '../slices/finance';
 
