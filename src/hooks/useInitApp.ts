@@ -23,9 +23,6 @@ import { AppDispatch } from '@/store/types';
 
 const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
-  const launchParams = useLaunchParams(true);
-  const miniApp = useMiniApp(true);
-  const initData = useInitData(true);
 
   const initApp = async () => {
     try {
@@ -52,11 +49,6 @@ const useInitApp = (dispatch: AppDispatch) => {
       }
     } finally {
       dispatch(setAppInitialized(true));
-      if (launchParams && initData && miniApp) {
-        const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, initUser);
-        initTelegramAuth();
-        initTelegramAuth();
-      }
     }
   };
 
