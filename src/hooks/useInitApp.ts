@@ -1,6 +1,9 @@
+import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
 import { getCookie } from 'cookies-next';
 
 import useAuth from './useAuth';
+
+import useTelegramAuth from './useTelegramAuth';
 
 import { exchange } from '@/api/exchange';
 
@@ -20,6 +23,10 @@ import { AppDispatch } from '@/store/types';
 
 const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
+  const launchParams = useLaunchParams(true);
+  const miniApp = useMiniApp(true);
+  const initData = useInitData(true);
+
   const initApp = async () => {
     try {
       const isAuthTokensExist = getCookie('access_token');
@@ -45,6 +52,11 @@ const useInitApp = (dispatch: AppDispatch) => {
       }
     } finally {
       dispatch(setAppInitialized(true));
+      if (launchParams && initData && miniApp) {
+        const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, initUser);
+        initTelegramAuth();
+        initTelegramAuth();
+      }
     }
   };
 
