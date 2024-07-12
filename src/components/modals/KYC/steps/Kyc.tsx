@@ -30,7 +30,7 @@ const Kyc: FC<KycProps> = ({ accessToken }: KycProps) => {
             },
           },
         }}
-        options={{ addViewportTag: false, adaptIframeHeight: true, theme: 'light' }}
+        // options={{ addViewportTag: false, adaptIframeHeight: true, theme: 'light' }}
         onMessage={messageHandler}
         onError={errorHandler}
       />

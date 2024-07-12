@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Modal, ModalBody, ModalContent } from '@nextui-org/react';
 
 import { AxiosResponse } from 'axios';
 import { FC, useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import { toast } from 'react-toastify';
 
 import Kyc from './steps/Kyc';
@@ -61,23 +61,13 @@ const KYCModal: FC<KYCModalProps> = ({ onClose, isOpen, setIsModalOpen, user_id,
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onOpenChange={setIsModalOpen}
-      onClose={closeHandler}
-      motionProps={{
-        variants: framerMotionAnimations.downEnterExit,
-      }}
-      shouldBlockScroll
-    >
-      <ModalContent>
-        <ModalBody className="p-5">
-          {step === KYCSteps.START && (
-            <Start nextStep={() => setStep(KYCSteps.KYC)} isPending={isPending} isError={isError} />
-          )}
-          {step === KYCSteps.KYC && <Kyc accessToken={accessToken} />}
-        </ModalBody>
-      </ModalContent>
+    <Modal isOpen={isOpen} onRequestClose={closeHandler}>
+      <section>
+        {step === KYCSteps.START && (
+          <Start nextStep={() => setStep(KYCSteps.KYC)} isPending={isPending} isError={isError} />
+        )}
+        {step === KYCSteps.KYC && <Kyc accessToken={accessToken} />}
+      </section>
     </Modal>
   );
 };
