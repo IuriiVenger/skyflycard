@@ -91,9 +91,9 @@ const useTelegramAuth = (
       console.log(e);
       if (e.response?.status === ResponseStatus.NOT_FOUND) {
         await telegramSignUp();
-        return;
+        // return;
       }
-      throw e;
+      // throw e;
     }
   };
 
