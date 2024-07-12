@@ -1,5 +1,7 @@
 import { getCookie } from 'cookies-next';
 
+import { useSelector } from 'react-redux';
+
 import useAuth from './useAuth';
 
 import { exchange } from '@/api/exchange';
@@ -7,6 +9,7 @@ import { exchange } from '@/api/exchange';
 import { list } from '@/api/list';
 import { vcards } from '@/api/vcards';
 import { AppEnviroment, defaultCurrency } from '@/constants';
+
 import { useAppSelector } from '@/store';
 import { selectConfig } from '@/store/selectors';
 import { setAppFullInitialized, setWebAppInitialized } from '@/store/slices/config';
@@ -18,10 +21,11 @@ import {
   setFiats,
   setSelectedCrypto,
 } from '@/store/slices/finance';
-import { AppDispatch } from '@/store/types';
+import { AppDispatch, RootState } from '@/store/types';
 
-const useInitApp = (dispatch: AppDispatch, appEnviroment: AppEnviroment) => {
+const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
+  const { appEnviroment } = useAppSelector(selectConfig);
   const isWebEnviroment = appEnviroment === AppEnviroment.WEB;
 
   const initApp = async () => {

@@ -1,9 +1,12 @@
+import { TypedUseSelectorHook } from 'react-redux';
+
 import { store } from '.';
 
 import { API } from '@/api/types';
 import { CalcType, ModalNames } from '@/constants';
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppSelector = TypedUseSelectorHook<RootState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppAction<T, P> = {
   readonly type: T;
