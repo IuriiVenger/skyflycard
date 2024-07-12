@@ -83,6 +83,15 @@ type RequiredLoadWithLimit<T> = T & {
   offset: number;
 };
 
+export const hiddenLoadSelectedWallet = createAsyncThunk(
+  'finanse/selectedWalletHidden',
+  async (wallet_uuid: string) => {
+    const data = await wallets.getByUuid(wallet_uuid);
+
+    return data;
+  },
+);
+
 export const loadSelectedWallet = createAsyncThunk('finanse/selectedWallet', async (wallet_uuid: string) => {
   const data = await wallets.getByUuid(wallet_uuid);
 
@@ -232,6 +241,9 @@ const financeSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(hiddenLoadSelectedWallet.fulfilled, (state, action) => {
+      state.selectedWallet.data = action.payload;
+    });
     builder.addCase(loadSelectedWallet.pending, (state) => {
       state.selectedWallet.status = RequestStatus.PENDING;
     });
@@ -380,7 +392,6 @@ export const {
   setSelectedChain,
   setSelectedCrypto,
   setSelectedFiat,
-
   setFiatExchangeRate,
   setUserWallets,
   setSelectedWallet,

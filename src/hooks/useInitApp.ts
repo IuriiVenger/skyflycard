@@ -9,7 +9,7 @@ import { vcards } from '@/api/vcards';
 import { AppEnviroment, defaultCurrency } from '@/constants';
 
 import { useAppSelector } from '@/store';
-import { selectConfig } from '@/store/selectors';
+import { selectConfig, selectIsUserLoggedIn } from '@/store/selectors';
 import { setAppFullInitialized, setWebAppInitialized } from '@/store/slices/config';
 import {
   setBins,
@@ -24,6 +24,7 @@ import { AppDispatch } from '@/store/types';
 const useInitApp = (dispatch: AppDispatch) => {
   const { initUser } = useAuth(dispatch);
   const { appEnviroment } = useAppSelector(selectConfig);
+  const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
   const isWebEnviroment = appEnviroment === AppEnviroment.WEB;
 
   const initApp = async () => {
@@ -51,7 +52,7 @@ const useInitApp = (dispatch: AppDispatch) => {
       }
     } finally {
       dispatch(setWebAppInitialized(true));
-      isWebEnviroment && dispatch(setAppFullInitialized(true));
+      (isWebEnviroment || isUserLoggedIn) && dispatch(setAppFullInitialized(true));
     }
   };
 

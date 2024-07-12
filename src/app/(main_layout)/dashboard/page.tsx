@@ -39,6 +39,7 @@ import {
   setUserWallets,
   clearSelectedCard,
   loadMoreCards,
+  hiddenLoadSelectedWallet,
 } from '@/store/slices/finance';
 import { setModalVisible } from '@/store/slices/ui';
 
@@ -251,7 +252,7 @@ const DashboardPage = () => {
     checkWalletUpdates();
 
     const intervalLoadSelectedWallet = setInterval(() => {
-      selectedWallet.data && dispatch(loadSelectedWallet(selectedWallet.data.uuid));
+      selectedWallet.data && dispatch(hiddenLoadSelectedWallet(selectedWallet.data.uuid));
     }, defaultUpdateInterval);
 
     return () => clearInterval(intervalLoadSelectedWallet);
