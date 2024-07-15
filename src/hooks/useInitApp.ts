@@ -55,8 +55,8 @@ const useInitApp = (dispatch: AppDispatch) => {
   };
 
   const initApp = async () => {
-    const isAuthTokensExist = getCookie('access_token');
     await initWebApp();
+    const isAuthTokensExist = getCookie('access_token');
     isAuthTokensExist && (await initUser());
     isWebEnviroment && dispatch(setAppFullInitialized(true));
   };
