@@ -4,12 +4,15 @@ import { FC, useEffect, useState } from 'react';
 import { framerMotionAnimations } from '@/config/animations';
 import { useRequestStatus } from '@/hooks/useRequestStatus';
 
-type ConfirmModalProps = {
+export type ConfirmModalTexts = {
+  title?: string | null;
+  confirmText?: string | null;
+};
+
+type ConfirmModalProps = ConfirmModalTexts & {
   setIsModalOpen: (isOpen: boolean) => void;
   onConfirm: () => any;
   isOpen: boolean;
-  title?: string | null;
-  confirmText?: string | null;
 };
 
 const ConfirmModal: FC<ConfirmModalProps> = (props) => {

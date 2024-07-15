@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react';
+import { Button, Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC, useState } from 'react';
 import Cards from 'react-credit-cards';
@@ -7,6 +7,7 @@ import { isIOS, isAndroid } from 'react-device-detect';
 import { FaCircleCheck, FaEye, FaMoneyBillTrendUp } from 'react-icons/fa6';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
+import { IoCloseCircle, IoCloseCircleOutline } from 'react-icons/io5';
 import { MdCurrencyExchange } from 'react-icons/md';
 
 import { PiListThin } from 'react-icons/pi';
@@ -23,7 +24,8 @@ import CardTransactionTable from './CardTransactionTable';
 import { API } from '@/api/types';
 import addToAppleWalletImg from '@/assets/svg/add-to-apple-wallet.svg';
 import addToGoogleWalletImg from '@/assets/svg/add-to-google-wallet.svg';
-import { CardsTabMode } from '@/constants';
+import ConfirmModal, { ConfirmModalTexts } from '@/components/modals/ConfirmModal';
+import { CardsTabMode, CardStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { useRequestsStatus } from '@/hooks/useRequestStatus';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
@@ -43,20 +45,23 @@ const cardDetailRequests = {
 };
 
 const CardDetail: FC<CardDetailProps> = (props) => {
-  const { card, setCardTabMode, getSensitiveData } = props;
+  const { card, setCardTabMode, getSensitiveData, updateCard } = props;
 
   const [sensitiveData, setSensitiveData] = useState<API.Cards.SensitiveData | null>(null);
   const [isSensitiveDataModalOpen, setIsSensitiveDataModalOpen] = useState(false);
   const [isLimitsModalOpen, setIsLimitsModalOpen] = useState(false);
   const [isTopupModalOpen, setIsTopupModalOpen] = useState(false);
   const [isAddToWalletModalOpen, setIsAddToWalletModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [confirmationModalText, setConfirmationModalText] = useState<ConfirmModalTexts>({});
 
   const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestsStatus(
     Object.values(cardDetailRequests),
   );
 
   const cardTitle = `${card.bin.provider}, ${card.bin.currencyCode}`;
-  const isActive = card.status === 'ACTIVE';
+  const isActive = card.status === CardStatus.ACTIVE;
+  const isClosed = card.status === CardStatus.CLOSED;
   const isMobileWalletDevice = isIOS || isAndroid;
 
   const backToCardsList = () => {
@@ -100,6 +105,15 @@ const CardDetail: FC<CardDetailProps> = (props) => {
     setIsAddToWalletModalOpen(true);
   };
 
+  const openCloseCardDialog = () => {
+    setIsConfirmationModalOpen(true);
+    setConfirmationModalText({ title: 'Close card', confirmText: 'Are you sure you want to close this card?' });
+  };
+
+  const closeCard = async () => {
+    await updateCard(card.id, { ...card, status: CardStatus.CLOSED });
+  };
+
   return (
     <section className="dashboard-card-detail flex w-full flex-col gap-4">
       <button type="button" onClick={backToCardsList} className="flex items-center gap-2 text-neutral-500">
@@ -108,9 +122,15 @@ const CardDetail: FC<CardDetailProps> = (props) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h3 className=" text-xl text-black lg:text-2xl">{cardTitle}</h3>
-          <div className="flex items-center gap-1">
-            <FaCircleCheck className={cn(isActive ? 'text-green-600' : 'text-neutral-500', 'text-sm lg:text-base')} />
-            <small>{isActive ? 'Active' : 'Inactive'}</small>
+          <div
+            className={cn(
+              'flex items-center gap-1  text-sm lg:text-base',
+              isActive ? 'text-green-600' : 'text-neutral-500',
+            )}
+          >
+            {isClosed ? <IoCloseCircle /> : <FaCircleCheck />}
+
+            <small className="capitalize">{card.status}</small>
           </div>
         </div>
       </div>
@@ -182,16 +202,21 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           <FaMoneyBillTrendUp />
           Change limits
         </Button>
-        <Button
-          color="primary"
-          className="cursor-not-allowed bg-tenant-main-light  text-tenant-main opacity-35 hover:!opacity-35"
-          onClick={showSensitiveDataModal}
-          radius="sm"
-          disabled
-        >
-          <PiListThin />
-          Other
-        </Button>
+        <Dropdown isDisabled={card.status === CardStatus.CLOSED}>
+          <DropdownTrigger>
+            <Button color="primary" className=" bg-tenant-main-light  text-tenant-main " radius="sm">
+              <PiListThin />
+              Other
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Static Actions">
+            <DropdownItem key="close" color="primary" variant="light" onClick={openCloseCardDialog}>
+              <div className="flex justify-between">
+                Close card <IoCloseCircleOutline />
+              </div>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
 
       <CardTransactionTable className="mt-2" {...props} />
@@ -213,6 +238,13 @@ const CardDetail: FC<CardDetailProps> = (props) => {
         setIsModalOpen={setIsTopupModalOpen}
         {...props}
       />
+      <ConfirmModal
+        isOpen={isConfirmationModalOpen}
+        setIsModalOpen={setIsConfirmationModalOpen}
+        onConfirm={closeCard}
+        {...confirmationModalText}
+      />
+
       <AddToWalletModal isOpen={isAddToWalletModalOpen} setIsModalOpen={setIsAddToWalletModalOpen} />
     </section>
   );

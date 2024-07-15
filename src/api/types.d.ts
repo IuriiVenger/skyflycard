@@ -1,6 +1,13 @@
 import { User } from '@supabase/supabase-js';
 
-import { CardTransactionDirection, CardTransationStatus, KYCStatuses, OrderStatuses, OrderTypes } from '@/constants';
+import {
+  CardStatus,
+  CardTransactionDirection,
+  CardTransationStatus,
+  KYCStatuses,
+  OrderStatuses,
+  OrderTypes,
+} from '@/constants';
 
 export namespace API {
   export namespace Auth {
@@ -129,7 +136,7 @@ export namespace API {
     }
 
     export interface CardDetailItem {
-      status: string;
+      status: CardStatus;
       cardName: string;
       limits: Limits;
       autoTopUp: {

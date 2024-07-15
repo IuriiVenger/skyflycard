@@ -50,7 +50,7 @@ const CurrencyInfo: FC<CurrencyInfoProps> = (props) => {
         >
           <span>{currencyName}</span> {!hideShevron && <HiOutlineSelector className="text-sm text-gray-500" />}
           {cryptoCurrencyChain && (
-            <Chip size="sm" radius="sm" className="h-4 text-[8px] xs:h-5 xs:text-[10px]">
+            <Chip size="sm" radius="sm" className="-mt-1 h-4 py-2 text-[8px]">
               {cryptoCurrencyChain.name}
             </Chip>
           )}

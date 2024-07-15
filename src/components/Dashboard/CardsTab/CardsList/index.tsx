@@ -10,7 +10,7 @@ import { CardsTabProps } from '..';
 import CreateCardModal from '../CreateCardModal';
 
 import Loader from '@/components/Loader';
-import { RequestStatus } from '@/constants';
+import { KYCStatuses, RequestStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { deleteDash } from '@/utils/converters';
 
@@ -20,7 +20,7 @@ export type CardsListProps = CardsTabProps & {
 };
 
 const CardsList: FC<CardsListProps> = (props) => {
-  const { cards, onCardClick, loadSelectedWalletCards, loadMoreCards } = props;
+  const { cards, onCardClick, loadSelectedWalletCards, loadMoreCards, openKYC, verificationStatus } = props;
   const { data, status, meta } = cards;
   const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
 
@@ -30,6 +30,10 @@ const CardsList: FC<CardsListProps> = (props) => {
 
   const openCreateCardModal = () => {
     setIsCreateCardModalOpen(true);
+  };
+
+  const createCardButtonClickHandler = () => {
+    verificationStatus === KYCStatuses.APPROVED ? setIsCreateCardModalOpen(true) : openKYC();
   };
 
   const onCardCreate = (card_id: string) => {
@@ -43,7 +47,7 @@ const CardsList: FC<CardsListProps> = (props) => {
       <div className="dashboard-cards-tab grid grid-cols-2 gap-3 py-2 sm:gap-4 md:mt-6 lg:grid-cols-3">
         <button
           type="button"
-          onClick={openCreateCardModal}
+          onClick={createCardButtonClickHandler}
           className="rccs__card flex h-full w-full cursor-pointer flex-col items-center justify-center border border-tenant-main bg-light-lavander-gradient transition-all hover:scale-[102%]"
         >
           <GoPlusCircle className="text-xl text-tenant-main xs:text-2xl" />

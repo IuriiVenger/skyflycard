@@ -3,6 +3,7 @@ import { FC } from 'react';
 
 import { API } from '@/api/types';
 import CurrencyInfo from '@/components/Currency/CurrencyInfo';
+import { roundToDecimals } from '@/utils/converters';
 
 type WalletBalanceListProps = {
   wallet: API.Wallets.Wallet | null;
@@ -27,7 +28,7 @@ const WalletBalanceList: FC<WalletBalanceListProps> = (props) => {
         {filteredCryptoList.map((crypto) => (
           <section key={crypto.uuid} className="flex items-center justify-between gap-4">
             <CurrencyInfo hideShevron key={crypto.uuid} currency={crypto} chains={chains} />
-            <p className="font-medium text-gray-500">{crypto.balance}</p>
+            <p className="font-medium text-gray-500">{crypto.balance ? roundToDecimals(crypto.balance, 2) : 0}</p>
           </section>
         ))}
         {!filteredCryptoList.length && <p className="text-gray-500">Your balance is empty</p>}

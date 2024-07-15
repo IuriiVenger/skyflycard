@@ -152,6 +152,12 @@ export enum CardsTabMode {
   CARD_DETAIL = 'card_detail',
 }
 
+export enum CardStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  CLOSED = 'CLOSED',
+}
+
 export enum CardTransationStatus {
   PENDING = 'PENDING',
   SUCCESS = 'SUCCESS',
