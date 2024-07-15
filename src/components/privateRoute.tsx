@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
-import Loader from '@/components/Loader';
+import Loader, { BrandLoader } from '@/components/Loader';
 import { AppEnviroment, RequestStatus } from '@/constants';
 import { useAppSelector } from '@/store';
 import { selectConfig, selectIsUserLoggedIn, selectUser } from '@/store/selectors';
@@ -24,7 +24,7 @@ const privateRoute = (Component: FC) => {
     }, [isAppFullInitialized, isUserLoggedIn]);
 
     if (!isAppFullInitialized) {
-      return <Loader />;
+      return appEnviroment === AppEnviroment.WEB ? <Loader /> : <BrandLoader />;
     }
 
     if (isUserLoggedIn) {
