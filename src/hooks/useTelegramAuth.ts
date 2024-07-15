@@ -30,12 +30,12 @@ const useTelegramAuth = (
   };
 
   const telegramSignUp = async () => {
-    console.log('click telegramSignUp');
     setLoadingStatus(RequestStatus.PENDING);
 
     if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
       setLoadingStatus(RequestStatus.REJECTED);
-      return toast.error('Invalid data');
+      toast.error('Invalid data');
+      return;
     }
 
     const signUpData: API.Auth.Telegram.Signup = {
