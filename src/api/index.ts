@@ -9,7 +9,6 @@ import { deleteTokens, refreshTokens, setTokens } from '@/utils/tokensFactory';
 
 // eslint-disable-next-line no-constant-condition
 const baseURL = process.env.API_URL;
-const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
 
 export const instance = axios.create({
   baseURL: baseURL || '/api/',
@@ -17,20 +16,23 @@ export const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'App-Enviroment': appEnviroment,
   },
 });
 
 instance.interceptors.request.use((config) => {
   const access_token = getCookie('access_token');
+  const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
+
+  const modifiedHeaders = {
+    ...config.headers,
+    'App-Enviroment': appEnviroment,
+  };
 
   if (access_token) {
-    return {
-      ...config,
-      headers: { ...config.headers, Authorization: `${access_token}` },
-    } as InternalAxiosRequestConfig;
+    modifiedHeaders.Authorization = `${access_token}`;
   }
-  return config;
+
+  return { ...config, headers: modifiedHeaders } as unknown as InternalAxiosRequestConfig;
 });
 
 const defaultErrorMessageForUnauthorized = 'You are not authorized. Please log in.';
@@ -44,6 +46,7 @@ instance.interceptors.response.use(
     if (error?.response?.status === ResponseStatus.UNAUTHORIZED) {
       const { response, config: failedRequest } = error;
       const refreshToken = getCookie('refresh_token');
+      const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
 
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
         if (typeof window !== 'undefined' && appEnviroment === AppEnviroment.WEB) {
