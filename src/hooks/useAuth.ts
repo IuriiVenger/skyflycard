@@ -60,11 +60,10 @@ const useAuth = (dispatch: AppDispatch) => {
       await getUser();
       await loadUserContent();
       setLoadingStatus(RequestStatus.FULLFILLED);
+      dispatch(setAppFullInitialized(true));
     } catch (e) {
       deleteTokens();
       setLoadingStatus(RequestStatus.REJECTED);
-    } finally {
-      dispatch(setAppFullInitialized(true));
     }
   };
 

@@ -33,7 +33,7 @@ const CardsList: FC<CardsListProps> = (props) => {
   };
 
   const createCardButtonClickHandler = () => {
-    verificationStatus === KYCStatuses.APPROVED ? setIsCreateCardModalOpen(true) : openKYC();
+    verificationStatus === KYCStatuses.APPROVED ? openCreateCardModal() : openKYC();
   };
 
   const onCardCreate = (card_id: string) => {

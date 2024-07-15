@@ -1,5 +1,6 @@
 import { InitData, LaunchParams, MiniApp } from '@telegram-apps/sdk-react';
 
+import { useRouter } from 'next-nprogress-bar';
 import { toast } from 'react-toastify';
 
 import { auth } from '@/api/auth';
@@ -16,9 +17,8 @@ const useTelegramAuth = (
   initData: InitData | undefined,
   miniApp: MiniApp | undefined,
   initUser: () => Promise<void>,
-  isWebAppInitialized: boolean,
-  isUserLoggedIn: boolean,
 ) => {
+  const router = useRouter();
   const tg_id = initData?.user?.id;
   const hash = initData?.hash;
   const init_data_raw = launchParams?.initDataRaw;
@@ -34,8 +34,8 @@ const useTelegramAuth = (
 
     if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
       setLoadingStatus(RequestStatus.REJECTED);
-
-      return toast.error('Invalid data');
+      toast.error('Invalid data');
+      return;
     }
 
     const signUpData: API.Auth.Telegram.Signup = {
@@ -52,20 +52,20 @@ const useTelegramAuth = (
       signUpData.phone = contact.phoneNumber;
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
-
       throw e;
     }
 
     try {
       const { data } = await auth.telegram.signup(signUpData);
-
       setTokens(data);
       await initUser();
+      router.push('/mini-app');
       setLoadingStatus(RequestStatus.FULLFILLED);
     } catch (e) {
       setLoadingStatus(RequestStatus.REJECTED);
-
       throw e;
+    } finally {
+      dispatch(setAppFullInitialized(true));
     }
   };
 
@@ -98,23 +98,19 @@ const useTelegramAuth = (
   };
 
   const initTelegramAuth = async () => {
-    if (isWebAppInitialized && !isUserLoggedIn) {
-      if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
-        dispatch(setAppFullInitialized(true));
-        return toast.error('Invalid data');
+    if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
+      dispatch(setAppFullInitialized(true));
+      return toast.error('Invalid data');
+    }
+    try {
+      await telegramSignIn();
+      dispatch(setAppFullInitialized(true));
+    } catch (e: any) {
+      if (e.response?.status === ResponseStatus.NOT_FOUND || e.status === ResponseStatus.NOT_FOUND) {
+        return router.push('/auth/telegram/signup');
       }
-
-      try {
-        await telegramSignIn();
-      } catch (e: any) {
-        if (e.response?.status === ResponseStatus.NOT_FOUND) {
-          await telegramSignUp();
-          return;
-        }
-        throw e;
-      } finally {
-        dispatch(setAppFullInitialized(true));
-      }
+      dispatch(setAppFullInitialized(true));
+      throw e;
     }
   };
 

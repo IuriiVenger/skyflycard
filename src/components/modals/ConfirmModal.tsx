@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import { FC, useEffect, useState } from 'react';
 
@@ -19,7 +21,6 @@ const ConfirmModal: FC<ConfirmModalProps> = (props) => {
   const { setIsModalOpen, onConfirm, isOpen, title, confirmText } = props;
 
   const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestStatus();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lastRequestStatus, _, setLastRequestFullfilled, setLastRequestRejected] = useRequestStatus();
 
   const [delay, setDelay] = useState(5);

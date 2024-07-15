@@ -3,12 +3,13 @@ import { getCookie } from 'cookies-next';
 
 import { toast } from 'react-toastify';
 
-import { ResponseStatus } from '@/constants';
+import { AppEnviroment, ResponseStatus } from '@/constants';
 import { navigate } from '@/utils/router';
 import { deleteTokens, refreshTokens, setTokens } from '@/utils/tokensFactory';
 
 // eslint-disable-next-line no-constant-condition
 const baseURL = process.env.API_URL;
+const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
 
 export const instance = axios.create({
   baseURL: baseURL || '/api/',
@@ -16,6 +17,7 @@ export const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
+    'App-Enviroment': appEnviroment,
   },
 });
 
@@ -44,7 +46,7 @@ instance.interceptors.response.use(
       const refreshToken = getCookie('refresh_token');
 
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== 'undefined' && appEnviroment === AppEnviroment.WEB) {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
 
           navigate('/auth/login');

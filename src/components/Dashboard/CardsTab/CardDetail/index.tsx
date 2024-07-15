@@ -1,4 +1,4 @@
-import { Button, Card, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC, useState } from 'react';
 import Cards from 'react-credit-cards';
