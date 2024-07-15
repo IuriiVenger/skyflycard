@@ -1,13 +1,13 @@
-import { SDKProvider, useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
+import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-react';
 
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectConfig, selectIsUserLoggedIn } from '@/store/selectors';
 
-const TelegramAuth: FC<PropsWithChildren> = ({ children }) => {
+const TelegramAuth = () => {
   const { isWebAppInitialized } = useAppSelector(selectConfig);
   const isUserLoggedIn = useAppSelector(selectIsUserLoggedIn);
 
@@ -25,7 +25,7 @@ const TelegramAuth: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isWebAppInitialized, isUserLoggedIn]);
 
-  return <SDKProvider>{children}</SDKProvider>;
+  return null;
 };
 
 export default TelegramAuth;

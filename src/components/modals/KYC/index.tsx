@@ -27,7 +27,7 @@ enum KYCSteps {
 }
 
 const KYCModal: FC<KYCModalProps> = (props) => {
-  const { onClose, isOpen, user_id, setIsModalOpen, getSumsubToken, verificationStatus } = props;
+  const { onClose, isOpen, user_id, setIsModalOpen, getSumsubToken } = props;
   const [step, setStep] = useState(KYCSteps.START);
   const [accessToken, setAccessToken] = useState<string>('');
   const [isPending, setIsPending] = useState<boolean>(false);

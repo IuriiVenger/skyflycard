@@ -1,6 +1,5 @@
 import { InitData, LaunchParams, MiniApp } from '@telegram-apps/sdk-react';
 
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
 import { toast } from 'react-toastify';
 
@@ -31,6 +30,7 @@ const useTelegramAuth = (
   };
 
   const telegramSignUp = async () => {
+    console.log('click telegramSignUp');
     setLoadingStatus(RequestStatus.PENDING);
 
     if (!tg_id || !hash || !init_data_raw || !first_name || !miniApp) {
@@ -106,8 +106,8 @@ const useTelegramAuth = (
       await telegramSignIn();
       dispatch(setAppFullInitialized(true));
     } catch (e: any) {
-      if (e.response?.status === ResponseStatus.NOT_FOUND) {
-        return redirect('/auth/telegram/signup');
+      if (e.response?.status === ResponseStatus.NOT_FOUND || e.status === ResponseStatus.NOT_FOUND) {
+        return router.push('/auth/telegram/signup');
       }
       dispatch(setAppFullInitialized(true));
       throw e;
