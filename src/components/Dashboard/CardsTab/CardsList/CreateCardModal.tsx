@@ -13,10 +13,11 @@ import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import ExternalExhangeInput from '../ExternalExchangeInput';
+import ExternalExhangeInput from '../../ExternalExchangeInput';
 
-import { CardsListProps } from './CardsList';
-import BinInfo from './CardsList/BinInfo';
+import BinInfo from './BinInfo';
+
+import { CardsListProps } from '.';
 
 import { API } from '@/api/types';
 import SelectCurrency from '@/components/Currency/SelectCurrency';

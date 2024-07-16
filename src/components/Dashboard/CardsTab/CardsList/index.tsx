@@ -7,12 +7,13 @@ import { GoPlusCircle } from 'react-icons/go';
 
 import { CardsTabProps } from '..';
 
-import CreateCardModal from '../CreateCardModal';
+import CreateCardModal from './CreateCardModal';
 
+import { API } from '@/api/types';
 import Loader from '@/components/Loader';
 import { KYCStatuses, RequestStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
-import { deleteDash } from '@/utils/converters';
+import { deleteDash, roundToDecimals } from '@/utils/converters';
 
 export type CardsListProps = CardsTabProps & {
   onCardClick: (card_id: string) => void;
@@ -20,13 +21,19 @@ export type CardsListProps = CardsTabProps & {
 };
 
 const CardsList: FC<CardsListProps> = (props) => {
-  const { cards, onCardClick, loadSelectedWalletCards, loadMoreCards, openKYC, verificationStatus } = props;
+  const { cards, onCardClick, loadSelectedWalletCards, loadMoreCards, openKYC, verificationStatus, fiatList } = props;
   const { data, status, meta } = cards;
   const [isCreateCardModalOpen, setIsCreateCardModalOpen] = useState(false);
 
   const isRequestPending = status === RequestStatus.PENDING;
   const isFirstItemsLoading = isRequestPending && !data?.length;
   const isLoadMoreAvailible = !meta.isLastPage;
+
+  const getCardCurrencySymbol = (currentCard: API.Cards.CardDetailItem) =>
+    fiatList.find((item) => item.code === currentCard.bin.currencyCode)?.symbol || '';
+
+  const getCardSubtitile = (currentCard: API.Cards.CardDetailItem) =>
+    `${currentCard.cardName} / balance:${roundToDecimals(currentCard.balance.available, 2)}${getCardCurrencySymbol(currentCard)}`;
 
   const openCreateCardModal = () => {
     setIsCreateCardModalOpen(true);
@@ -66,7 +73,7 @@ const CardsList: FC<CardsListProps> = (props) => {
                 )}
               >
                 <Cards
-                  name={card.cardName}
+                  name={getCardSubtitile(card)}
                   issuer={card.bin.provider}
                   number={deleteDash(card.maskedPan)}
                   expiry={'**/**'}
