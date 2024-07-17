@@ -130,6 +130,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
 
   useEffect(() => {
     if (bb) {
+      isOpen && bb.show();
       bb.on('click', () => {
         closeModal();
         bb.hide();
