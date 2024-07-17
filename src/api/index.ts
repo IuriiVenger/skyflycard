@@ -27,6 +27,7 @@ instance.interceptors.request.use((config) => {
   console.log(config);
   console.log(access_token, 'access_token');
   console.log(appEnviroment, 'appEnviroment');
+  console.log(config.url, 'config.url');
 
   const modifiedHeaders = {
     ...config.headers,
