@@ -10,6 +10,7 @@ const CustomInput: FC<InputProps> = (props) => {
 
   const handleBlur = () => {
     if (initialWindowScroll !== window.scrollY) {
+      console.log('scrolling back');
       window.scrollTo({ top: initialWindowScroll, behavior: 'instant' });
     }
   };
