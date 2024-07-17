@@ -23,11 +23,11 @@ instance.interceptors.request.use((config) => {
   const access_token = getCookie('access_token');
   const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
 
-  console.log('interceptorRequest');
-  console.log(config);
-  console.log(access_token, 'access_token');
-  console.log(appEnviroment, 'appEnviroment');
-  console.log(config.url, 'config.url');
+  // console.log('interceptorRequest');
+  // console.log(config);
+  // console.log(access_token, 'access_token');
+  // console.log(appEnviroment, 'appEnviroment');
+  // console.log(config.url, 'config.url');
 
   const modifiedHeaders = {
     ...config.headers,
@@ -58,7 +58,7 @@ instance.interceptors.response.use(
         if (typeof window !== 'undefined' && appEnviroment === AppEnviroment.WEB) {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
 
-          // navigate('/auth/login');
+          navigate('/auth/login');
         }
         deleteTokens();
         requestQueue = [];

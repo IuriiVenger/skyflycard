@@ -7,6 +7,8 @@ import { FaRegCopy } from 'react-icons/fa6';
 import QRCode from 'react-qr-code';
 import { toast } from 'react-toastify';
 
+import CustomInput from '../ui/CustomInput';
+
 import { API } from '@/api/types';
 import Loader from '@/components/Loader';
 
@@ -31,7 +33,7 @@ const ChainInfo: FC<ChainInfoProps> = (props) => {
   return selectedAddress ? (
     <div className="flex gap-2">
       <QRCode className=" self-center" size={96} value={selectedAddress.address} />
-      <Input
+      <CustomInput
         isReadOnly
         className="small-fontsize-input"
         value={selectedAddress.address}

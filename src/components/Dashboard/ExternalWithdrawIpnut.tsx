@@ -2,6 +2,8 @@ import { Card, CardBody, CardFooter, Input } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC } from 'react';
 
+import CustomInput from '../ui/CustomInput';
+
 import { API } from '@/api/types';
 import Loader from '@/components/Loader';
 
@@ -32,7 +34,7 @@ const ExternalWithdrawInput: FC<ExternalWithdrawInputProps> = (props) => {
   return (
     <Card className={cn(className, 'border-1 shadow-none')}>
       <CardBody>
-        <Input
+        <CustomInput
           className="-mt-4"
           type="number"
           placeholder="Enter amount"

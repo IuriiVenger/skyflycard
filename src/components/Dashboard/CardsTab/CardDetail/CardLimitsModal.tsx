@@ -1,7 +1,8 @@
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import { ChangeEvent, FC, useState } from 'react';
 
 import { API } from '@/api/types';
+import CustomInput from '@/components/ui/CustomInput';
 import { framerMotionAnimations } from '@/config/animations';
 import { useRequestStatus } from '@/hooks/useRequestStatus';
 
@@ -73,7 +74,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
         <ModalHeader>Card limits</ModalHeader>
         <ModalBody>
           <div className="grid grid-cols-2 gap-4">
-            <Input
+            <CustomInput
               content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Single limit"
               onChange={handleLimitChange('single')}
@@ -81,7 +82,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
               type="number"
             />
 
-            <Input
+            <CustomInput
               content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Daily limit"
               value={String(modalLimits.daily.amount)}
@@ -89,7 +90,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
               type="number"
             />
 
-            <Input
+            <CustomInput
               content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Weekly limit"
               value={String(modalLimits.weekly.amount)}
@@ -97,7 +98,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
               type="number"
             />
 
-            <Input
+            <CustomInput
               content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Monthly limit"
               value={String(modalLimits.monthly.amount)}
@@ -105,7 +106,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
               onChange={handleLimitChange('monthly')}
             />
 
-            <Input
+            <CustomInput
               content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Lifetime limit"
               className="col-span-2"

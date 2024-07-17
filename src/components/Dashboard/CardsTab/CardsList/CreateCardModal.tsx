@@ -1,6 +1,5 @@
 import {
   Button,
-  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -23,6 +22,7 @@ import { API } from '@/api/types';
 import SelectCurrency from '@/components/Currency/SelectCurrency';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
+import CustomInput from '@/components/ui/CustomInput';
 import { framerMotionAnimations } from '@/config/animations';
 import { isCrypto, isFiat } from '@/utils/financial';
 
@@ -160,7 +160,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
                 </SelectItem>
               ))}
             </Select>
-            <Input
+            <CustomInput
               label="Card name"
               value={cardName}
               onChange={(e) => setCardName(e.target.value)}

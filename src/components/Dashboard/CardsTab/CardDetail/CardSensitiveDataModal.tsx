@@ -1,4 +1,4 @@
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
 import copy from 'copy-to-clipboard';
 import { FC, useState } from 'react';
 
@@ -9,6 +9,7 @@ import { IoCopyOutline } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 
 import { API } from '@/api/types';
+import CustomInput from '@/components/ui/CustomInput';
 import { framerMotionAnimations } from '@/config/animations';
 import { deleteDash, getCardExpiryRecord, separateNumbers } from '@/utils/converters';
 
@@ -75,7 +76,7 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
             />
           </button>
           <div className="flex flex-col gap-3 py-4">
-            <Input
+            <CustomInput
               content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Card number"
               value={numberMask}
@@ -88,13 +89,13 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
               }
             />
             <div className="grid grid-cols-2 gap-3">
-              <Input
+              <CustomInput
                 content="width=device-width, initial-scale=1, maximum-scale=1"
                 label="Expiry date"
                 value={expiry}
                 disabled
               />
-              <Input
+              <CustomInput
                 content="width=device-width, initial-scale=1, maximum-scale=1"
                 label="CVV"
                 value={sensitiveData.cvv}
