@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Modal, ModalBody, ModalContent } from '@nextui-org/react';
 
 import { AxiosResponse } from 'axios';
 import { FC, useEffect, useState } from 'react';
@@ -9,6 +8,7 @@ import Kyc from './steps/Kyc';
 import Start from './steps/Start';
 
 import { API } from '@/api/types';
+import CustomModal from '@/components/ui/CustomModal';
 import { framerMotionAnimations } from '@/config/animations';
 import { KYCStatuses } from '@/constants';
 
@@ -57,26 +57,26 @@ const KYCModal: FC<KYCModalProps> = (props) => {
 
   const closeHandler = () => {
     step === KYCSteps.KYC && onClose();
+    setStep(KYCSteps.START);
   };
 
   return (
-    <Modal
+    <CustomModal
       isOpen={isOpen}
       onOpenChange={setIsModalOpen}
       onClose={closeHandler}
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,
       }}
+      scrollBehavior="inside"
     >
-      <ModalContent>
-        <ModalBody className="p-5">
-          {step === KYCSteps.START && (
-            <Start nextStep={() => setStep(KYCSteps.KYC)} isPending={isPending} isError={isError} {...props} />
-          )}
-          {step === KYCSteps.KYC && <Kyc accessToken={accessToken} />}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+      <>
+        {step === KYCSteps.START && (
+          <Start nextStep={() => setStep(KYCSteps.KYC)} isPending={isPending} isError={isError} {...props} />
+        )}
+        {step === KYCSteps.KYC && <Kyc accessToken={accessToken} />}
+      </>
+    </CustomModal>
   );
 };
 

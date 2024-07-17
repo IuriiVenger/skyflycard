@@ -1,4 +1,4 @@
-import { Button, Input } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 
@@ -17,6 +17,7 @@ import { DashboardProps } from '.';
 import { API } from '@/api/types';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
+import CustomInput from '@/components/ui/CustomInput';
 import { PaymentMethod } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isCrypto, isFiat } from '@/utils/financial';
@@ -141,7 +142,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
       />
       {isFiatPayment && <SelectCurrency label="Withdraw to" onClick={openFiatModal} currency={selectedFiat} />}
 
-      <Input
+      <CustomInput
         className="-mt-4"
         label={isFiatPayment ? 'Card number' : <h3 className="mb-4 text-xl font-bold">Withdraw to</h3>}
         placeholder={isFiatPayment ? 'Enter card number' : 'Enter wallet address'}
@@ -150,6 +151,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
         startContent={isFiatPayment ? <FaCreditCard /> : <TbCurrency />}
         onChange={handleWithdrawTargetInput}
         value={withdrawTarget}
+        content="width=device-width, initial-scale=1, maximum-scale=1"
         maxLength={isFiatPayment ? 19 : undefined}
         required
       />

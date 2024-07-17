@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import Cards from 'react-credit-cards';
@@ -12,7 +12,7 @@ import { API } from '@/api/types';
 import SelectCurrency from '@/components/Currency/SelectCurrency';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
-import { framerMotionAnimations } from '@/config/animations';
+import CustomModal from '@/components/ui/CustomModal';
 import { deleteDash, getCardExpiryRecord, separateNumbers } from '@/utils/converters';
 import { isCrypto, isFiat } from '@/utils/financial';
 
@@ -120,80 +120,74 @@ const CardTopupModal: FC<CardTopupModalProps> = (props) => {
   }, [card]);
 
   return (
-    <Modal
-      motionProps={{
-        variants: framerMotionAnimations.downEnterExit,
-      }}
+    <CustomModal
       isOpen={isOpen}
       onOpenChange={setIsModalOpen}
       hideCloseButton
-      backdrop="opaque"
-    >
-      <ModalContent>
-        <ModalHeader>Crypto Top Up </ModalHeader>
-        <ModalBody>
-          <div className={cn('flex  flex-col gap-4', className)}>
-            <div className="flex gap-4">
-              <div className=" h-[52px] w-[78px] ">
-                <div className="origin-top-left scale-[0.3]">
-                  <Cards name={cardholderName} number={cardNumber} expiry={expiryDate} cvc="***" preview />
-                </div>
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="text-xs text-neutral-500">Card number:</p>
-                <p>{cardFormatedNum}</p>
-              </div>
-            </div>
-
-            <SelectCurrency
-              label="Top Up from"
-              labelClassName="!text-base font-medium mb-2"
-              className="mt-4"
-              onClick={openCryptoModal}
-              currency={selectedCrypto}
-              balance={selectedCryptoWalletBalance}
-              chains={chainList}
-            />
-
-            <ExternalExhangeInput
-              buyingCurrency={selectedFiat}
-              sellingCurrency={selectedCrypto}
-              calcData={offrampCalcData}
-              sellValue={amount}
-              setSellValue={setAmount}
-              isCalculating={isOfframpCalcPending}
-              isWithdraw
-              disableLabel
-            />
-
-            <CurrencyListModal
-              isOpen={isCryptoModalOpen}
-              setIsModalOpen={setIsCryptoModalOpen}
-              activeCurrency={selectedCrypto}
-              currencies={allowedCryptoToFiatList}
-              onSelect={selectCurrency}
-              chains={chainList}
-            />
-
-            <ConfirmModal
-              isOpen={isConfirmationModalOpen}
-              setIsModalOpen={setIsConfirmationModalOpen}
-              onConfirm={topUpCard}
-              title="Top Up confirmation"
-              confirmText={topUpConfirmationText}
-            />
-          </div>
-        </ModalBody>
-        <ModalFooter className="flex flex-col">
+      header="Crypto Top Up"
+      footer={
+        <div className="flex flex-col gap-3">
           <Button isDisabled={!isTopUpAvailable} color="primary" radius="md" onClick={openConfirmationModal}>
             {isAmountEnough ? 'Top Up' : 'Not enough funds'}
           </Button>
           <Button onClick={closeModal} className="w-full" color="primary" variant="bordered">
             Close
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </div>
+      }
+    >
+      <div className={cn('flex  flex-col gap-4', className)}>
+        <div className="flex gap-4">
+          <div className=" h-[52px] w-[78px] ">
+            <div className="origin-top-left scale-[0.3]">
+              <Cards name={cardholderName} number={cardNumber} expiry={expiryDate} cvc="***" preview />
+            </div>
+          </div>
+          <div className="flex flex-col justify-center">
+            <p className="text-xs text-neutral-500">Card number:</p>
+            <p>{cardFormatedNum}</p>
+          </div>
+        </div>
+
+        <SelectCurrency
+          label="Top Up from"
+          labelClassName="!text-base font-medium mb-2"
+          className="mt-4"
+          onClick={openCryptoModal}
+          currency={selectedCrypto}
+          balance={selectedCryptoWalletBalance}
+          chains={chainList}
+        />
+
+        <ExternalExhangeInput
+          buyingCurrency={selectedFiat}
+          sellingCurrency={selectedCrypto}
+          calcData={offrampCalcData}
+          sellValue={amount}
+          setSellValue={setAmount}
+          isCalculating={isOfframpCalcPending}
+          isWithdraw
+          disableLabel
+        />
+
+        <CurrencyListModal
+          isOpen={isCryptoModalOpen}
+          setIsModalOpen={setIsCryptoModalOpen}
+          activeCurrency={selectedCrypto}
+          currencies={allowedCryptoToFiatList}
+          onSelect={selectCurrency}
+          chains={chainList}
+        />
+
+        <ConfirmModal
+          isOpen={isConfirmationModalOpen}
+          setIsModalOpen={setIsConfirmationModalOpen}
+          onConfirm={topUpCard}
+          title="Top Up confirmation"
+          confirmText={topUpConfirmationText}
+        />
+      </div>
+    </CustomModal>
   );
 };
 

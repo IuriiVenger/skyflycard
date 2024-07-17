@@ -1,4 +1,4 @@
-import { Button, Input } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import copy from 'copy-to-clipboard';
 import { FC } from 'react';
 
@@ -6,6 +6,8 @@ import { FaRegCopy } from 'react-icons/fa6';
 
 import QRCode from 'react-qr-code';
 import { toast } from 'react-toastify';
+
+import CustomInput from '../ui/CustomInput';
 
 import { API } from '@/api/types';
 import Loader from '@/components/Loader';
@@ -31,13 +33,14 @@ const ChainInfo: FC<ChainInfoProps> = (props) => {
   return selectedAddress ? (
     <div className="flex gap-2">
       <QRCode className=" self-center" size={96} value={selectedAddress.address} />
-      <Input
+      <CustomInput
         isReadOnly
         className="small-fontsize-input"
         value={selectedAddress.address}
         variant="underlined"
         color="default"
         label="Address to deposit"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
         endContent={<FaRegCopy onClick={copyAddress} className="mb-1 cursor-pointer " />}
       />
     </div>

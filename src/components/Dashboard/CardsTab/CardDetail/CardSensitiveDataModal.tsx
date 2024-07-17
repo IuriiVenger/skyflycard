@@ -1,4 +1,4 @@
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import copy from 'copy-to-clipboard';
 import { FC, useState } from 'react';
 
@@ -9,7 +9,8 @@ import { IoCopyOutline } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 
 import { API } from '@/api/types';
-import { framerMotionAnimations } from '@/config/animations';
+import CustomInput from '@/components/ui/CustomInput';
+import CustomModal from '@/components/ui/CustomModal';
 import { deleteDash, getCardExpiryRecord, separateNumbers } from '@/utils/converters';
 
 type CardSensitiveDataModalProps = {
@@ -52,63 +53,64 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
   };
 
   return (
-    <Modal
-      motionProps={{
-        variants: framerMotionAnimations.downEnterExit,
-      }}
+    <CustomModal
       isOpen={isOpen}
       onOpenChange={setIsModalOpen}
       onClose={onModalClose}
       hideCloseButton
-      backdrop="opaque"
+      header="Card details"
+      footer={
+        <Button onClick={closeModal} radius="md" className="w-full" color="primary" variant="bordered">
+          Close
+        </Button>
+      }
     >
-      <ModalContent>
-        <ModalHeader>Card details</ModalHeader>
-        <ModalBody className="py-4">
-          <button type="button" onClick={toogleFocus} className="m-auto w-fit">
-            <ReactCreditCard
-              number={deleteDash(sensitiveData.card_number)}
-              expiry={expiry}
-              cvc={sensitiveData.cvv}
-              name={sensitiveData.name_on_card}
-              focused={focus}
+      <div className="m-auto flex flex-col gap-6">
+        <button type="button" onClick={toogleFocus} className="m-auto w-fit">
+          <ReactCreditCard
+            number={deleteDash(sensitiveData.card_number)}
+            expiry={expiry}
+            cvc={sensitiveData.cvv}
+            name={sensitiveData.name_on_card}
+            focused={focus}
+          />
+        </button>
+        <div className="flex flex-col gap-3 py-4">
+          <CustomInput
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+            label="Card number"
+            value={numberMask}
+            disabled
+            endContent={
+              <IoCopyOutline
+                onClick={copyCardNumberToClipboard}
+                className=" flex-shrink-0 cursor-pointer text-lg text-default-400"
+              />
+            }
+          />
+          <div className="grid grid-cols-2 gap-3">
+            <CustomInput
+              content="width=device-width, initial-scale=1, maximum-scale=1"
+              label="Expiry date"
+              value={expiry}
+              disabled
             />
-          </button>
-          <div className="flex flex-col gap-3 py-4">
-            <Input
-              label="Card number"
-              value={numberMask}
+            <CustomInput
+              content="width=device-width, initial-scale=1, maximum-scale=1"
+              label="CVV"
+              value={sensitiveData.cvv}
               disabled
               endContent={
                 <IoCopyOutline
-                  onClick={copyCardNumberToClipboard}
+                  onClick={copyCVVToClipboard}
                   className=" flex-shrink-0 cursor-pointer text-lg text-default-400"
                 />
               }
             />
-            <div className="grid grid-cols-2 gap-3">
-              <Input label="Expiry date" value={expiry} disabled />
-              <Input
-                label="CVV"
-                value={sensitiveData.cvv}
-                disabled
-                endContent={
-                  <IoCopyOutline
-                    onClick={copyCVVToClipboard}
-                    className=" flex-shrink-0 cursor-pointer text-lg text-default-400"
-                  />
-                }
-              />
-            </div>
           </div>
-        </ModalBody>
-        <ModalFooter>
-          <Button onClick={closeModal} radius="md" className="w-full" color="primary" variant="bordered">
-            Close
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </div>
+      </div>
+    </CustomModal>
   );
 };
 
