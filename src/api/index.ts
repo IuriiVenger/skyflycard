@@ -23,6 +23,11 @@ instance.interceptors.request.use((config) => {
   const access_token = getCookie('access_token');
   const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
 
+  console.log('interceptorRequest');
+  console.log(config);
+  console.log(access_token, 'access_token');
+  console.log(appEnviroment, 'appEnviroment');
+
   const modifiedHeaders = {
     ...config.headers,
     'App-Enviroment': appEnviroment,
