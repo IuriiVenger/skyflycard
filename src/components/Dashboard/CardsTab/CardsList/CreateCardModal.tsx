@@ -1,5 +1,5 @@
 import { Button, Select, SelectItem } from '@nextui-org/react';
-import { useBackButton, useMainButton } from '@telegram-apps/sdk-react';
+import { initMainButton, useBackButton, useMainButton } from '@telegram-apps/sdk-react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -60,7 +60,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     selectedWallet.data.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
 
   const backButton = isTelegramEnviroment && useBackButton(true);
-  const mainButton = isTelegramEnviroment && useMainButton(true);
+  const [mainButton] = isTelegramEnviroment ? initMainButton() : [null];
 
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
   const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!amount && isAmountEnough;
