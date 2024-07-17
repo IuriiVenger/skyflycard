@@ -23,6 +23,7 @@ import SelectCurrency from '@/components/Currency/SelectCurrency';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import CurrencyListModal from '@/components/modals/CurrencyListModal';
 import CustomInput from '@/components/ui/CustomInput';
+import CustomModal from '@/components/ui/CustomModal';
 import { framerMotionAnimations } from '@/config/animations';
 import { isCrypto, isFiat } from '@/utils/financial';
 
@@ -134,7 +135,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   }, [activeBin]);
 
   return (
-    <Modal
+    <CustomModal
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,
       }}
@@ -142,7 +143,6 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       onOpenChange={setIsModalOpen}
       hideCloseButton
       backdrop="opaque"
-      size="full"
     >
       <ModalContent>
         <ModalHeader>Create card</ModalHeader>
@@ -214,7 +214,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
           </Button>
         </ModalFooter>
       </ModalContent>
-    </Modal>
+    </CustomModal>
   );
 };
 

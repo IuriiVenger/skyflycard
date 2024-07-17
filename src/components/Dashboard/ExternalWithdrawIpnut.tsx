@@ -1,4 +1,4 @@
-import { Card, CardBody, CardFooter, Input } from '@nextui-org/react';
+import { Card, CardBody, CardFooter } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC } from 'react';
 
