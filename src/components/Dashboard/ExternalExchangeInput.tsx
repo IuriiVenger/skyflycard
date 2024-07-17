@@ -1,4 +1,4 @@
-import { Card, CardBody, CardFooter } from '@nextui-org/react';
+import { Card, CardBody, CardFooter, Input } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC, useMemo } from 'react';
 
@@ -70,7 +70,7 @@ const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
       {externalLabel && <p className={cn(externalLabelClassName, 'mb-4 text-base font-medium')}>{externalLabel}</p>}
       <Card className={cn(className, 'border-1 shadow-none')}>
         <CardBody className="flex flex-col gap-2">
-          <CustomInput
+          <Input
             type="number"
             label={inputLabel}
             labelPlacement="outside"
