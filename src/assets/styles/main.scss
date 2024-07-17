@@ -15,9 +15,9 @@
   filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(61deg) brightness(102%) contrast(103%);
 }
 
-// .sumsub-modal {
-//   div {
-//     max-height: 90vh;
-//     overflow-y: auto;
-//   }
-// }
+.sumsub-modal {
+  div {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
