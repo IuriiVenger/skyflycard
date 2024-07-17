@@ -44,7 +44,7 @@ const CreateWalletModal: FC<CreateWalletProps> = (props) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={setIsModalOpen} disableAnimation placement="center">
+    <Modal isOpen={isOpen} onOpenChange={setIsModalOpen} disableAnimation>
       <ModalContent>
         <ModalHeader>Create Wallet</ModalHeader>
         <ModalBody>

@@ -1,9 +1,9 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import { ChangeEvent, FC, useState } from 'react';
 
 import { API } from '@/api/types';
 import CustomInput from '@/components/ui/CustomInput';
-import { framerMotionAnimations } from '@/config/animations';
+import CustomModal from '@/components/ui/CustomModal';
 import { useRequestStatus } from '@/hooks/useRequestStatus';
 
 type CardLimitsModalProps = {
@@ -61,62 +61,12 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
   };
 
   return (
-    <Modal
-      motionProps={{
-        variants: framerMotionAnimations.downEnterExit,
-      }}
+    <CustomModal
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      hideCloseButton
-      backdrop="opaque"
-    >
-      <ModalContent>
-        <ModalHeader>Card limits</ModalHeader>
-        <ModalBody>
-          <div className="grid grid-cols-2 gap-4">
-            <CustomInput
-              content="width=device-width, initial-scale=1, maximum-scale=1"
-              label="Single limit"
-              onChange={handleLimitChange('single')}
-              value={String(modalLimits.single.amount)}
-              type="number"
-            />
-
-            <CustomInput
-              content="width=device-width, initial-scale=1, maximum-scale=1"
-              label="Daily limit"
-              value={String(modalLimits.daily.amount)}
-              onChange={handleLimitChange('daily')}
-              type="number"
-            />
-
-            <CustomInput
-              content="width=device-width, initial-scale=1, maximum-scale=1"
-              label="Weekly limit"
-              value={String(modalLimits.weekly.amount)}
-              onChange={handleLimitChange('weekly')}
-              type="number"
-            />
-
-            <CustomInput
-              content="width=device-width, initial-scale=1, maximum-scale=1"
-              label="Monthly limit"
-              value={String(modalLimits.monthly.amount)}
-              type="number"
-              onChange={handleLimitChange('monthly')}
-            />
-
-            <CustomInput
-              content="width=device-width, initial-scale=1, maximum-scale=1"
-              label="Lifetime limit"
-              className="col-span-2"
-              value={String(modalLimits.lifetime.amount)}
-              type="number"
-              onChange={handleLimitChange('lifetime')}
-            />
-          </div>
-        </ModalBody>
-        <ModalFooter className="flex flex-col">
+      header="Card limits"
+      footer={
+        <div className="flex flex-col gap-3">
           <Button
             className="w-full"
             onClick={saveLimits}
@@ -129,9 +79,52 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
           <Button className="w-full" onClick={closeModal} color="primary" variant="bordered">
             Close
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </div>
+      }
+    >
+      <div className="grid grid-cols-2 gap-4">
+        <CustomInput
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+          label="Single limit"
+          onChange={handleLimitChange('single')}
+          value={String(modalLimits.single.amount)}
+          type="number"
+        />
+
+        <CustomInput
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+          label="Daily limit"
+          value={String(modalLimits.daily.amount)}
+          onChange={handleLimitChange('daily')}
+          type="number"
+        />
+
+        <CustomInput
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+          label="Weekly limit"
+          value={String(modalLimits.weekly.amount)}
+          onChange={handleLimitChange('weekly')}
+          type="number"
+        />
+
+        <CustomInput
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+          label="Monthly limit"
+          value={String(modalLimits.monthly.amount)}
+          type="number"
+          onChange={handleLimitChange('monthly')}
+        />
+
+        <CustomInput
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+          label="Lifetime limit"
+          className="col-span-2"
+          value={String(modalLimits.lifetime.amount)}
+          type="number"
+          onChange={handleLimitChange('lifetime')}
+        />
+      </div>
+    </CustomModal>
   );
 };
 

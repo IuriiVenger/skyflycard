@@ -1,4 +1,4 @@
-import { Button, Input } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import copy from 'copy-to-clipboard';
 import { FC } from 'react';
 

@@ -40,8 +40,7 @@ const CardsList: FC<CardsListProps> = (props) => {
   };
 
   const createCardButtonClickHandler = () => {
-    // verificationStatus === KYCStatuses.APPROVED ? openCreateCardModal() : openKYC();
-    openCreateCardModal();
+    verificationStatus === KYCStatuses.APPROVED ? openCreateCardModal() : openKYC();
   };
 
   const onCardCreate = (card_id: string) => {
@@ -63,7 +62,7 @@ const CardsList: FC<CardsListProps> = (props) => {
         </button>
         {!isFirstItemsLoading && data ? (
           <>
-            {[...data, ...data, ...data, ...data].map((card) => (
+            {data.map((card) => (
               <button
                 key={card.id}
                 type="button"
