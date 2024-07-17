@@ -1,17 +1,23 @@
 import { Input, InputProps } from '@nextui-org/react';
-import { FC, useState } from 'react';
+import { FC, FocusEvent, useState } from 'react';
 
 const CustomInput: FC<InputProps> = (props) => {
   const [initialWindowScroll, setInitialWindowScroll] = useState(0);
+  const { onBlur, onFocus } = props;
 
-  const handleFocus = () => {
+  const handleFocus = (e: FocusEvent<Element, Element>) => {
     setInitialWindowScroll(window.scrollY);
+    if (onFocus) {
+      onFocus(e);
+    }
   };
 
-  const handleBlur = () => {
+  const handleBlur = (e: FocusEvent<Element, Element>) => {
     if (initialWindowScroll !== window.scrollY) {
-      console.log('scrolling back');
       window.scrollTo({ top: initialWindowScroll, behavior: 'instant' });
+    }
+    if (onBlur) {
+      onBlur(e);
     }
   };
 

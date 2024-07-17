@@ -67,7 +67,6 @@ const KYCModal: FC<KYCModalProps> = (props) => {
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,
       }}
-      placement="center"
       scrollBehavior="inside"
     >
       <ModalContent>

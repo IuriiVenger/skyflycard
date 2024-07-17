@@ -61,7 +61,6 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
       onClose={onModalClose}
       hideCloseButton
       backdrop="opaque"
-      placement="center"
     >
       <ModalContent>
         <ModalHeader>Card details</ModalHeader>

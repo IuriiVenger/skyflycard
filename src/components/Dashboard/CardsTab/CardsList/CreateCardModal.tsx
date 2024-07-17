@@ -142,7 +142,6 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       onOpenChange={setIsModalOpen}
       hideCloseButton
       backdrop="opaque"
-      placement="center"
     >
       <ModalContent>
         <ModalHeader>Create card</ModalHeader>

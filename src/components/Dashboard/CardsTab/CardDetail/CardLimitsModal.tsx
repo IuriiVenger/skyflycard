@@ -68,7 +68,6 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
       onOpenChange={onOpenChange}
       hideCloseButton
       backdrop="opaque"
-      placement="center"
     >
       <ModalContent>
         <ModalHeader>Card limits</ModalHeader>

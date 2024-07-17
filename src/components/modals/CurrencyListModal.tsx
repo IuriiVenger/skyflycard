@@ -37,7 +37,6 @@ const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,
       }}
-      placement="center"
     >
       <ModalContent>
         {() => (
