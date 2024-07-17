@@ -65,7 +65,7 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
         </Button>
       }
     >
-      <>
+      <div className="m-auto flex flex-col gap-6">
         <button type="button" onClick={toogleFocus} className="m-auto w-fit">
           <ReactCreditCard
             number={deleteDash(sensitiveData.card_number)}
@@ -109,7 +109,7 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
             />
           </div>
         </div>
-      </>
+      </div>
     </CustomModal>
   );
 };

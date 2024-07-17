@@ -81,6 +81,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
           </Button>
         </div>
       }
+      hideCloseButton
     >
       <div className="grid grid-cols-2 gap-4">
         <CustomInput
