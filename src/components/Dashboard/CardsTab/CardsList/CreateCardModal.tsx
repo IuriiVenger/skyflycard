@@ -1,5 +1,5 @@
 import { Button, Select, SelectItem } from '@nextui-org/react';
-import { postEvent } from '@telegram-apps/sdk';
+import { useBackButton } from '@telegram-apps/sdk-react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -58,6 +58,8 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   const selectedCryptoAvavilibleToWithdraw =
     selectedWallet.data &&
     selectedWallet.data.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
+
+  const bb = isTelegramEnviroment && useBackButton(true);
 
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
   const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!amount && isAmountEnough;
@@ -127,11 +129,12 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   }, [activeBin]);
 
   useEffect(() => {
-    if (!isTelegramEnviroment) {
-      return;
+    if (bb) {
+      bb.on('click', () => {
+        closeModal();
+        bb.hide();
+      });
     }
-
-    postEvent('web_app_setup_back_button', { is_visible: isOpen });
   }, [isOpen]);
 
   return (
