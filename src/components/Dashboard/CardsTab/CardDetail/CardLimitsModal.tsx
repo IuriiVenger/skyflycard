@@ -74,6 +74,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
         <ModalBody>
           <div className="grid grid-cols-2 gap-4">
             <Input
+              content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Single limit"
               onChange={handleLimitChange('single')}
               value={String(modalLimits.single.amount)}
@@ -81,6 +82,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
             />
 
             <Input
+              content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Daily limit"
               value={String(modalLimits.daily.amount)}
               onChange={handleLimitChange('daily')}
@@ -88,6 +90,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
             />
 
             <Input
+              content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Weekly limit"
               value={String(modalLimits.weekly.amount)}
               onChange={handleLimitChange('weekly')}
@@ -95,6 +98,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
             />
 
             <Input
+              content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Monthly limit"
               value={String(modalLimits.monthly.amount)}
               type="number"
@@ -102,6 +106,7 @@ const CardLimitsModal: FC<CardLimitsModalProps> = (props) => {
             />
 
             <Input
+              content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Lifetime limit"
               className="col-span-2"
               value={String(modalLimits.lifetime.amount)}

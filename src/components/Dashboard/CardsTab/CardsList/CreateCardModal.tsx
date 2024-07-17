@@ -161,6 +161,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
               ))}
             </Select>
             <Input
+              content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Card name"
               value={cardName}
               onChange={(e) => setCardName(e.target.value)}

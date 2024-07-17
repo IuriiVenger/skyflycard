@@ -76,6 +76,7 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
           </button>
           <div className="flex flex-col gap-3 py-4">
             <Input
+              content="width=device-width, initial-scale=1, maximum-scale=1"
               label="Card number"
               value={numberMask}
               disabled
@@ -87,8 +88,14 @@ const CardSensitiveDataModal: FC<CardSensitiveDataModalProps> = (props) => {
               }
             />
             <div className="grid grid-cols-2 gap-3">
-              <Input label="Expiry date" value={expiry} disabled />
               <Input
+                content="width=device-width, initial-scale=1, maximum-scale=1"
+                label="Expiry date"
+                value={expiry}
+                disabled
+              />
+              <Input
+                content="width=device-width, initial-scale=1, maximum-scale=1"
                 label="CVV"
                 value={sensitiveData.cvv}
                 disabled

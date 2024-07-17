@@ -38,6 +38,7 @@ const ChainInfo: FC<ChainInfoProps> = (props) => {
         variant="underlined"
         color="default"
         label="Address to deposit"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
         endContent={<FaRegCopy onClick={copyAddress} className="mb-1 cursor-pointer " />}
       />
     </div>

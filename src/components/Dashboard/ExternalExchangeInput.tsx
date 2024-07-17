@@ -76,6 +76,7 @@ const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
             size="lg"
             onChange={handleInput}
             value={String(sellValue)}
+            content="width=device-width, initial-scale=1, maximum-scale=1"
             startContent={
               <div className="pointer-events-none flex items-center">
                 <span className="text-small text-default-400">{sellingCurrency.symbol}</span>

@@ -150,6 +150,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
         startContent={isFiatPayment ? <FaCreditCard /> : <TbCurrency />}
         onChange={handleWithdrawTargetInput}
         value={withdrawTarget}
+        content="width=device-width, initial-scale=1, maximum-scale=1"
         maxLength={isFiatPayment ? 19 : undefined}
         required
       />
