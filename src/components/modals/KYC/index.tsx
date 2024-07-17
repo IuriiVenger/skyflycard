@@ -57,6 +57,7 @@ const KYCModal: FC<KYCModalProps> = (props) => {
 
   const closeHandler = () => {
     step === KYCSteps.KYC && onClose();
+    setStep(KYCSteps.START);
   };
 
   return (

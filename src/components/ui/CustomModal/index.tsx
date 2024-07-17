@@ -11,7 +11,7 @@ type CustomModalProps = ModalProps & {
 
 const CustomModal: FC<CustomModalProps> = (props) => {
   const { mdBreakpoint } = useBreakpoints();
-  const { size, scrollBehavior, motionProps, children, header, footer } = props;
+  const { size, scrollBehavior, motionProps, children, header, footer, ...otherProps } = props;
 
   const responsiveSize = mdBreakpoint ? 'md' : 'full';
   const responsiveMotionProps = mdBreakpoint ? { variants: framerMotionAnimations.downEnterExit } : undefined;
@@ -21,7 +21,8 @@ const CustomModal: FC<CustomModalProps> = (props) => {
       motionProps={motionProps || responsiveMotionProps}
       scrollBehavior={scrollBehavior}
       size={size || responsiveSize}
-      {...props}
+      {...otherProps}
+      disableAnimation={!mdBreakpoint}
       className="overflow-y-auto"
     >
       <ModalContent className=" max-h-svh md:max-h-[90vh]">
