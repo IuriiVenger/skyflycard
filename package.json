@@ -43,6 +43,7 @@
     "react-timer-hook": "^3.0.7",
     "react-toastify": "^10.0.4",
     "react-visibility-sensor": "^5.1.1",
+    "reactjs-popup": "^2.0.6",
     "sass": "^1.71.1"
   },
   "devDependencies": {
