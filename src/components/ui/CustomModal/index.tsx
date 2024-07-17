@@ -27,17 +27,16 @@ const CustomModal: FC<CustomModalProps> = (props) => {
       <ModalContent className=" max-h-svh md:max-h-[90vh]">
         {!!header && <ModalHeader>{header}</ModalHeader>}
         <ModalBody className="pb-10 shadow-inner sm:max-h-[90vh]">{children}</ModalBody>
-        {!!footer && (
-          <ModalFooter
-            className="relative z-10 flex flex-col "
-            style={{
-              boxShadow:
-                '0px -10px 6px -3px rgba(255,255,255,0.95), 0px -20px 6px -3px rgba(255,255,255,0.85), 0px -31px 6px -3px rgba(255,255,255,0.8)',
-            }}
-          >
-            {footer}
-          </ModalFooter>
-        )}
+
+        <ModalFooter
+          className="relative z-10 flex min-h-1 flex-col "
+          style={{
+            boxShadow:
+              '0px -10px 6px -3px rgba(255,255,255,0.95), 0px -20px 6px -3px rgba(255,255,255,0.85), 0px -31px 6px -3px rgba(255,255,255,0.8)',
+          }}
+        >
+          {footer}
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

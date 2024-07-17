@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { Modal, ModalBody, ModalContent } from '@nextui-org/react';
 
 import { AxiosResponse } from 'axios';
 import { FC, useEffect, useState } from 'react';
