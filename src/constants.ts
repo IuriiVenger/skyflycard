@@ -150,6 +150,7 @@ export const supportEmail = 'info@pprince.io';
 export enum CardsTabMode {
   LIST = 'list',
   CARD_DETAIL = 'card_detail',
+  NEW_CARD = 'new_card',
 }
 
 export enum CardStatus {

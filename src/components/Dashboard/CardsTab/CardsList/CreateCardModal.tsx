@@ -134,14 +134,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   }, [activeBin]);
 
   return (
-    <Modal
-      motionProps={{
-        variants: framerMotionAnimations.downEnterExit,
-      }}
-      isOpen={isOpen}
-      onOpenChange={setIsModalOpen}
-      hideCloseButton
-    >
+    <Modal isOpen={isOpen} onOpenChange={setIsModalOpen} hideCloseButton placement="top-center">
       <ModalContent>
         <ModalHeader>Create card</ModalHeader>
         <ModalBody>
@@ -184,8 +177,6 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
               isCalculating={isOfframpCalcPending}
               isWithdraw
             />
-
-            <input className=" border border-black" onFocus={(e) => e.preventDefault()} />
 
             <CurrencyListModal
               isOpen={isCryptoModalOpen}
