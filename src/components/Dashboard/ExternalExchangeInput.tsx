@@ -74,7 +74,7 @@ const ExternalExhangeInput: FC<ExchangeFormProps> = (props) => {
             labelPlacement="outside"
             placeholder="0.00"
             size="lg"
-            onBlur={() => window.scrollTo(0, 0)}
+            onBlur={() => window.scrollTo({ top: 0, behavior: 'instant' })}
             onChange={handleInput}
             value={String(sellValue)}
             content="width=device-width, initial-scale=1, maximum-scale=1"
