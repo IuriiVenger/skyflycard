@@ -63,7 +63,7 @@ const CardsList: FC<CardsListProps> = (props) => {
         </button>
         {!isFirstItemsLoading && data ? (
           <>
-            {data.map((card) => (
+            {[...data, ...data, ...data, ...data].map((card) => (
               <button
                 key={card.id}
                 type="button"
