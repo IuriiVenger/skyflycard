@@ -183,6 +183,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       }
     >
       <div className={cn('flex flex-col gap-4', className)}>
+        <Button onClick={() => mainButton && mainButton.show()}>Show main button</Button>
         <Select label="Select BIN" onChange={handleSelectChange} selectedKeys={[activeBin.code]}>
           {bins.map((bin) => (
             <SelectItem
