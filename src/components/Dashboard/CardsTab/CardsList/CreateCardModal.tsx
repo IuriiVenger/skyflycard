@@ -142,7 +142,6 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       onOpenChange={setIsModalOpen}
       hideCloseButton
       backdrop="opaque"
-      scrollBehavior="outside"
     >
       <ModalContent>
         <ModalHeader>Create card</ModalHeader>
@@ -186,30 +185,8 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
               isCalculating={isOfframpCalcPending}
               isWithdraw
             />
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam, a? Repellat, incidunt optio? Cupiditate
-              eius nihil in cumque ratione omnis at optio tenetur impedit perferendis corporis ullam accusantium, amet
-              nesciunt? Voluptate ex corrupti asperiores neque consequuntur voluptates quod ullam inventore ut sit
-              exercitationem fuga saepe corporis dolore praesentium amet odit, possimus est similique et natus, itaque
-              quisquam molestiae. Illo, et. Qui tenetur fugit rem harum modi culpa, labore cumque atque? Ipsa, commodi.
-              Perferendis fuga, eius corrupti minima unde a, quis ipsum dignissimos deserunt est suscipit dicta rerum.
-              Aliquid, dolorem rerum! Quos maxime quasi omnis cum doloremque ullam praesentium aliquam optio esse minus
-              cupiditate incidunt sed perferendis officia facere asperiores ut, reiciendis et necessitatibus excepturi
-              dolor repellat quae aliquid! Reiciendis, dignissimos! Fugit et iusto optio non fugiat! Magnam, repudiandae
-              minus aut voluptas ut nesciunt officia doloribus deleniti expedita eaque nihil mollitia consectetur
-              laudantium explicabo eum possimus. Adipisci rerum non voluptates facilis! Laboriosam, placeat odio? Maxime
-              neque aperiam consequuntur fugiat repellat quasi, quae repellendus quibusdam labore corporis natus sint
-              nemo voluptatum praesentium illo exercitationem eius minima reprehenderit excepturi explicabo omnis?
-              Atque, consequuntur! Excepturi id maxime repellendus, cum nisi ducimus delectus voluptatibus aliquam nemo,
-              corrupti laboriosam quisquam temporibus dignissimos enim, eos ab amet suscipit deleniti maiores et ea
-              voluptates! Veritatis laudantium maiores vero. Ut deleniti nostrum aperiam in ducimus porro suscipit iste
-              illum. Vitae quaerat voluptatem dignissimos excepturi nobis voluptatum dolorem. Ipsa temporibus autem
-              deleniti ut debitis cumque corporis atque, sunt vel quae? Similique, totam? Blanditiis pariatur dolores
-              quam! Nostrum quidem at consequuntur incidunt. Ut sequi sint, iusto sapiente adipisci nesciunt laboriosam
-              commodi deleniti magnam mollitia sunt rerum ipsam? Autem totam provident modi? Ut eos accusamus distinctio
-              earum nisi quas ea iste atque eveniet, reprehenderit ipsam ad consequuntur laborum, sint dolor reiciendis
-              id explicabo qui vero dolore! Pariatur, voluptatem dolorem. Ea, officia corporis.
-            </p>
+
+            <input className=" border border-black" />
 
             <CurrencyListModal
               isOpen={isCryptoModalOpen}
