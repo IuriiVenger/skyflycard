@@ -62,6 +62,7 @@ const ConfirmModal: FC<ConfirmModalProps> = (props) => {
       }}
       isOpen={isOpen}
       onOpenChange={setIsModalOpen}
+      placement="center"
     >
       <ModalContent>
         <ModalHeader>

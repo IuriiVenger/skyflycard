@@ -128,6 +128,7 @@ const CardTopupModal: FC<CardTopupModalProps> = (props) => {
       onOpenChange={setIsModalOpen}
       hideCloseButton
       backdrop="opaque"
+      placement="center"
     >
       <ModalContent>
         <ModalHeader>Crypto Top Up </ModalHeader>

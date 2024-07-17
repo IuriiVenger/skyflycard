@@ -27,6 +27,7 @@ const AddToWalletModal: FC<AddWalletToModalProps> = (props) => {
       onOpenChange={setIsModalOpen}
       hideCloseButton
       backdrop="opaque"
+      placement="center"
     >
       <ModalContent>
         <ModalHeader>Add to wallet</ModalHeader>

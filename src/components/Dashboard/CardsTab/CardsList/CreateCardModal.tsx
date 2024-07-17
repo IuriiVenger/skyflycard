@@ -134,7 +134,16 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   }, [activeBin]);
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={setIsModalOpen} hideCloseButton placement="center">
+    <Modal
+      motionProps={{
+        variants: framerMotionAnimations.downEnterExit,
+      }}
+      isOpen={isOpen}
+      onOpenChange={setIsModalOpen}
+      hideCloseButton
+      backdrop="opaque"
+      placement="center"
+    >
       <ModalContent>
         <ModalHeader>Create card</ModalHeader>
         <ModalBody>
