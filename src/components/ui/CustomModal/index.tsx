@@ -30,7 +30,7 @@ const CustomModal: FC<CustomModalProps> = (props) => {
         <ModalBody className="pb-10 shadow-inner sm:max-h-[90vh]">{children}</ModalBody>
 
         <ModalFooter
-          className="relative z-10 flex min-h-1 w-full flex-col"
+          className="relative z-10 flex min-h-1 w-full flex-col pb-6 md:pb-4"
           style={{
             boxShadow:
               '0px -10px 6px -3px rgba(255,255,255,0.95), 0px -20px 6px -3px rgba(255,255,255,0.85), 0px -31px 6px -3px rgba(255,255,255,0.8)',
