@@ -11,9 +11,7 @@ import {
 } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
-import ReactModal from 'react-modal';
 import { toast } from 'react-toastify';
-import Popup from 'reactjs-popup';
 
 import ExternalExhangeInput from '../../ExternalExchangeInput';
 
@@ -136,8 +134,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   }, [activeBin]);
 
   return (
-    <Popup open={isOpen} onClose={closeModal} closeOnDocumentClick={false} closeOnEscape={false} className="bg-white">
-      {/* <Modal
+    <Modal
       motionProps={{
         variants: framerMotionAnimations.downEnterExit,
       }}
@@ -145,82 +142,95 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       onOpenChange={setIsModalOpen}
       hideCloseButton
       backdrop="opaque"
+      scrollBehavior="inside"
     >
       <ModalContent>
         <ModalHeader>Create card</ModalHeader>
-        <ModalBody> */}
-      <div className="flex h-svh w-screen flex-col items-center justify-center gap-4 bg-white p-4 shadow">
-        <div className={cn('z-50 flex flex-col gap-4', className)}>
-          <Select label="Select BIN" onChange={handleSelectChange} selectedKeys={[activeBin.code]}>
-            {bins.map((bin) => (
-              <SelectItem
-                key={bin.code}
-                onClick={() => setActiveBin(bin)}
-                value={bin.code}
-                className="border-b border-gray-200 p-2 text-xs"
-                textValue={`${bin.code}, ${bin.provider}, ${bin.currencyCode}`}
-              >
-                <BinInfo bin={bin} />
-              </SelectItem>
-            ))}
-          </Select>
-          <Input
-            content="width=device-width, initial-scale=1, maximum-scale=1"
-            label="Card name"
-            value={cardName}
-            onChange={(e) => setCardName(e.target.value)}
-            placeholder="Enter card name"
-          />
-          <SelectCurrency
-            label="Top Up from"
-            labelClassName="!text-base font-medium mb-2"
-            onClick={openCryptoModal}
-            currency={selectedCrypto}
-            balance={selectedCryptoWalletBalance}
-            chains={chainList}
-          />
+        <ModalBody>
+          <div className={cn('flex flex-col gap-4', className)}>
+            <Select label="Select BIN" onChange={handleSelectChange} selectedKeys={[activeBin.code]}>
+              {bins.map((bin) => (
+                <SelectItem
+                  key={bin.code}
+                  onClick={() => setActiveBin(bin)}
+                  value={bin.code}
+                  className="border-b border-gray-200 p-2 text-xs"
+                  textValue={`${bin.code}, ${bin.provider}, ${bin.currencyCode}`}
+                >
+                  <BinInfo bin={bin} />
+                </SelectItem>
+              ))}
+            </Select>
+            <Input
+              label="Card name"
+              value={cardName}
+              onChange={(e) => setCardName(e.target.value)}
+              placeholder="Enter card name"
+            />
+            <SelectCurrency
+              label="Top Up from"
+              labelClassName="!text-base font-medium mb-2"
+              onClick={openCryptoModal}
+              currency={selectedCrypto}
+              balance={selectedCryptoWalletBalance}
+              chains={chainList}
+            />
 
-          <ExternalExhangeInput
-            externalLabel="Top Up amount"
-            buyingCurrency={selectedFiat}
-            sellingCurrency={selectedCrypto}
-            calcData={offrampCalcData}
-            sellValue={amount}
-            setSellValue={setAmount}
-            isCalculating={isOfframpCalcPending}
-            isWithdraw
-          />
+            <ExternalExhangeInput
+              externalLabel="Top Up amount"
+              buyingCurrency={selectedFiat}
+              sellingCurrency={selectedCrypto}
+              calcData={offrampCalcData}
+              sellValue={amount}
+              setSellValue={setAmount}
+              isCalculating={isOfframpCalcPending}
+              isWithdraw
+            />
+            <h1>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem quod id eius nemo, recusandae maxime dicta
+              doloremque asperiores perspiciatis itaque esse accusamus! Placeat, omnis voluptatum necessitatibus
+              deleniti reiciendis magnam deserunt! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt
+              perspiciatis voluptate facilis eaque hic, placeat modi perferendis labore dignissimos vero dolores!
+              Commodi nemo maiores ratione veritatis velit quis adipisci magni. Minima, reprehenderit eum fugit
+              voluptatibus dignissimos sint. Distinctio nemo vero saepe molestias nesciunt illum dolor, veniam eaque
+              repudiandae! Repellendus a sequi dolores quas quasi autem illum laudantium eos repellat distinctio.
+              Placeat consequatur doloremque eligendi. Sed, necessitatibus dolores? Suscipit voluptatibus magni vero
+              nisi itaque accusamus, modi voluptates eligendi quis amet porro error sit saepe voluptas pariatur iure
+              architecto omnis dolores velit? Dolores ipsa sint expedita eligendi numquam possimus officiis, voluptatem
+              illo mollitia tempora nesciunt dolorum consectetur dignissimos unde, ab itaque maiores reiciendis, vitae
+              qui quaerat nisi? Aperiam enim vel id nesciunt? Facere suscipit, distinctio eveniet aut, recusandae
+              possimus quos animi natus illum repellat eius architecto. Voluptatum tenetur, corrupti cupiditate illo et
+              modi commodi? Voluptatum quo obcaecati, vitae sed odit consectetur omnis!
+            </h1>
 
-          <CurrencyListModal
-            isOpen={isCryptoModalOpen}
-            setIsModalOpen={setIsCryptoModalOpen}
-            activeCurrency={selectedCrypto}
-            currencies={allowedCryptoToFiatList}
-            onSelect={selectCurrency}
-            chains={chainList}
-          />
+            <CurrencyListModal
+              isOpen={isCryptoModalOpen}
+              setIsModalOpen={setIsCryptoModalOpen}
+              activeCurrency={selectedCrypto}
+              currencies={allowedCryptoToFiatList}
+              onSelect={selectCurrency}
+              chains={chainList}
+            />
 
-          <ConfirmModal
-            isOpen={isConfirmationModalOpen}
-            setIsModalOpen={setIsConfirmationModalOpen}
-            onConfirm={createCardHandler}
-            title="Top Up confirmation"
-            confirmText={topUpConfirmationText}
-          />
+            <ConfirmModal
+              isOpen={isConfirmationModalOpen}
+              setIsModalOpen={setIsConfirmationModalOpen}
+              onConfirm={createCardHandler}
+              title="Top Up confirmation"
+              confirmText={topUpConfirmationText}
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter className="flex flex-col">
           <Button isDisabled={!isTopUpAvailable} color="primary" radius="md" onClick={openConfirmationModal}>
             {isAmountEnough ? 'Create card' : 'Not enough funds'}
           </Button>
           <Button onClick={closeModal} className="w-full" color="primary" variant="bordered">
             Close
           </Button>
-        </div>
-        {/* </ModalBody>
-        <ModalFooter className="flex flex-col"> */}
-      </div>
-      {/* </ModalFooter>
+        </ModalFooter>
       </ModalContent>
-    </Modal> */}
-    </Popup>
+    </Modal>
   );
 };
 
