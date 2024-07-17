@@ -1,5 +1,5 @@
 import { Button, Select, SelectItem } from '@nextui-org/react';
-import { useBackButton } from '@telegram-apps/sdk-react';
+import { useBackButton, useMainButton } from '@telegram-apps/sdk-react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -59,10 +59,13 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     selectedWallet.data &&
     selectedWallet.data.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
 
-  const bb = isTelegramEnviroment && useBackButton(true);
+  const backButton = isTelegramEnviroment && useBackButton(true);
+  const mainButton = isTelegramEnviroment && useMainButton(true);
 
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
   const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!amount && isAmountEnough;
+
+  const mainButtonTitle = isAmountEnough ? 'Create card' : 'Not enough funds';
 
   const selectCurrency = (currency: API.List.Crypto | API.List.Fiat | API.List.Chains) => {
     if (isFiat(currency)) {
@@ -102,6 +105,8 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    backButton && backButton.hide();
+    mainButton && mainButton.hide();
   };
 
   const setCardFiatCurrency = () => {
@@ -129,14 +134,30 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   }, [activeBin]);
 
   useEffect(() => {
-    if (bb) {
-      isOpen && bb.show();
-      bb.on('click', () => {
+    if (backButton) {
+      isOpen && backButton.show();
+      backButton.on('click', () => {
         closeModal();
-        bb.hide();
+      });
+    }
+
+    if (mainButton) {
+      isOpen && mainButton.show();
+      mainButton.on('click', () => {
+        openConfirmationModal();
       });
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    mainButton && mainButton.setText(mainButtonTitle);
+  }, [mainButtonTitle]);
+
+  useEffect(() => {
+    if (!mainButton) return;
+
+    isTopUpAvailable ? mainButton.enable() : mainButton.disable();
+  }, [isTopUpAvailable]);
 
   return (
     <CustomModal
@@ -148,12 +169,16 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       header="Create card"
       footer={
         <>
-          <Button isDisabled={!isTopUpAvailable} color="primary" radius="md" onClick={openConfirmationModal}>
-            {isAmountEnough ? 'Create card' : 'Not enough funds'}
-          </Button>
-          <Button onClick={closeModal} className="w-full" color="primary" variant="bordered">
-            Close
-          </Button>
+          {!mainButton && (
+            <Button isDisabled={!isTopUpAvailable} color="primary" radius="md" onClick={openConfirmationModal}>
+              {mainButtonTitle}
+            </Button>
+          )}
+          {!backButton && (
+            <Button onClick={closeModal} className="w-full" color="primary" variant="bordered">
+              Close
+            </Button>
+          )}
         </>
       }
     >
