@@ -181,30 +181,6 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
           balance={selectedCryptoWalletBalance}
           chains={chainList}
         />
-        <SelectCurrency
-          label="Top Up from"
-          labelClassName="!text-base font-medium mb-2"
-          onClick={openCryptoModal}
-          currency={selectedCrypto}
-          balance={selectedCryptoWalletBalance}
-          chains={chainList}
-        />
-        <SelectCurrency
-          label="Top Up from"
-          labelClassName="!text-base font-medium mb-2"
-          onClick={openCryptoModal}
-          currency={selectedCrypto}
-          balance={selectedCryptoWalletBalance}
-          chains={chainList}
-        />
-        <SelectCurrency
-          label="Top Up from"
-          labelClassName="!text-base font-medium mb-2"
-          onClick={openCryptoModal}
-          currency={selectedCrypto}
-          balance={selectedCryptoWalletBalance}
-          chains={chainList}
-        />
 
         <ExternalExhangeInput
           externalLabel="Top Up amount"
