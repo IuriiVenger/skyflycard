@@ -141,7 +141,6 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       isOpen={isOpen}
       onOpenChange={setIsModalOpen}
       hideCloseButton
-      backdrop="opaque"
     >
       <ModalContent>
         <ModalHeader>Create card</ModalHeader>
@@ -186,7 +185,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
               isWithdraw
             />
 
-            <input className=" border border-black" />
+            <input className=" border border-black" onFocus={(e) => e.preventDefault()} />
 
             <CurrencyListModal
               isOpen={isCryptoModalOpen}
