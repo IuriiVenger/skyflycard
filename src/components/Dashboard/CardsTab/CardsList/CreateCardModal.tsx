@@ -1,4 +1,5 @@
 import { Button, Select, SelectItem } from '@nextui-org/react';
+import { postEvent } from '@telegram-apps/sdk';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -30,6 +31,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     createCard,
     selectedWallet,
     className,
+    isTelegramEnviroment,
     selectCrypto,
     selectFiat,
     selectedCrypto,
@@ -123,6 +125,14 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     setCardFiatCurrency();
     setAmount(0);
   }, [activeBin]);
+
+  useEffect(() => {
+    if (!isTelegramEnviroment) {
+      return;
+    }
+
+    postEvent('web_app_setup_back_button', { is_visible: isOpen });
+  }, [isOpen]);
 
   return (
     <CustomModal
