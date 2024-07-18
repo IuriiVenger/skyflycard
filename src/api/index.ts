@@ -17,7 +17,7 @@ export const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'X-Tenant-ID': tenantId,
+    'X-Tenant-Id': tenantId,
   },
 });
 
@@ -60,7 +60,7 @@ instance.interceptors.response.use(
         if (typeof window !== 'undefined' && appEnviroment === AppEnviroment.WEB) {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
 
-          navigate('/auth/login');
+          // navigate('/auth/login');
         }
         deleteTokens();
         requestQueue = [];

@@ -28,7 +28,7 @@ const updateTenantInfo = async () => {
   await fs.mkdir('./public/static/images/seo', { recursive: true });
   await fs.mkdir('./public/static/files', { recursive: true });
 
-  const info = data[0];
+  const info = data;
   await fs.writeFile(
     path.join(process.cwd(), './public/static/files', 'tenantInfo.json'),
     JSON.stringify({ name: info?.name, main_logo: info?.main_logo, icon: info?.icon, favicon: info?.favicon }),
