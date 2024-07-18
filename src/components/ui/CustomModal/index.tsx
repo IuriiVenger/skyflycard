@@ -17,7 +17,7 @@ const CustomModal: FC<CustomModalProps> = (props) => {
   const responsiveMotionProps = mdBreakpoint ? { variants: framerMotionAnimations.downEnterExit } : undefined;
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !mdBreakpoint && window) {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [isOpen]);
