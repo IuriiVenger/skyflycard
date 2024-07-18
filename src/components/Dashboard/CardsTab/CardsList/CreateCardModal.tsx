@@ -110,6 +110,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
           buttons: [{ type: 'default', text: 'Top Up' }, { type: 'cancel' }],
         })
         .then((result) => {
+          console.log(result);
           if (result === 'default') {
             createCardHandler();
           }
