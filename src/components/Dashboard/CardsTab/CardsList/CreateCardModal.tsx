@@ -1,5 +1,5 @@
 import { Button, Select, SelectItem } from '@nextui-org/react';
-import { initMainButton, useBackButton, useMainButton } from '@telegram-apps/sdk-react';
+import { initMainButton, useBackButton, useMainButton, usePopup } from '@telegram-apps/sdk-react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -61,6 +61,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
 
   const backButton = isTelegramEnviroment && useBackButton(true);
   const mainButton = isTelegramEnviroment && useMainButton(true);
+  const telegramPopup = isTelegramEnviroment && usePopup(true);
 
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
   const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!amount && isAmountEnough;
@@ -78,13 +79,6 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
 
   const openCryptoModal = () => setIsCryptoModalOpen(true);
 
-  const openConfirmationModal = () => {
-    const confirmationText = `Are you sure you want to create card and top up it with ${amount} ${selectedCrypto.symbol}?`;
-
-    setTopUpConfirmationText(confirmationText);
-    setIsConfirmationModalOpen(true);
-  };
-
   const createCardHandler = async () => {
     if (!selectedWallet.data) {
       return;
@@ -101,6 +95,28 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     setIsModalOpen(false);
     toast.success('Card created successfully');
     onCardCreate && onCardCreate(data.id);
+  };
+
+  const openConfirmationModal = () => {
+    const confirmationText = `Are you sure you want to create card and top up it with ${amount} ${selectedCrypto.symbol}?`;
+
+    setTopUpConfirmationText(confirmationText);
+
+    if (telegramPopup) {
+      telegramPopup
+        .open({
+          title: 'Top Up confirmation',
+          message: confirmationText,
+          buttons: [{ type: 'default', text: 'Top Up' }, { type: 'cancel' }],
+        })
+        .then((result) => {
+          if (result === 'default') {
+            createCardHandler();
+          }
+        });
+    } else {
+      setIsConfirmationModalOpen(true);
+    }
   };
 
   const closeModal = () => {
@@ -144,12 +160,10 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     if (mainButton && isOpen) {
       mainButton.show();
       mainButton.on('click', () => {
-        console.log('mainButton.on click', mainButton);
         openConfirmationModal();
       });
 
       mainButton.setText(mainButtonTitle);
-      console.log('mainButton', mainButton);
     }
   }, [isOpen]);
 
