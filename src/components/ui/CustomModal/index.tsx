@@ -25,7 +25,7 @@ const CustomModal: FC<CustomModalProps> = (props) => {
       disableAnimation={!mdBreakpoint}
       className="overflow-y-auto"
     >
-      <ModalContent className=" max-h-svh md:max-h-[90vh]">
+      <ModalContent className=" fixed left-0 top-0 max-h-svh md:static md:max-h-[90vh]">
         {!!header && <ModalHeader>{header}</ModalHeader>}
         <ModalBody className="pb-10 shadow-inner sm:max-h-[90vh]">{children}</ModalBody>
 
