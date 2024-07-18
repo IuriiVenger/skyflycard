@@ -144,6 +144,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     if (mainButton && isOpen) {
       mainButton.show();
       mainButton.on('click', () => {
+        console.log('mainButton.on click', mainButton);
         openConfirmationModal();
       });
 
