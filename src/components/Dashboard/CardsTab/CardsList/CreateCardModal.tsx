@@ -60,7 +60,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     selectedWallet.data.balance.find((balance) => balance.crypto.uuid === selectedCrypto.uuid)?.amount;
 
   const backButton = isTelegramEnviroment && useBackButton(true);
-  const [mainButton] = isTelegramEnviroment ? initMainButton() : [null];
+  const mainButton = isTelegramEnviroment && useMainButton(true);
 
   const isAmountEnough = selectedCryptoAvavilibleToWithdraw && selectedCryptoAvavilibleToWithdraw >= amount;
   const isTopUpAvailable = !!selectedCrypto && !!selectedFiat && !!selectedWallet.data && !!amount && isAmountEnough;
