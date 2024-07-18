@@ -1,5 +1,5 @@
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalProps } from '@nextui-org/react';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 
 import { framerMotionAnimations } from '@/config/animations';
 import useBreakpoints from '@/hooks/useBreakpoints';
@@ -11,16 +11,23 @@ type CustomModalProps = ModalProps & {
 
 const CustomModal: FC<CustomModalProps> = (props) => {
   const { mdBreakpoint } = useBreakpoints();
-  const { size, scrollBehavior, motionProps, children, header, footer, ...otherProps } = props;
+  const { size, scrollBehavior, motionProps, children, header, footer, isOpen, ...otherProps } = props;
 
   const responsiveSize = mdBreakpoint ? 'md' : 'full';
   const responsiveMotionProps = mdBreakpoint ? { variants: framerMotionAnimations.downEnterExit } : undefined;
+
+  useEffect(() => {
+    if (isOpen) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [isOpen]);
 
   return (
     <Modal
       motionProps={motionProps || responsiveMotionProps}
       scrollBehavior={scrollBehavior}
       size={size || responsiveSize}
+      isOpen={isOpen}
       {...otherProps}
       disableAnimation={!mdBreakpoint}
       className="overflow-y-auto"
