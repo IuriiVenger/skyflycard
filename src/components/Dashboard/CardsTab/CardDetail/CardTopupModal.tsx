@@ -115,6 +115,7 @@ const CardTopupModal: FC<CardTopupModalProps> = (props) => {
   };
 
   useEffect(() => {
+    if (!card) return;
     setCardFiatCurrency();
     setAmount(0);
   }, [card]);

@@ -44,7 +44,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
 
   const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [activeBin, setActiveBin] = useState<API.Cards.Bin>(bins[0] || ({} as API.Cards.Bin)); // disable bins
+  const [activeBin, setActiveBin] = useState<API.Cards.Bin>(bins[0]);
   const [cardName, setCardName] = useState<string>('');
   const [topUpConfirmationText, setTopUpConfirmationText] = useState<string | null>(null);
 
