@@ -107,11 +107,14 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
         .open({
           title: 'Top Up confirmation',
           message: confirmationText,
-          buttons: [{ type: 'default', text: 'Top Up' }, { type: 'cancel' }],
+          buttons: [
+            { id: 'confirm', type: 'default', text: 'Top Up' },
+            { id: 'cancel', type: 'cancel' },
+          ],
         })
-        .then((result) => {
-          console.log(result);
-          if (result === 'default') {
+        .then((buttonId) => {
+          console.log('Button clicked', buttonId);
+          if (buttonId === 'confirm') {
             createCardHandler();
           }
         });
