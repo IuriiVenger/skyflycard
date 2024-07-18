@@ -7,6 +7,7 @@ import { FC, Suspense } from 'react';
 
 import TelegramAuth from './_components/TelegramAuth';
 
+import { BrandLoader } from '@/components/Loader';
 import { AppEnviroment } from '@/constants';
 import { useAppDispatch } from '@/store';
 import { setAppEnviroment } from '@/store/slices/config';
@@ -23,7 +24,7 @@ const MainLayout: FC<RootLayoutProps> = ({ children }) => {
     <main className="flex w-full max-w-screen-2xl flex-grow justify-center p-5 pb-20 md:px-10 md:pt-8">
       <SDKProvider>
         <TelegramAuth />
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <Suspense fallback={<BrandLoader />}>{children}</Suspense>
       </SDKProvider>
     </main>
   );

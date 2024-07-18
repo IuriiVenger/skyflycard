@@ -2,9 +2,7 @@ import { Button } from '@nextui-org/react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 
-import { FaCreditCard } from 'react-icons/fa6';
-
-import { TbCurrency } from 'react-icons/tb';
+import { PiCreditCard, PiWallet } from 'react-icons/pi';
 
 import SelectCurrency from '../Currency/SelectCurrency';
 
@@ -144,11 +142,11 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
 
       <CustomInput
         className="-mt-4"
-        label={isFiatPayment ? 'Card number' : <h3 className="mb-4 text-xl font-bold">Withdraw to</h3>}
+        label={isFiatPayment ? null : <h3 className="mb-4 text-xl font-bold">Withdraw to</h3>}
         placeholder={isFiatPayment ? 'Enter card number' : 'Enter wallet address'}
         size="lg"
         labelPlacement={isFiatPayment ? 'inside' : 'outside'}
-        startContent={isFiatPayment ? <FaCreditCard /> : <TbCurrency />}
+        startContent={isFiatPayment ? <PiCreditCard /> : <PiWallet />}
         onChange={handleWithdrawTargetInput}
         value={withdrawTarget}
         content="width=device-width, initial-scale=1, maximum-scale=1"

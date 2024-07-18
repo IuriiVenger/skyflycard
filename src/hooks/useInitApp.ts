@@ -28,14 +28,20 @@ const useInitApp = (dispatch: AppDispatch) => {
   const isWebEnviroment = appEnviroment === AppEnviroment.WEB;
 
   const initWebApp = async () => {
-    const [bins, fiats, crypto, chains, fiatExchangeRate] = await Promise.all([
-      vcards.bins.getAll(),
+    const [
+      // bins, disable bins
+      fiats,
+      crypto,
+      chains,
+      fiatExchangeRate,
+    ] = await Promise.all([
+      // vcards.bins.getAll(), disable bins
       list.fiats.getAll(),
       list.crypto.getAll(),
       list.chains.getAll(),
       exchange.fiat2crypto.getByUuid(defaultCurrency.fiat.uuid),
     ]);
-    dispatch(setBins(bins));
+    // dispatch(setBins(bins)); disable bins
     dispatch(setFiats(fiats));
     dispatch(setCrypto(crypto));
     dispatch(setChains(chains));

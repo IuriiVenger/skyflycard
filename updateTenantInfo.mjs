@@ -23,16 +23,20 @@ const updateTenantInfo = async () => {
     },
   });
 
-  const { data } = await instance.get(`${baseUrl}/tenant/me`);
-  await fs.mkdir('./public/static/svg/tenant', { recursive: true });
-  await fs.mkdir('./public/static/images/seo', { recursive: true });
-  await fs.mkdir('./public/static/files', { recursive: true });
+  try {
+    const { data } = await instance.get(`${baseUrl}/tenant/me`);
+    await fs.mkdir('./public/static/svg/tenant', { recursive: true });
+    await fs.mkdir('./public/static/images/seo', { recursive: true });
+    await fs.mkdir('./public/static/files', { recursive: true });
 
-  const info = data;
-  await fs.writeFile(
-    path.join(process.cwd(), './public/static/files', 'tenantInfo.json'),
-    JSON.stringify({ name: info?.name, main_logo: info?.main_logo, icon: info?.icon, favicon: info?.favicon }),
-  );
+    const info = data;
+    await fs.writeFile(
+      path.join(process.cwd(), './public/static/files', 'tenantInfo.json'),
+      JSON.stringify({ name: info?.name, main_logo: info?.main_logo, icon: info?.icon, favicon: info?.favicon }),
+    );
+  } catch (error) {
+    console.log('Error fetching tenant info', error);
+  }
 
   // const logoUrl = data?.logo?.url;
   // if (logoUrl) {

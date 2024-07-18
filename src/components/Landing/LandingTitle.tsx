@@ -30,7 +30,7 @@ const LandingTitle: FC<LandingTitleProps> = ({ id, isUserLoggedIn }) => (
       <div className="mt-3 flex max-w-full gap-3 whitespace-nowrap leading-[100%] tracking-tighter max-md:text-4xl">
         <Highlight text="clear" bgColor=" bg-tenant-main" textColor="text-white" />
         <span className="flex items-center text-neutral-950 max-md:text-4xl">&</span>
-        <Highlight text="simple" bgColor="bg-white" textColor="text-indigo-600 shadow-lg" />
+        <Highlight text="simple" bgColor="bg-white" textColor="text-tenant-main shadow-lg" />
       </div>
       <Button
         as={Link}
