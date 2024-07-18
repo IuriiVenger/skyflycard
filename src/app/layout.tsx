@@ -6,6 +6,8 @@ import { FC } from 'react';
 
 import { Slide, ToastContainer } from 'react-toastify';
 
+import tenantInfo from '../../public/static/files/tenantInfo.json';
+
 import { Providers } from './providers';
 
 import type { Metadata } from 'next';
@@ -16,7 +18,7 @@ import StoreWatchers from '@/store/components/StoreWatchers';
 const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Crypto Wallet',
+  title: tenantInfo.name || 'Crypto Wallet',
   description: 'Crypto Wallet. Your Secure Oasis for Global Transactions',
   other: {
     viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
