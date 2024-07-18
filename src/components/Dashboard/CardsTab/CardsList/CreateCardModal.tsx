@@ -149,6 +149,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
       });
 
       mainButton.setText(mainButtonTitle);
+      console.log('mainButton', mainButton);
     }
   }, [isOpen]);
 
