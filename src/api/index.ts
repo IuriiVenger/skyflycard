@@ -9,6 +9,7 @@ import { deleteTokens, refreshTokens, setTokens } from '@/utils/tokensFactory';
 
 // eslint-disable-next-line no-constant-condition
 const baseURL = process.env.API_URL;
+const tenantId = process.env.TENANT_ID;
 
 export const instance = axios.create({
   baseURL: baseURL || '/api/',
@@ -16,6 +17,7 @@ export const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
+    'X-Tenant-ID': tenantId,
   },
 });
 
