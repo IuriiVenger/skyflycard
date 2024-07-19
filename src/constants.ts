@@ -61,7 +61,7 @@ export enum DashboardTabs {
   DEPOSIT = 'deposit',
   WITHDRAW = 'withdraw',
   EXCHANGE = 'exchange',
-  TRANSACTIONS = 'transactions',
+  INFO = 'info',
   CARDS = 'cards',
 }
 

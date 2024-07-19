@@ -3,7 +3,7 @@ import { FC, Suspense } from 'react';
 
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import Loader from '@/components/Loader';
+import Loader from '@/components/ui/Loader';
 
 type RootLayoutProps = Readonly<{ children: React.ReactNode }>;
 

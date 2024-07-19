@@ -31,7 +31,7 @@ const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
     isChain(currency) ? currency.id : currency.uuid;
 
   return (
-    <CustomModal isOpen={isOpen} onOpenChange={setIsModalOpen} header="Select a currency">
+    <CustomModal bodyClassname="px-0" isOpen={isOpen} onOpenChange={setIsModalOpen} header="Select a currency">
       <>
         {currencies.map((currency, index) => (
           <div
