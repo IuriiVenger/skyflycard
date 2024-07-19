@@ -8,7 +8,7 @@ import CardDetail from './CardDetail';
 import CardsList from './CardsList';
 
 import { API } from '@/api/types';
-import Loader from '@/components/Loader';
+import Loader from '@/components/ui/Loader';
 import { CardsTabMode, RequestStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { StoreDataWithStatus, StoreDataWithStatusAndMeta } from '@/store/types';

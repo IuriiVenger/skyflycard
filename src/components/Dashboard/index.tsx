@@ -7,7 +7,7 @@ import { IoIosList } from 'react-icons/io';
 
 import { PiSignIn, PiSignOut } from 'react-icons/pi';
 
-import Loader from '../Loader';
+import Loader from '../ui/Loader';
 
 import CardsTab from './CardsTab';
 import DepositForm from './DepositTab';

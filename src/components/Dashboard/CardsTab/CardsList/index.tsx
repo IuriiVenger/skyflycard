@@ -10,7 +10,7 @@ import { CardsTabProps } from '..';
 import CreateCardModal from './CreateCardModal';
 
 import { API } from '@/api/types';
-import Loader from '@/components/Loader';
+import Loader from '@/components/ui/Loader';
 import { KYCStatuses, RequestStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { deleteDash, roundToDecimals } from '@/utils/converters';

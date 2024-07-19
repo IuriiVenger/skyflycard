@@ -5,7 +5,7 @@ import { FC } from 'react';
 import CustomInput from '../ui/CustomInput';
 
 import { API } from '@/api/types';
-import Loader from '@/components/Loader';
+import Loader from '@/components/ui/Loader';
 
 type ExternalWithdrawInputProps = {
   className?: string;

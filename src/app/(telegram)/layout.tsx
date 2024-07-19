@@ -7,7 +7,7 @@ import { FC, Suspense } from 'react';
 
 import TelegramAuth from './_components/TelegramAuth';
 
-import { BrandLoader } from '@/components/Loader';
+import { BrandLoader } from '@/components/ui/Loader';
 import { AppEnviroment } from '@/constants';
 import { useAppDispatch } from '@/store';
 import { setAppEnviroment } from '@/store/slices/config';

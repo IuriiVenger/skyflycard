@@ -12,7 +12,7 @@ import {
 } from '@nextui-org/react';
 import { FC, useState } from 'react';
 
-import Loader from '../Loader';
+import Loader from '../ui/Loader';
 
 import WalletBalanceList from '../Wallet/WalletBalanceList';
 
