@@ -18,6 +18,7 @@ import WithdrawForm from './WithdrawTab';
 import { API } from '@/api/types';
 import WalletBalanceList from '@/components/Wallet/WalletBalanceList';
 import WalletList from '@/components/Wallet/WalletList';
+import { WhiteLabelConfig } from '@/config/whitelabel';
 import { DashboardTabs, KYCStatuses, RequestStatus, WalletTypeValues } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { StoreDataWithStatus, StoreDataWithStatusAndMeta } from '@/store/types';
@@ -68,6 +69,7 @@ export type DashboardProps = {
   walletTransactions: StoreDataWithStatusAndMeta<API.WalletTransactions.Transaction[] | null>;
   walletTypes: ValueWithLabel[];
   wallets: API.Wallets.Wallet[];
+  whiteLabelConfig?: WhiteLabelConfig;
 };
 
 const Dashboard: FC<DashboardProps> = (props) => {

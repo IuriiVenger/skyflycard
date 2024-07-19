@@ -39,6 +39,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
     createCrypto2CryptoOrder,
     chainList,
     externalCalcData,
+    whiteLabelConfig,
   } = props;
 
   const { setAmount, amount, offrampCalcData, withdrawCalcData, isOfframpCalcPending, isWithdrawCalcPending } =
@@ -48,7 +49,9 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
   const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
 
-  const [activePaymentMethod, setActivePaymentMethod] = useState<PaymentMethod>(PaymentMethod.FIAT);
+  const [activePaymentMethod, setActivePaymentMethod] = useState<PaymentMethod>(
+    whiteLabelConfig?.disableFiat ? PaymentMethod.CRYPTO : PaymentMethod.FIAT,
+  );
   const [withdrawTarget, setWithdrawTarget] = useState('');
   const [withrawConfirmationText, setWithdrawConfirmationText] = useState<string | null>(null);
 
@@ -130,6 +133,7 @@ const WithdrawTab: FC<WithdrawTabProps> = (props) => {
         className="w-full"
         activePaymentMethod={activePaymentMethod}
         onSelect={setActivePaymentMethod}
+        isFiatDisabled={whiteLabelConfig?.disableFiat}
       />
       <SelectCurrency
         label="Withdraw from"

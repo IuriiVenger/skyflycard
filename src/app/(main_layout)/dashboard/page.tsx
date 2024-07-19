@@ -9,6 +9,7 @@ import { wallets } from '@/api/wallets';
 import Dashboard, { DashboardProps } from '@/components/Dashboard';
 import privateRoute from '@/components/privateRoute';
 import Loader from '@/components/ui/Loader';
+import whiteLabelConfig from '@/config/whitelabel';
 import {
   walletType,
   defaultUpdateInterval,
@@ -245,6 +246,7 @@ const DashboardPage = () => {
     walletTransactions: selectedWalletTransactions,
     walletTypes,
     wallets: userWallets,
+    whiteLabelConfig,
     updateCard,
   };
 
