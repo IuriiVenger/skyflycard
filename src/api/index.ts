@@ -60,7 +60,7 @@ instance.interceptors.response.use(
         if (typeof window !== 'undefined' && appEnviroment === AppEnviroment.WEB) {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
 
-          navigate('/auth/login');
+          // navigate('/auth/login');
         }
         deleteTokens();
         requestQueue = [];
