@@ -1,5 +1,3 @@
-import { getCookie } from 'cookies-next';
-
 import useAuth from './useAuth';
 
 import { exchange } from '@/api/exchange';
@@ -50,7 +48,7 @@ const useInitApp = (dispatch: AppDispatch) => {
   };
 
   const initApp = async () => {
-    const isAuthTokensExist = getCookie('access_token');
+    const isAuthTokensExist = localStorage.getItem('access_token');
 
     await initWebApp();
     isAuthTokensExist && (await initUser());
