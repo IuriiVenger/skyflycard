@@ -8,7 +8,7 @@ import { IconType } from 'react-icons';
 import { GoHistory, GoNoEntry, GoVerified } from 'react-icons/go';
 
 import { API } from '@/api/types';
-import { OrderStatuses, OrderTypes } from '@/constants';
+import { DashboardTabs, OrderStatuses, OrderTypes } from '@/constants';
 
 import { getDateAndTime } from '@/utils/converters';
 
@@ -93,7 +93,7 @@ const OrderInfo: FC<OrderInfoProps> = ({ order }) => {
       </div>
       <Button
         as={Link}
-        href="/dashboard?tab=transactions"
+        href={`/dashboard?tab=${DashboardTabs.INFO}`}
         color={orderStatusInfo.buttonColor}
         className="mt-8 w-60 text-white"
         radius="sm"

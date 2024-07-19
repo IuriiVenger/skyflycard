@@ -2,17 +2,15 @@ import { AxiosResponse } from 'axios';
 import cn from 'classnames';
 import { FC } from 'react';
 import { BsCreditCard2Back } from 'react-icons/bs';
-
-import { IoIosList } from 'react-icons/io';
-
+import { IoInformationOutline } from 'react-icons/io5';
 import { PiSignIn, PiSignOut } from 'react-icons/pi';
 
 import Loader from '../ui/Loader';
 
 import CardsTab from './CardsTab';
 import DepositForm from './DepositTab';
+import InfoTab from './InfoTab';
 import MainInformation from './MainInformation';
-import Transactions from './TransactionsTab';
 import WithdrawForm from './WithdrawTab';
 
 import { API } from '@/api/types';
@@ -93,17 +91,17 @@ const Dashboard: FC<DashboardProps> = (props) => {
     fiatList.find((item) => item.uuid === selectedWallet.data?.base_fiat)?.symbol || '€';
   const currentWalletBalance = `${currentWalletBalanceCurrency} ${currentWalletBalanceAmount}`;
 
-  const isTransactionsTab = activeDashboardTab === DashboardTabs.TRANSACTIONS;
+  const isInfoTab = activeDashboardTab === DashboardTabs.INFO;
   const isCardDetailMode = activeDashboardTab === DashboardTabs.CARDS && activeCardId;
   const isMainInformationHidden = isCardDetailMode;
   const isWalletPending = selectedWallet.status === RequestStatus.PENDING;
 
   const actionButtons = [
     {
-      id: DashboardTabs.TRANSACTIONS,
-      title: 'Transactions',
-      icon: <IoIosList />,
-      onClick: () => changeDashboardTab(DashboardTabs.TRANSACTIONS),
+      id: DashboardTabs.INFO,
+      title: 'Wallet Info',
+      icon: <IoInformationOutline />,
+      onClick: () => changeDashboardTab(DashboardTabs.INFO),
     },
     {
       id: DashboardTabs.DEPOSIT,
@@ -159,19 +157,14 @@ const Dashboard: FC<DashboardProps> = (props) => {
         </>
       )}
 
-      <div
-        className={cn(
-          'order-4  md:order-3 md:col-start-2 md:col-end-4 md:mt-4',
-          isTransactionsTab && 'overflow-scroll',
-        )}
-      >
+      <div className={cn('order-4  md:order-3 md:col-start-2 md:col-end-4 md:mt-4', isInfoTab && 'overflow-scroll')}>
         {isWalletPending ? (
           <Loader />
         ) : (
           <>
             {activeDashboardTab === DashboardTabs.DEPOSIT && <DepositForm {...props} />}
             {activeDashboardTab === DashboardTabs.WITHDRAW && <WithdrawForm {...props} />}
-            {activeDashboardTab === DashboardTabs.TRANSACTIONS && <Transactions {...props} />}
+            {activeDashboardTab === DashboardTabs.INFO && <InfoTab {...props} />}
             {activeDashboardTab === DashboardTabs.CARDS && <CardsTab {...props} />}
           </>
         )}
