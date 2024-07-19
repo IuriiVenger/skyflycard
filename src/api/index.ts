@@ -25,6 +25,7 @@ instance.interceptors.request.use((config) => {
   const access_token = getCookie('access_token');
   const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
   console.log(new Date(), 'interceptorRequest', config.url, config.headers, appEnviroment);
+  localStorage.setItem('lastRequest', JSON.stringify({ url: config.url, headers: config.headers, appEnviroment }));
 
   // console.log('interceptorRequest');
   // console.log(config);
