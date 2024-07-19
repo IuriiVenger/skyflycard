@@ -23,14 +23,13 @@ export const instance = axios.create({
 instance.interceptors.request.use((config) => {
   const access_token = localStorage.getItem('access_token');
   const appEnviroment = localStorage.getItem('app_enviroment') || AppEnviroment.WEB;
-  console.log(new Date(), 'interceptorRequest', config.url, config.headers, appEnviroment);
-  localStorage.setItem('lastRequest', JSON.stringify({ url: config.url, headers: config.headers, appEnviroment }));
 
   // console.log('interceptorRequest');
   // console.log(config);
   // console.log(access_token, 'access_token');
   // console.log(appEnviroment, 'appEnviroment');
   // console.log(config.url, 'config.url');
+  // console.log(new Date(), 'interceptorRequest', config.url, config.headers, appEnviroment);
 
   const modifiedHeaders = {
     ...config.headers,
