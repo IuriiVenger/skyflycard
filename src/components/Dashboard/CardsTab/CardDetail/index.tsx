@@ -187,6 +187,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           onClick={showTopupModal}
           radius="sm"
           isLoading={requestStatuses[cardDetailRequests.TOP_UP].PENDING}
+          isDisabled={card.status === CardStatus.CLOSED}
         >
           <MdCurrencyExchange />
           Top up
@@ -198,6 +199,7 @@ const CardDetail: FC<CardDetailProps> = (props) => {
           isLoading={requestStatuses[cardDetailRequests.LIMITS].PENDING}
           onClick={showLimitsModal}
           radius="sm"
+          isDisabled={card.status === CardStatus.CLOSED}
         >
           <FaMoneyBillTrendUp />
           Change limits
