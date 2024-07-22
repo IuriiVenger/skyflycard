@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
-import Loader, { BrandLoader } from '@/components/Loader';
+import Loader, { BrandLoader } from '@/components/ui/Loader';
 import { AppEnviroment, RequestStatus } from '@/constants';
 import { useAppSelector } from '@/store';
 import { selectConfig, selectIsUserLoggedIn, selectUser } from '@/store/selectors';

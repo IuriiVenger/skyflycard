@@ -2,10 +2,12 @@ import { useInitData, useLaunchParams, useMiniApp } from '@telegram-apps/sdk-rea
 
 import { useEffect } from 'react';
 
+import { AppEnviroment } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { selectConfig, selectIsUserLoggedIn } from '@/store/selectors';
+import { setAppEnviroment } from '@/store/slices/config';
 
 const TelegramAuth = () => {
   const { isWebAppInitialized } = useAppSelector(selectConfig);
@@ -24,6 +26,12 @@ const TelegramAuth = () => {
       initTelegramAuth();
     }
   }, [isWebAppInitialized, isUserLoggedIn]);
+
+  useEffect(() => {
+    dispatch(setAppEnviroment(AppEnviroment.TELEGRAM));
+
+    localStorage.setItem('app_enviroment', AppEnviroment.TELEGRAM);
+  }, []);
 
   return null;
 };

@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { FaArrowRightArrowLeft, FaCircleCheck, FaCircleXmark, FaClock } from 'react-icons/fa6';
 
 import { API } from '@/api/types';
-import Loader from '@/components/Loader';
+import Loader from '@/components/ui/Loader';
 import { CardTransactionDirection, CardTransationStatus, RequestStatus } from '@/constants';
 import { StoreDataWithStatusAndMeta } from '@/store/types';
 import { getDate, getDateAndTime } from '@/utils/converters';

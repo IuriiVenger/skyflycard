@@ -141,7 +141,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const bin = bins.find((item) => item.code === e.target.value);
+    const bin = bins?.find((item) => item.code === e.target.value);
     if (!bin) {
       return;
     }
@@ -206,7 +206,7 @@ const CreateCardModal: FC<CreateCardModalProps> = (props) => {
     >
       <div className={cn('flex flex-col gap-4', className)}>
         <Select label="Select BIN" onChange={handleSelectChange} selectedKeys={[activeBin.code]}>
-          {bins.map((bin) => (
+          {bins?.map((bin) => (
             <SelectItem
               key={bin.code}
               onClick={() => setActiveBin(bin)}

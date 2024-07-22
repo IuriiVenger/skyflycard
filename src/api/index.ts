@@ -1,5 +1,4 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { getCookie } from 'cookies-next';
 
 import { toast } from 'react-toastify';
 
@@ -9,6 +8,7 @@ import { deleteTokens, refreshTokens, setTokens } from '@/utils/tokensFactory';
 
 // eslint-disable-next-line no-constant-condition
 const baseURL = process.env.API_URL;
+const tenantId = process.env.TENANT_ID;
 
 export const instance = axios.create({
   baseURL: baseURL || '/api/',
@@ -16,18 +16,20 @@ export const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
+    'X-Tenant-Id': tenantId,
   },
 });
 
 instance.interceptors.request.use((config) => {
-  const access_token = getCookie('access_token');
-  const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
+  const access_token = localStorage.getItem('access_token');
+  const appEnviroment = localStorage.getItem('app_enviroment') || AppEnviroment.WEB;
 
   // console.log('interceptorRequest');
   // console.log(config);
   // console.log(access_token, 'access_token');
   // console.log(appEnviroment, 'appEnviroment');
   // console.log(config.url, 'config.url');
+  // console.log(new Date(), 'interceptorRequest', config.url, config.headers, appEnviroment);
 
   const modifiedHeaders = {
     ...config.headers,
@@ -51,8 +53,8 @@ instance.interceptors.response.use(
   (error) => {
     if (error?.response?.status === ResponseStatus.UNAUTHORIZED) {
       const { response, config: failedRequest } = error;
-      const refreshToken = getCookie('refresh_token');
-      const appEnviroment = getCookie('app_enviroment') || AppEnviroment.WEB;
+      const refreshToken = localStorage.getItem('refresh_token');
+      const appEnviroment = localStorage.getItem('app_enviroment') || AppEnviroment.WEB;
 
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
         if (typeof window !== 'undefined' && appEnviroment === AppEnviroment.WEB) {

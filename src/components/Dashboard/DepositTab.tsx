@@ -13,7 +13,6 @@ import SelectPaymentMethod from './SelectPaymentMethod';
 import { DashboardProps } from '.';
 
 import { API } from '@/api/types';
-import whiteLabelConfig from '@/config/whitelabel';
 import { PaymentMethod, ResponseStatus } from '@/constants';
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { isChain, isCrypto, isFiat } from '@/utils/financial';
@@ -41,14 +40,18 @@ const DepositTab: FC<DepositTabProps> = (props) => {
     createWalletAddress,
     externalCalcData,
     availableToExchangeCrypto,
+    whiteLabelConfig,
   } = props;
 
   const { setAmount, amount, onrampCalcData, isOnrampCalcPending } = externalCalcData;
+  console.log(whiteLabelConfig);
 
   const [isFiatModalOpen, setIsFiatModalOpen] = useState(false);
   const [isCryptoModalOpen, setIsCryptoModalOpen] = useState(false);
   const [isChainModalOpen, setIsChainModalOpen] = useState(false);
-  const [activePaymentMethod, setActivePaymentMethod] = useState<PaymentMethod>(PaymentMethod.FIAT);
+  const [activePaymentMethod, setActivePaymentMethod] = useState<PaymentMethod>(
+    whiteLabelConfig?.disableFiat ? PaymentMethod.CRYPTO : PaymentMethod.FIAT,
+  );
   const [activeWalletAddress, setActiveWalletAddress] = useState<API.Wallets.WalletChain.Response | null>(null);
   const [isWalletAdressLoading, setIsWalletAdressLoading] = useState(false);
 
@@ -127,6 +130,7 @@ const DepositTab: FC<DepositTabProps> = (props) => {
         className="w-full"
         activePaymentMethod={activePaymentMethod}
         onSelect={setActivePaymentMethod}
+        isFiatDisabled={whiteLabelConfig?.disableFiat}
       />
       {activePaymentMethod === PaymentMethod.FIAT && (
         <>
@@ -157,7 +161,7 @@ const DepositTab: FC<DepositTabProps> = (props) => {
         </>
       )}
 
-      {whiteLabelConfig.disableStaticPages && (
+      {whiteLabelConfig?.disableStaticPages && (
         <small className="mt-8 text-xs">
           *Before engaging in digital asset transactions, users must be aware of the high risk of substantial financial
           loss. Digital assets, including cryptocurrencies, are highly volatile and speculative. Users should exercise

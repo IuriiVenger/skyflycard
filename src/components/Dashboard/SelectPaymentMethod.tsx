@@ -8,6 +8,7 @@ type PaymentMethodListItem = {
   title: string;
   description: string;
   method: PaymentMethod;
+  disabled?: boolean;
 };
 
 type SelectPaymentMethodProps = {
@@ -16,6 +17,7 @@ type SelectPaymentMethodProps = {
   activePaymentMethod: PaymentMethod;
   onSelect: (paymentMethod: PaymentMethod) => void;
   isWithdraw?: boolean;
+  isFiatDisabled?: boolean;
 };
 
 export const CustomRadio = (props: RadioProps) => {
@@ -56,13 +58,14 @@ export const CustomRadio = (props: RadioProps) => {
 };
 
 const SelectPaymentMethod: FC<SelectPaymentMethodProps> = (props) => {
-  const { className, activePaymentMethod, onSelect, label, isWithdraw } = props;
+  const { className, activePaymentMethod, onSelect, label, isWithdraw, isFiatDisabled } = props;
 
   const paymentMethods: PaymentMethodListItem[] = [
     {
       title: 'Fiat',
       description: `${isWithdraw ? 'Withdraw' : 'Deposit'} with your favorite fiat currency`,
       method: PaymentMethod.FIAT,
+      disabled: isFiatDisabled,
     },
     {
       title: 'Crypto',
@@ -75,18 +78,20 @@ const SelectPaymentMethod: FC<SelectPaymentMethodProps> = (props) => {
     <section className={className}>
       <h3 className="mb-4 text-xl font-bold">{label}</h3>
       <RadioGroup defaultValue={activePaymentMethod}>
-        {paymentMethods.map((paymentMethod) => (
-          <CustomRadio
-            key={paymentMethod.method}
-            value={paymentMethod.method}
-            description={paymentMethod.description}
-            onChange={() => onSelect(paymentMethod.method)}
-            checked={activePaymentMethod === paymentMethod.method}
-            color="primary"
-          >
-            {paymentMethod.title}
-          </CustomRadio>
-        ))}
+        {paymentMethods
+          .filter((item) => !item.disabled)
+          .map((paymentMethod) => (
+            <CustomRadio
+              key={paymentMethod.method}
+              value={paymentMethod.method}
+              description={paymentMethod.description}
+              onChange={() => onSelect(paymentMethod.method)}
+              checked={activePaymentMethod === paymentMethod.method}
+              color="primary"
+            >
+              {paymentMethod.title}
+            </CustomRadio>
+          ))}
       </RadioGroup>
     </section>
   );
