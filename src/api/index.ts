@@ -54,10 +54,9 @@ instance.interceptors.response.use(
     if (error?.response?.status === ResponseStatus.UNAUTHORIZED) {
       const { response, config: failedRequest } = error;
       const refreshToken = localStorage.getItem('refresh_token');
-      const appEnviroment = localStorage.getItem('app_enviroment') || AppEnviroment.WEB;
 
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
-        if (typeof window !== 'undefined' && appEnviroment === AppEnviroment.WEB) {
+        if (typeof window !== 'undefined') {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
 
           navigate('/auth/login');
