@@ -1,5 +1,5 @@
 import { Button, Select, SelectItem } from '@nextui-org/react';
-import { initMainButton, useBackButton, useMainButton, usePopup } from '@telegram-apps/sdk-react';
+import { useBackButton, useMainButton, usePopup } from '@telegram-apps/sdk-react';
 import cn from 'classnames';
 import { FC, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
