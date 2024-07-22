@@ -156,8 +156,14 @@ const DashboardPage = () => {
     await dispatch(loadSelectedWallet(uuid));
   };
 
+  const getOTP = async (card_id: string) => {
+    const { data } = await vcards.cards.sensitiveData.otp.get(card_id);
+
+    return data;
+  };
+
   const getSensitiveData = async (card_id: string) => {
-    const { data } = await vcards.cards.getSensitiveData(card_id);
+    const { data } = await vcards.cards.sensitiveData.get(card_id);
 
     return data;
   };
@@ -200,6 +206,13 @@ const DashboardPage = () => {
 
   const updateCard = async (card_id: string, data: API.Cards.Update.Request) => {
     await vcards.cards.update(card_id, data);
+    dispatch(
+      loadCards({
+        wallet_uuid: selectedWallet.data?.uuid || '',
+        limit: selectedWalletCards.meta.limit,
+        offset: selectedWalletCards.meta.offset,
+      }),
+    );
     await selectCard(card_id);
   };
 
@@ -225,6 +238,7 @@ const DashboardPage = () => {
     externalCalcData,
     fiatList: fiats,
     exchangeRate: fiatExchangeRate,
+    getOTP,
     getSensitiveData,
     getWalletAddress,
     loadMoreCards: loadMoreCardsHandler,
