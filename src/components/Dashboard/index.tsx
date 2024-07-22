@@ -45,6 +45,7 @@ export type DashboardProps = {
   exchangeRate: API.Exchange.F2C[];
   externalCalcData: UseExternalCalcData;
   fiatList: API.List.Fiat[];
+  getOTP: (card_id: string) => Promise<API.Cards.OTP>;
   getSensitiveData: (card_id: string) => Promise<API.Cards.SensitiveData>;
   getWalletAddress: (chain: number, wallet_uuid: string) => Promise<API.Wallets.WalletChain.Response>;
   loadMoreCards: () => void;
