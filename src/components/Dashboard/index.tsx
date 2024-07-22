@@ -18,7 +18,7 @@ import WalletBalanceList from '@/components/Wallet/WalletBalanceList';
 import WalletList from '@/components/Wallet/WalletList';
 
 import { WhiteLabelConfig } from '@/config/whitelabel';
-import { DashboardTabs, KYCStatuses, RequestStatus, WalletTypeValues } from '@/constants';
+import { AppEnviroment, DashboardTabs, KYCStatuses, RequestStatus, WalletTypeValues } from '@/constants';
 
 import { UseExternalCalcData } from '@/hooks/useExternalCalc';
 import { StoreDataWithStatus, StoreDataWithStatusAndMeta } from '@/store/types';
