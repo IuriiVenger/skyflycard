@@ -6,8 +6,8 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 const lightBlueGradient = 'linear-gradient(125deg, #71A9ED 0%, #436CB6 100%)';
 const lightLavanderGradient = 'linear-gradient(32.49deg, rgba(255, 255, 255, 1) 0.15%, rgba(183, 182, 255, 0.2) 100%)';
-export const tenantMainColor = '#FD5744';
-export const tenantMainColorLight = '#ff1a001f';
+export const tenantMainColor = '#00993E';
+export const tenantMainColorLight = 'rgba(0, 153, 62, 0.1)';
 
 const config: Config = {
   content: [

@@ -19,8 +19,8 @@ const font = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   // title: tenantInfo.name || 'Crypto Wallet',
-  title: 'SkyFlyCard',
-  description: 'SkyFlyCard. Your Secure Oasis for Global Transactions',
+  title: 'Axioma',
+  description: 'Axioma. Your Secure Oasis for Global Transactions',
   other: {
     viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
   },

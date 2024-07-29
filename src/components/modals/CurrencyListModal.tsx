@@ -31,15 +31,13 @@ const CurrencyListModal: FC<CurrencyListModalProps> = (props) => {
     isChain(currency) ? currency.id : currency.uuid;
 
   return (
-    <CustomModal bodyClassname="px-0" isOpen={isOpen} onOpenChange={setIsModalOpen} header="Select a currency">
+    <CustomModal bodyClassname="px-0 gap-0" isOpen={isOpen} onOpenChange={setIsModalOpen} header="Select a currency">
       <>
         {currencies.map((currency, index) => (
           <div
             className={cn(
-              'flex cursor-pointer items-center justify-between px-4  py-2 transition-background md:border-b ',
-              getCurrencyId(currency) === getCurrencyId(activeCurrency)
-                ? 'bg-gray-100'
-                : 'hover:bg-light-lavander-gradient',
+              'flex cursor-pointer items-center justify-between px-4 py-2 transition-background md:border-b ',
+              getCurrencyId(currency) === getCurrencyId(activeCurrency) ? 'bg-gray-100' : 'hover:bg-tenant-main-light',
             )}
             key={index}
             onClick={() => handleCurrencyClick(currency)}
