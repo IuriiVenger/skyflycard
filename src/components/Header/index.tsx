@@ -73,7 +73,7 @@ const Header: FC = () => {
       </NavbarContent>
       <NavbarContent className="pr-3 md:hidden" justify="center">
         <NavbarBrand>
-          <Image src={headerLogo} alt="Logo" height={48} className="h-6" />
+          <Image src={headerLogo} alt="Logo" height={48} className="h-6 w-fit" />
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden flex-grow gap-4 md:flex" justify="center">
