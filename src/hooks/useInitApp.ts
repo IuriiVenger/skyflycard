@@ -51,9 +51,11 @@ const useInitApp = (dispatch: AppDispatch) => {
     const isAuthTokensExist = localStorage.getItem('access_token');
 
     await initWebApp();
-    isAuthTokensExist && (await initUser());
-
-    dispatch(setWebAppInitialized(true));
+    try {
+      isAuthTokensExist && (await initUser());
+    } finally {
+      dispatch(setWebAppInitialized(true));
+    }
     isWebEnviroment && dispatch(setAppFullInitialized(true));
   };
 
