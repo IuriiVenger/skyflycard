@@ -53,7 +53,7 @@ instance.interceptors.response.use(
         if (typeof window !== 'undefined') {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
 
-          appEnviroment === AppEnviroment.TELEGRAM ? navigate() : navigate('/auth/login');
+          appEnviroment === AppEnviroment.TELEGRAM ? navigate('/auth/telegram/login') : navigate('/auth/login');
         }
         deleteTokens();
         requestQueue = [];
