@@ -82,9 +82,6 @@ instance.interceptors.response.use(
       });
     }
 
-    toast.error(
-      error?.response?.data?.message || error?.response?.data?.error || error?.message || 'Something went wrong',
-    );
     return Promise.reject(error);
   },
 );
