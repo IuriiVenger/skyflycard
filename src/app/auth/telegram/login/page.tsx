@@ -2,9 +2,8 @@
 
 import { useLaunchParams, useMiniApp, useInitData, SDKProvider } from '@telegram-apps/sdk-react';
 
-import { useEffect } from 'react';
-
 import TelegramLogIn from '@/components/Auth/TelegramLogIn';
+import SetTelegramEnviroment from '@/components/telegram/SetTelegramEnviroment';
 import { RequestStatus } from '@/constants';
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
@@ -20,30 +19,12 @@ const TelegramAuthSignupPage = () => {
   const { initUser } = useAuth(dispatch);
   const isUserLoading = userLoadingStatus === RequestStatus.PENDING;
 
-  const { initTelegramAuth, telegramSignIn } = useTelegramAuth(dispatch, launchParams, initData, miniApp, initUser);
-
-  console.log('TelegramAuthSigninPage');
-  console.log('miniApp', miniApp);
-  console.log('initData', initData);
-  console.log('launchParams', launchParams);
-
-  const tg_id = initData?.user?.id;
-  const hash = initData?.hash;
-  const init_data_raw = launchParams?.initDataRaw;
-
-  console.log('tg_id', tg_id);
-  console.log('hash', hash);
-  console.log('init_data_raw', init_data_raw);
-
-  useEffect(() => {
-    if (tg_id && hash && init_data_raw) {
-      initTelegramAuth();
-    }
-  }, [hash]);
+  const { initTelegramAuth } = useTelegramAuth(dispatch, launchParams, initData, miniApp, initUser);
 
   return (
     <SDKProvider>
-      <TelegramLogIn signInByTelegram={telegramSignIn} isLoading={isUserLoading} />
+      <SetTelegramEnviroment />
+      <TelegramLogIn signInByTelegram={initTelegramAuth} isLoading={isUserLoading} />
     </SDKProvider>
   );
 };

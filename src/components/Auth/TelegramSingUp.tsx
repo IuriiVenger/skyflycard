@@ -1,20 +1,15 @@
 import { Button } from '@nextui-org/react';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { PiTelegramLogo } from 'react-icons/pi';
 import { toast } from 'react-toastify';
 
-import { AppEnviroment } from '@/constants';
 import { useRequestStatus } from '@/hooks/useRequestStatus';
-import { useAppDispatch } from '@/store';
-import { setAppEnviroment } from '@/store/slices/config';
 
 type SignUpProps = {
   signUpHandler: () => Promise<void>;
 };
 
 const TelegramSignUp: FC<SignUpProps> = ({ signUpHandler }) => {
-  const dispatch = useAppDispatch();
-
   const [requestStatuses, setPending, setFullfilled, setRejected] = useRequestStatus();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,12 +24,6 @@ const TelegramSignUp: FC<SignUpProps> = ({ signUpHandler }) => {
       throw error;
     }
   };
-
-  useEffect(() => {
-    dispatch(setAppEnviroment(AppEnviroment.TELEGRAM));
-
-    localStorage.setItem('app_enviroment', AppEnviroment.TELEGRAM);
-  }, []);
 
   return (
     <form onSubmit={onSubmit} className=" w-80">

@@ -1,10 +1,6 @@
 import { Button } from '@nextui-org/react';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { PiTelegramLogo } from 'react-icons/pi';
-
-import { AppEnviroment } from '@/constants';
-import { useAppDispatch } from '@/store';
-import { setAppEnviroment } from '@/store/slices/config';
 
 type LogInOtpProps = {
   signInByTelegram: () => Promise<any>;
@@ -13,7 +9,6 @@ type LogInOtpProps = {
 
 const TelegramLogIn: FC<LogInOtpProps> = (props) => {
   const { signInByTelegram, isLoading } = props;
-  const dispatch = useAppDispatch();
 
   const handleSignInByTelegram = async () => {
     await signInByTelegram();
@@ -30,12 +25,6 @@ const TelegramLogIn: FC<LogInOtpProps> = (props) => {
     }
     return 'Sign in with Telegram';
   }, [isLoading]);
-
-  useEffect(() => {
-    dispatch(setAppEnviroment(AppEnviroment.TELEGRAM));
-
-    localStorage.setItem('app_enviroment', AppEnviroment.TELEGRAM);
-  }, []);
 
   return (
     <form onSubmit={onSubmit} className="h-fit w-full max-w-96">

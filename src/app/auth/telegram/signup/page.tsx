@@ -3,6 +3,7 @@
 import { useLaunchParams, useMiniApp, useInitData, SDKProvider } from '@telegram-apps/sdk-react';
 
 import TelegramSignUp from '@/components/Auth/TelegramSingUp';
+import SetTelegramEnviroment from '@/components/telegram/SetTelegramEnviroment';
 import useAuth from '@/hooks/useAuth';
 import useTelegramAuth from '@/hooks/useTelegramAuth';
 import { useAppDispatch } from '@/store';
@@ -18,6 +19,7 @@ const TelegramAuthSignupPage = () => {
 
   return (
     <SDKProvider>
+      <SetTelegramEnviroment />
       <TelegramSignUp signUpHandler={telegramSignUp} />
     </SDKProvider>
   );
