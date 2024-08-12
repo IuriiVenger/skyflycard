@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { selectUser } from '@/store/selectors';
 
 const TelegramAuthSignupPage = () => {
-  const launchParams = useLaunchParams(true);
-  const miniApp = useMiniApp(true);
-  const initData = useInitData(true);
+  const launchParams = useLaunchParams();
+  const miniApp = useMiniApp();
+  const initData = useInitData();
   const dispatch = useAppDispatch();
   const { userLoadingStatus } = useAppSelector(selectUser);
   const { initUser } = useAuth(dispatch);
