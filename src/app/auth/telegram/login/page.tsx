@@ -2,6 +2,8 @@
 
 import { useLaunchParams, useMiniApp, useInitData, SDKProvider } from '@telegram-apps/sdk-react';
 
+import { useEffect } from 'react';
+
 import TelegramLogIn from '@/components/Auth/TelegramLogIn';
 import { RequestStatus } from '@/constants';
 import useAuth from '@/hooks/useAuth';
@@ -32,6 +34,12 @@ const TelegramAuthSignupPage = () => {
   console.log('tg_id', tg_id);
   console.log('hash', hash);
   console.log('init_data_raw', init_data_raw);
+
+  useEffect(() => {
+    if (tg_id && hash && init_data_raw) {
+      initTelegramAuth();
+    }
+  }, [hash]);
 
   return (
     <SDKProvider>
