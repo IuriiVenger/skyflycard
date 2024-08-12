@@ -25,6 +25,14 @@ const TelegramAuthSignupPage = () => {
   console.log('initData', initData);
   console.log('launchParams', launchParams);
 
+  const tg_id = initData?.user?.id;
+  const hash = initData?.hash;
+  const init_data_raw = launchParams?.initDataRaw;
+
+  console.log('tg_id', tg_id);
+  console.log('hash', hash);
+  console.log('init_data_raw', init_data_raw);
+
   return (
     <SDKProvider>
       <TelegramLogIn signInByTelegram={telegramSignIn} isLoading={isUserLoading} />
