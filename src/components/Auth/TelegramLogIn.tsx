@@ -35,6 +35,7 @@ const TelegramLogIn: FC<LogInOtpProps> = (props) => {
     dispatch(setAppEnviroment(AppEnviroment.TELEGRAM));
 
     localStorage.setItem('app_enviroment', AppEnviroment.TELEGRAM);
+    handleSignInByTelegram();
   }, []);
 
   return (
