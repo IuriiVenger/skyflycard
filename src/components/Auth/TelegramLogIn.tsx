@@ -1,4 +1,5 @@
 import { Button } from '@nextui-org/react';
+import { useRouter } from 'next-nprogress-bar';
 import { FC, useMemo } from 'react';
 import { PiTelegramLogo } from 'react-icons/pi';
 
@@ -9,9 +10,11 @@ type LogInOtpProps = {
 
 const TelegramLogIn: FC<LogInOtpProps> = (props) => {
   const { signInByTelegram, isLoading } = props;
+  const router = useRouter();
 
   const handleSignInByTelegram = async () => {
     await signInByTelegram();
+    router.push('/mini-app');
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
