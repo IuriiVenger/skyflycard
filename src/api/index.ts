@@ -52,8 +52,9 @@ instance.interceptors.response.use(
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
         if (typeof window !== 'undefined') {
           toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
-
-          appEnviroment === AppEnviroment.TELEGRAM ? navigate('/auth/telegram/login') : navigate('/auth/login');
+          appEnviroment === AppEnviroment.TELEGRAM
+            ? (window.location.href = '/auth/telegram/login')
+            : (window.location.href = '/auth/login');
         }
         deleteTokens();
         requestQueue = [];
