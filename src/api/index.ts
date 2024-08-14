@@ -51,11 +51,10 @@ instance.interceptors.response.use(
 
       if (response.config?.url.includes('/auth/refresh/refresh_token') || !refreshToken) {
         if (typeof window !== 'undefined') {
-          if (appEnviroment === AppEnviroment.WEB) {
-            toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
-
-            navigate('/auth/login');
-          }
+          toast.error(error?.response?.data?.message || defaultErrorMessageForUnauthorized);
+          appEnviroment === AppEnviroment.TELEGRAM
+            ? (window.location.href = '/auth/telegram/login')
+            : (window.location.href = '/auth/login');
         }
         deleteTokens();
         requestQueue = [];
@@ -82,9 +81,6 @@ instance.interceptors.response.use(
       });
     }
 
-    toast.error(
-      error?.response?.data?.message || error?.response?.data?.error || error?.message || 'Something went wrong',
-    );
     return Promise.reject(error);
   },
 );

@@ -55,7 +55,6 @@ const DashboardPage = () => {
     chains,
     fiats,
     crypto,
-
     userWallets,
     fiatExchangeRate,
     selectedWalletTransactions,
