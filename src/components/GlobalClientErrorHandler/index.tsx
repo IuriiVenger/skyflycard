@@ -19,6 +19,7 @@ const GlobalClientErrorHandler = () => {
       toast.error(
         error?.response?.data?.message || error?.response?.data?.error || error?.message || 'Something went wrong',
       );
+      console.error('GlobalClientErrorHandler:', error);
     }
   }, [error]);
 
